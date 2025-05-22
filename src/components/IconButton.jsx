@@ -8,7 +8,7 @@ const IconButton = ({ icon, iconText, iconColor }) => {
       }
     >
       <div>{icon}</div>
-      <div className="ml-5 text-2xl">{iconText}</div>
+      <div className="ml-5 text-xl font-medium">{iconText}</div>
     </div>
   );
 };
