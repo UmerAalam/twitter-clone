@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+h2 {
+    font-family: "Varela Round", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+button {
+    font-family: "Varela Round", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+  

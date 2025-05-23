@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const IconButton = ({ icon, iconText, iconColor }) => {
+const IconButton = ({ icon, iconText, iconColor, customTailCSS }) => {
   return (
     <div
       className={
@@ -8,7 +9,7 @@ const IconButton = ({ icon, iconText, iconColor }) => {
       }
     >
       <div>{icon}</div>
-      <div className="ml-5 text-xl font-medium">{iconText}</div>
+      <h2 className="ml-3 text-xl font-medium">{iconText}</h2>
     </div>
   );
 };
