@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const IconButton = ({ icon, iconText, iconColor, customTailCSS }) => {
+const IconButton = ({ icon, iconText, iconColor }) => {
   return (
     <div
       className={

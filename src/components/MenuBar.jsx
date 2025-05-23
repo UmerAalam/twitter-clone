@@ -6,6 +6,7 @@ import { RiFileList2Line } from "react-icons/ri";
 import { HiOutlineMail } from "react-icons/hi";
 import { GoHomeFill } from "react-icons/go";
 import IconButton from "./IconButton";
+import MenuProfile from "./MenuProfile";
 
 const iconButtons = [
   {
@@ -50,32 +51,19 @@ const MenuBar = () => {
           <FaTwitter className="text-blue-400" size={28} />
           {/* Adding empty dive to create extra-space between first and second icon */}
           <div></div>
-          iconButtons.
-          <button className="bg-blue-400 text-white rounded-full h-10 w-50">
+          {iconButtons.map((btn, index) => {
+            return (
+              <IconButton icon={btn.icon} iconText={btn.iconText} key={index} />
+            );
+          })}
+          <button className="mt-3 bg-blue-400 text-white rounded-full h-11 w-50">
             Tweet
           </button>
         </div>
       </div>
+      <MenuProfile />
     </>
   );
 };
 
 export default MenuBar;
-
-// <IconButton icon={<GoHomeFill size={28} />} iconText={"Home"} />
-// <IconButton icon={<FaHashtag size={28} />} iconText={"Explore"} />
-// <IconButton
-//   icon={<FaRegBell size={28} />}
-//   iconText={"Notifications"}
-// />
-// <IconButton
-//   icon={<HiOutlineMail size={28} />}
-//   iconText={"Messages"}
-// />
-// <IconButton
-//   icon={<FaRegBookmark size={28} />}
-//   iconText={"Bookmarks"}
-// />
-// <IconButton icon={<RiFileList2Line size={28} />} iconText={"Lists"} />
-// <IconButton icon={<CgProfile size={28} />} iconText={"Profile"} />
-// <IconButton icon={<CgMoreO size={28} />} iconText={"More"} />
