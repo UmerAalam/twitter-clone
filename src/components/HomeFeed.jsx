@@ -1,6 +1,7 @@
 import React from "react";
 import ComposeTweet from "./ComposeTweet";
 import IconButton from "./IconButton";
+import ComposedTweet from "./ComposedTweet";
 const HomeFeed = () => {
   return (
     <>
@@ -10,6 +11,8 @@ const HomeFeed = () => {
         </div>
         <hr />
         <ComposeTweet />
+        <hr />
+        <ComposedTweet />
         <hr />
       </div>
     </>

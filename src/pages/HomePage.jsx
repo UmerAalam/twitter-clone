@@ -5,7 +5,7 @@ import TrendsBar from "../components/TrendsBar";
 const HomePage = () => {
   return (
     <>
-      <div className="grid grid-cols-[1fr_2fr_1fr] gap-3 w-full h-screen p-5 rounded-2xl">
+      <div className="grid grid-cols-[1fr_2fr_1fr] gap-3 w-full h-screen p-5">
         <MenuBar />
         <HomeFeed />
         <TrendsBar />

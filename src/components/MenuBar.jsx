@@ -60,7 +60,7 @@ const MenuBar = () => {
                 containerCss={
                   "cursor-pointer w-full max-w-2xl h-10 rounded-full hover:bg-gray-100 items-center size-fit inline-flex my-0"
                 }
-                iconCss={"ml-3"}
+                iconCss={"ml-3 font-normal"}
                 icon={btn.icon}
                 iconText={btn.iconText}
                 textCss={"text-gray-700 font-bold ml-3 text-xl"}

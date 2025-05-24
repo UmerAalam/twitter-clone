@@ -16,7 +16,7 @@ const FollowAccount = ({
           alt="account-to-follow"
         />
         <div className="font-bold">
-          <h2 className="text-sm flex">
+          <h2 className="text-sm inline-flex">
             {name}
             <IconButton
               iconCss={"text-blue-400 pl-1 my-auto hover:text-blue-300"}
