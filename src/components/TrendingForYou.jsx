@@ -6,13 +6,14 @@ import WhoToFollow from "./WhoToFollow";
 const TrendingForYou = () => {
   return (
     <>
-      <div className="select-none w-9/10 rounded-2xl bg-gray-100">
+      <div className="w-9/10 rounded-2xl bg-gray-100">
         <div className="flex justify-between">
           <div className="font-bold inline-flex text-lg text-gray-700">
             Trends For You
           </div>
           <IconButton
             containerCss={"p-3"}
+            iconCss={"hover:text-gray-600"}
             icon={<FiSettings fontWeight={100} size={20} />}
           />
         </div>
