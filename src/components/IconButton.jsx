@@ -7,13 +7,9 @@ const IconButton = ({ icon, iconText, containerCss, iconCss, textCss }) => {
         containerCss ? containerCss : "text-gray-700 inline-flex my-auto"
       }
     >
-      <div className={iconCss ? iconCss : "text-gray-700 ml-3"}>{icon}</div>
+      <div className={iconCss ? iconCss : "text-gray-700"}>{icon}</div>
       {iconText && (
-        <h2
-          className={
-            textCss ? textCss : "text-gray-700 ml-3 text-xl font-medium"
-          }
-        >
+        <h2 className={textCss ? textCss : "text-gray-700 text-xl font-medium"}>
           {iconText}
         </h2>
       )}

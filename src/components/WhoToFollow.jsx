@@ -7,8 +7,11 @@ const WhoToFollow = () => {
         <div className="font-bold inline-flex p-3 text-lg text-gray-700">
           Who To Follow
         </div>
-        <FollowAccount />
       </div>
+      <FollowAccount />
+      <FollowAccount />
+      <FollowAccount />
+      <FollowAccount />
     </div>
   );
 };

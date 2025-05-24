@@ -8,7 +8,7 @@ const TrendingForYou = () => {
     <>
       <div className="select-none w-9/10 rounded-2xl bg-gray-100">
         <div className="flex justify-between">
-          <div className="font-bold inline-flex p-3 text-lg text-gray-700">
+          <div className="font-bold inline-flex text-lg text-gray-700">
             Trends For You
           </div>
           <IconButton

@@ -15,7 +15,7 @@ const TrendingTweet = ({
           <IconButton icon={<MdOutlineMoreHoriz size={20} />} />
         </div>
         <div className="text-gray-700 text-lg font-semibold">{"#" + tag}</div>
-        <div className="text-gray-400 pt-0.5">{tweetCount}</div>
+        <div className="text-gray-400 py-0.5">{tweetCount}</div>
       </div>
     </>
   );
