@@ -46,22 +46,34 @@ const iconButtons = [
 const MenuBar = () => {
   return (
     <>
-      <div className="flex justify-end mr-5">
-        <div className="grid-cols-1 inline-grid gap-5">
-          <FaTwitter className="text-blue-400" size={28} />
+      <div className="pr-5 flex justify-end bg-gray-50 rounded-2xl">
+        <div className="grid-cols-1 inline-grid gap-4 size-fit">
+          <FaTwitter
+            className="ml-3 text-blue-400 hover:text-blue-300 mt-4"
+            size={28}
+          />
           {/* Adding empty dive to create extra-space between first and second icon */}
           <div></div>
           {iconButtons.map((btn, index) => {
             return (
-              <IconButton icon={btn.icon} iconText={btn.iconText} key={index} />
+              <IconButton
+                containerCss={
+                  "select-none w-full max-w-2xl h-10 rounded-full hover:bg-gray-100 items-center size-fit inline-flex my-0"
+                }
+                icon={btn.icon}
+                iconText={btn.iconText}
+                key={index}
+              />
             );
           })}
-          <button className="mt-3 bg-blue-400 text-white rounded-full h-11 w-50">
-            Tweet
-          </button>
+          <div className="grid-cols-1 inline-grid gap-y-26">
+            <button className="hover:bg-blue-300 mt-3 bg-blue-400 text-white rounded-full h-10 w-full size-fit">
+              Tweet
+            </button>
+            <MenuProfile />
+          </div>
         </div>
       </div>
-      <MenuProfile />
     </>
   );
 };
