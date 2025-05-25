@@ -36,18 +36,34 @@ const ComposedTweet = ({
                 {time}
               </div>
             </h2>
-            <div className="flex font-normal text-base">
+            <p className="flex font-normal text-base">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. A velit,
               doloribus corrupti alias, dolor cum blanditiis, mollitia debitis
               illo ea ut? Suscipit sint at explicabo quos deserunt ipsum eaque
               nulla.
-            </div>
+            </p>
           </div>
           <div className="flex justify-evenly pt-3">
-            <IconButton icon={<FaRegComment size={20} />} />
-            <IconButton icon={<BiRepost size={20} />} />
-            <IconButton icon={<IoHeartOutline size={20} />} />
-            <IconButton icon={<IoShareOutline size={20} />} />
+            <IconButton
+              textCss={"font-normal text-sm ml-2 my-auto"}
+              iconText={Math.floor(Math.random() * 100)}
+              icon={<FaRegComment size={22} />}
+            />
+            <IconButton
+              textCss={"font-normal text-sm ml-2 my-auto"}
+              iconText={Math.floor(Math.random() * 100)}
+              icon={<BiRepost size={22} />}
+            />
+            <IconButton
+              textCss={"font-normal text-sm ml-2 my-auto"}
+              iconText={Math.floor(Math.random() * 100)}
+              icon={<IoHeartOutline size={22} />}
+            />
+            <IconButton
+              textCss={"font-normal text-sm ml-2 my-auto"}
+              iconText={Math.floor(Math.random() * 100)}
+              icon={<IoShareOutline size={22} />}
+            />
           </div>
         </div>
       </div>

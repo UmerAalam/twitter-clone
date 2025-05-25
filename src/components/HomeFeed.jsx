@@ -13,7 +13,6 @@ const HomeFeed = () => {
         <ComposeTweet />
         <hr />
         <ComposedTweet />
-        <hr />
       </div>
     </>
   );
