@@ -4,13 +4,10 @@ import {
   RouterProvider,
   Route,
 } from "react-router";
-import HomePage from "./pages/HomePage";
-import SignUpPage from "./pages/SignUpPage";
-import SignInPage from "./pages/SignInPage";
-
+import ProfilePage from "./pages/ProfilePage";
 const App = () => {
   const router = createBrowserRouter(
-    createRoutesFromElements(<Route path="/" element={<HomePage />} />)
+    createRoutesFromElements(<Route path="/" element={<ProfilePage />} />)
   );
 
   return <RouterProvider router={router} />;

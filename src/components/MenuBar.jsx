@@ -63,13 +63,16 @@ const MenuBar = () => {
                 iconCss={"ml-3 font-normal"}
                 icon={btn.icon}
                 iconText={btn.iconText}
-                textCss={"text-gray-700 font-black ml-3 text-xl"}
+                textCss={"text-gray-700 font-normal ml-3 text-xl"}
                 key={index}
               />
             );
           })}
           <div className="grid-cols-1 inline-grid gap-y-26">
-            <button className="hover:bg-blue-300 mt-3 bg-blue-400 font-bold text-white rounded-full h-10 w-full size-fit">
+            <button
+              title="Twitter"
+              className="cursor-pointer hover:bg-blue-300 mt-3 bg-blue-400 font-bold text-white rounded-full h-10 w-full size-fit"
+            >
               Tweet
             </button>
             <MenuProfile />
