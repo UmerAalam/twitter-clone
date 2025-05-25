@@ -24,6 +24,9 @@ const WhoToFollow = () => {
         username="bbc"
         imageLink="https://ichef.bbci.co.uk/images/ic/1920x1080/p09xtmrp.jpg"
       />
+      <span className="flex text-gray-700 hover:text-gray-400 cursor-pointer pl-4 pb-3 font-bold">
+        Show more
+      </span>
     </div>
   );
 };

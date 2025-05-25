@@ -10,7 +10,7 @@ import SignInPage from "./pages/SignInPage";
 
 const App = () => {
   const router = createBrowserRouter(
-    createRoutesFromElements(<Route path="/" element={<SignInPage />} />)
+    createRoutesFromElements(<Route path="/" element={<HomePage />} />)
   );
 
   return <RouterProvider router={router} />;

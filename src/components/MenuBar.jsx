@@ -10,35 +10,35 @@ import MenuProfile from "./MenuProfile";
 
 const iconButtons = [
   {
-    icon: <GoHomeFill size={28} />,
+    icon: <GoHomeFill size={26} />,
     iconText: "Home",
   },
   {
-    icon: <FaHashtag size={28} />,
+    icon: <FaHashtag size={26} />,
     iconText: "Explore",
   },
   {
-    icon: <FaRegBell size={28} />,
+    icon: <FaRegBell size={26} />,
     iconText: "Notifications",
   },
   {
-    icon: <HiOutlineMail size={28} />,
+    icon: <HiOutlineMail size={26} />,
     iconText: "Messages",
   },
   {
-    icon: <FaRegBookmark size={28} />,
+    icon: <FaRegBookmark size={26} />,
     iconText: "Bookmarks",
   },
   {
-    icon: <RiFileList2Line size={28} />,
+    icon: <RiFileList2Line size={26} />,
     iconText: "Lists",
   },
   {
-    icon: <CgProfile size={28} />,
+    icon: <CgProfile size={26} />,
     iconText: "Profile",
   },
   {
-    icon: <CgMoreO size={28} />,
+    icon: <CgMoreO size={26} />,
     iconText: "More",
   },
 ];
@@ -63,7 +63,7 @@ const MenuBar = () => {
                 iconCss={"ml-3 font-normal"}
                 icon={btn.icon}
                 iconText={btn.iconText}
-                textCss={"text-gray-700 font-bold ml-3 text-xl"}
+                textCss={"text-gray-700 font-black ml-3 text-xl"}
                 key={index}
               />
             );

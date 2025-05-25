@@ -2,7 +2,6 @@ import React from "react";
 import { FiSettings } from "react-icons/fi";
 import IconButton from "./IconButton";
 import TrendingTweet from "../components/TrendingTweet";
-import WhoToFollow from "./WhoToFollow";
 const TrendingForYou = () => {
   return (
     <>
@@ -20,8 +19,10 @@ const TrendingForYou = () => {
         <TrendingTweet />
         <TrendingTweet tag="Gamerz" country="Japan" tweetCount={1245} />
         <TrendingTweet tag="Dramas" country="Pakistan" tweetCount={4801} />
+        <span className="flex text-gray-700 hover:text-gray-400 cursor-pointer pl-3 pb-3 font-bold">
+          Show more
+        </span>
       </div>
-      <WhoToFollow />
     </>
   );
 };
