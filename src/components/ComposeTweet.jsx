@@ -1,5 +1,5 @@
 import React from "react";
-
+import ComposedTweet from "./ComposedTweet";
 const ComposeTweet = ({ profileImage }) => {
   return (
     <div className="text-right">
@@ -22,7 +22,10 @@ const ComposeTweet = ({ profileImage }) => {
           maxLength={150}
         ></textarea>
       </div>
-      <button className="mr-2  hover:bg-blue-300 bg-blue-400 font-bold text-white rounded-full h-10 w-20 size-fit">
+      <button
+        onClick={() => {}}
+        className="mr-2 cursor-pointer  hover:bg-blue-300 bg-blue-400 font-bold text-white rounded-full h-10 w-20 size-fit"
+      >
         Tweet
       </button>
     </div>

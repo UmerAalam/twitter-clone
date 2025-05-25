@@ -8,9 +8,17 @@ p {
 button {
     font-family: "Varela Round", sans-serif;
 }
+input {
+    font-family: "Varela Round", sans-serif;
+}
+div {
+    font-family: "Varela Round", sans-serif;
+}
 hr {
     margin-top: 5px;
     border: 1px solid gainsboro;
     opacity: 50%;
 }
-  
+a:hover {
+    text-decoration: underline;
+}

@@ -5,11 +5,7 @@ import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
-const ComposedTweet = ({
-  name = "Umer Razzaq",
-  username = "umer2022",
-  time = "7m",
-}) => {
+const ComposedTweet = ({ name, username, time, tweetText }) => {
   return (
     <>
       <div className="flex items-start w-full p-3">
@@ -36,33 +32,30 @@ const ComposedTweet = ({
                 {time}
               </div>
             </h2>
-            <p className="flex font-normal text-base">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. A velit,
-              doloribus corrupti alias, dolor cum blanditiis, mollitia debitis
-              illo ea ut? Suscipit sint at explicabo quos deserunt ipsum eaque
-              nulla.
+            <p className="cursor-auto flex font-normal text-base">
+              {tweetText}
             </p>
           </div>
           <div className="flex justify-evenly pt-3">
             <IconButton
-              textCss={"font-normal text-sm ml-2 my-auto"}
+              textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
               iconText={Math.floor(Math.random() * 100)}
-              icon={<FaRegComment size={22} />}
+              icon={<FaRegComment className="cursor-pointer" size={22} />}
             />
             <IconButton
-              textCss={"font-normal text-sm ml-2 my-auto"}
+              textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
               iconText={Math.floor(Math.random() * 100)}
-              icon={<BiRepost size={22} />}
+              icon={<BiRepost className="cursor-pointer" size={22} />}
             />
             <IconButton
-              textCss={"font-normal text-sm ml-2 my-auto"}
+              textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
               iconText={Math.floor(Math.random() * 100)}
-              icon={<IoHeartOutline size={22} />}
+              icon={<IoHeartOutline className="cursor-pointer" size={22} />}
             />
             <IconButton
-              textCss={"font-normal text-sm ml-2 my-auto"}
+              textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
               iconText={Math.floor(Math.random() * 100)}
-              icon={<IoShareOutline size={22} />}
+              icon={<IoShareOutline className="cursor-pointer" size={22} />}
             />
           </div>
         </div>
