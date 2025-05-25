@@ -4,6 +4,24 @@ import ComposeTweet from "./ComposeTweet";
 const HomeFeed = () => {
   const feedTweets = [
     {
+      name: "Ejaz Ahmad",
+      username: "ejazahmad05",
+      time: "7h",
+      tweetText: `Lorem ipsum dolor sit amet consectetur adipisicing elit. A velit,
+              doloribus corrupti alias, dolor cum blanditiis, mollitia debitis
+              illo ea ut? Suscipit sint at explicabo quos deserunt ipsum eaque
+              nulla.`,
+    },
+    {
+      name: "Sajeel Aalam",
+      username: "sajeelaalam",
+      time: "7h",
+      tweetText: `Lorem ipsum dolor sit amet consectetur adipisicing elit. A velit,
+              doloribus corrupti alias, dolor cum blanditiis, mollitia debitis
+              illo ea ut? Suscipit sint at explicabo quos deserunt ipsum eaque
+              nulla.`,
+    },
+    {
       name: "Umer Razzaq",
       username: "umerrazzaq2022",
       time: "7h",
