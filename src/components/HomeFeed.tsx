@@ -1,12 +1,14 @@
 import React from "react";
 import ComposedTweet from "./ComposedTweet";
 import ComposeTweet from "./ComposeTweet";
-const HomeFeed = () => {
+
+const HomeFeed = ({ name, username, time, tweetText, profileImage }) => {
   const feedTweets = [
     {
       name: "Ejaz Ahmad",
       username: "ejazahmad05",
       time: "7h",
+      profileImage: "",
       tweetText: `Lorem ipsum dolor sit amet consectetur adipisicing elit. A velit,
               doloribus corrupti alias, dolor cum blanditiis, mollitia debitis
               illo ea ut? Suscipit sint at explicabo quos deserunt ipsum eaque
@@ -16,6 +18,8 @@ const HomeFeed = () => {
       name: "Sajeel Aalam",
       username: "sajeelaalam",
       time: "7h",
+      profileImage:
+        "https://ugc.production.linktr.ee/75ca4cbb-8c52-494b-a806-7e0d517d73b1_FullSizeRender.jpeg?io=true&size=avatar-v3_0",
       tweetText: `Lorem ipsum dolor sit amet consectetur adipisicing elit. A velit,
               doloribus corrupti alias, dolor cum blanditiis, mollitia debitis
               illo ea ut? Suscipit sint at explicabo quos deserunt ipsum eaque
@@ -25,6 +29,7 @@ const HomeFeed = () => {
       name: "Umer Razzaq",
       username: "umerrazzaq2022",
       time: "7h",
+      profileImage: "",
       tweetText: `Lorem ipsum dolor sit amet consectetur adipisicing elit. A velit,
               doloribus corrupti alias, dolor cum blanditiis, mollitia debitis
               illo ea ut? Suscipit sint at explicabo quos deserunt ipsum eaque
@@ -48,6 +53,7 @@ const HomeFeed = () => {
                 username={tweet.username}
                 tweetText={tweet.tweetText}
                 time={tweet.time}
+                profileImage={tweet.profileImage}
               />
             </>
           );

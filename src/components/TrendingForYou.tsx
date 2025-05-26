@@ -1,7 +1,7 @@
 import React from "react";
 import { FiSettings } from "react-icons/fi";
 import IconButton from "./IconButton";
-import TrendingTweet from "../components/TrendingTweet";
+import TrendingTweet from "./TrendingTweet";
 const TrendingForYou = () => {
   return (
     <>

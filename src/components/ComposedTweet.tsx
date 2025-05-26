@@ -5,7 +5,22 @@ import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
-const ComposedTweet = ({ name, username, time, tweetText }) => {
+
+interface composeStyle {
+  name?: string;
+  username?: string;
+  time?: any;
+  tweetText?: string;
+  profileImage?: string;
+}
+
+const ComposedTweet = ({
+  name,
+  username,
+  time,
+  tweetText,
+  profileImage,
+}: composeStyle) => {
   return (
     <>
       <div className="flex items-start w-full p-3">
@@ -13,7 +28,9 @@ const ComposedTweet = ({ name, username, time, tweetText }) => {
           className="flex rounded-full w-10 h-10 object-cover mr-2"
           width={200}
           src={
-            "https://play-lh.googleusercontent.com/EMVd8uvrBgpmEUzvfp_MB10EIQ0jEanVPouDXVYIg86ZkR95UMrZOfcKs0_OP60WOwxB=s188"
+            profileImage
+              ? profileImage
+              : "https://play-lh.googleusercontent.com/EMVd8uvrBgpmEUzvfp_MB10EIQ0jEanVPouDXVYIg86ZkR95UMrZOfcKs0_OP60WOwxB=s188"
           }
           alt="account-to-follow"
         />
@@ -39,22 +56,22 @@ const ComposedTweet = ({ name, username, time, tweetText }) => {
           <div className="flex justify-evenly pt-3">
             <IconButton
               textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
-              iconText={Math.floor(Math.random() * 100)}
+              iconText={Math.floor(Math.random() * 100).toString()}
               icon={<FaRegComment className="cursor-pointer" size={22} />}
             />
             <IconButton
               textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
-              iconText={Math.floor(Math.random() * 100)}
+              iconText={Math.floor(Math.random() * 100).toString()}
               icon={<BiRepost className="cursor-pointer" size={22} />}
             />
             <IconButton
               textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
-              iconText={Math.floor(Math.random() * 100)}
+              iconText={Math.floor(Math.random() * 100).toString()}
               icon={<IoHeartOutline className="cursor-pointer" size={22} />}
             />
             <IconButton
               textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
-              iconText={Math.floor(Math.random() * 100)}
+              iconText={Math.floor(Math.random() * 100).toString()}
               icon={<IoShareOutline className="cursor-pointer" size={22} />}
             />
           </div>

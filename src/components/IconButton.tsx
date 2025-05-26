@@ -1,6 +1,20 @@
 import React from "react";
 
-const IconButton = ({ icon, iconText, containerCss, iconCss, textCss }) => {
+interface iconStyle {
+  icon: any;
+  iconText?: string;
+  containerCss?: string;
+  iconCss?: string;
+  textCss?: string;
+}
+
+const IconButton = ({
+  icon,
+  iconText,
+  containerCss,
+  iconCss,
+  textCss,
+}: iconStyle) => {
   return (
     <div
       className={
