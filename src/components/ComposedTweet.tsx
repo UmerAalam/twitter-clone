@@ -30,9 +30,9 @@ const ComposedTweet = ({
           src={
             profileImage
               ? profileImage
-              : "https://play-lh.googleusercontent.com/EMVd8uvrBgpmEUzvfp_MB10EIQ0jEanVPouDXVYIg86ZkR95UMrZOfcKs0_OP60WOwxB=s188"
+              : "https://i.ibb.co/W4BZK6ZN/umer-logo.jpg"
           }
-          alt="account-to-follow"
+          alt="umer-logo"
         />
         <div className="w-full">
           <div className="cursor-pointer">
