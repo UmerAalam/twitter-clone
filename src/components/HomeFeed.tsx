@@ -2,21 +2,7 @@ import React from "react";
 import ComposedTweet from "./ComposedTweet";
 import ComposeTweet from "./ComposeTweet";
 
-interface profileStyle {
-  name?: string;
-  username?: string;
-  time?: any;
-  tweetText?: string;
-  profileImage?: string;
-}
-
-const HomeFeed = ({
-  name,
-  username,
-  time,
-  tweetText,
-  profileImage,
-}: profileStyle) => {
+const HomeFeed = () => {
   const feedTweets = [
     {
       name: "Ejaz Ahmad",

@@ -1,7 +1,7 @@
 import React from "react";
 
 interface iconStyle {
-  icon: any;
+  icon: React.ReactElement;
   iconText?: string;
   containerCss?: string;
   iconCss?: string;

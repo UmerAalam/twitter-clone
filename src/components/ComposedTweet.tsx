@@ -6,12 +6,12 @@ import { BiRepost } from "react-icons/bi";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 
-interface composeStyle {
-  name?: string;
-  username?: string;
-  time?: any;
-  tweetText?: string;
-  profileImage?: string;
+interface Props {
+  name: string;
+  username: string;
+  time: any;
+  tweetText: string;
+  profileImage: string;
 }
 
 const ComposedTweet = ({
@@ -20,7 +20,7 @@ const ComposedTweet = ({
   time,
   tweetText,
   profileImage,
-}: composeStyle) => {
+}: Props) => {
   return (
     <>
       <div className="flex items-start w-full p-3">

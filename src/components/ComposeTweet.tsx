@@ -21,12 +21,7 @@ const ComposeTweet = () => {
           maxLength={150}
         ></textarea>
       </div>
-      <button
-        onClick={() => {
-          return <ComposedTweet />;
-        }}
-        className="mr-2 cursor-pointer  hover:bg-blue-300 bg-blue-400 font-bold text-white rounded-full h-10 w-20 size-fit"
-      >
+      <button className="mr-2 cursor-pointer  hover:bg-blue-300 bg-blue-400 font-bold text-white rounded-full h-10 w-20 size-fit">
         Tweet
       </button>
     </div>
