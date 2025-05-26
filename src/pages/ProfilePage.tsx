@@ -5,9 +5,7 @@ import TrendsBar from "../components/TrendsBar";
 const ProfilePage = () => {
   return (
     <div className="">
-      <MenuBar />
       <MainProfile />
-      <TrendsBar />
     </div>
   );
 };

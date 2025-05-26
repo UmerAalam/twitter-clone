@@ -2,7 +2,7 @@ import React from "react";
 import { SlCalender } from "react-icons/sl";
 const MainProfile = () => {
   return (
-    <div className=" bg-gray-50 rounded-2xl overflow-hidden">
+    <div className=" bg-gray-50 rounded-2xl">
       <div className="flex justify-center h-48">
         <img
           className="object-cover w-full h-full"

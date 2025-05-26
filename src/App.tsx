@@ -13,6 +13,7 @@ const App = () => {
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Homepage />} />
+        <Route path="/user" element={<ProfilePage />} />
       </Route>
     )
   );
