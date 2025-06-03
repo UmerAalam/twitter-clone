@@ -8,10 +8,10 @@ import { IoShareOutline } from "react-icons/io5";
 
 interface Props {
   name: string;
-  username: string;
-  time: any;
-  tweetText: string;
-  profileImage: string;
+  username?: string;
+  time?: any;
+  tweetText?: string;
+  profileImage?: string;
 }
 
 const ComposedTweet = ({

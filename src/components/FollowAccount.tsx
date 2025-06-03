@@ -26,7 +26,7 @@ const FollowAccount = ({
           <h3 className="text-gray-400 text-[12px]">{"@" + username}</h3>
         </div>
       </div>
-      <button className="hover:bg-gray-200 my-auto bg-white font-normal text-gray-700 rounded-full h-8 w-20 size-fit">
+      <button className="hover:bg-blue-300 my-auto bg-blue-400 font-semibold text-white rounded-full h-8 w-20 size-fit">
         Follow
       </button>
     </div>

@@ -1,5 +1,7 @@
 import React from "react";
+import ComposedTweet from "../components/ComposedTweet";
 import { SlCalender } from "react-icons/sl";
+
 const MainProfile = () => {
   return (
     <div className=" bg-gray-50 rounded-2xl">
@@ -62,6 +64,10 @@ const MainProfile = () => {
           {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
         </h2>
       </div>
+      <ComposedTweet name="Umar Aalam" tweetText="Hi,I'm Umer Aalam" />
+      <ComposedTweet name="Sajeel Aalam" tweetText="Hi,I'm Sajeel Aalam" />
+      <ComposedTweet name="Ejaz Ahmad" tweetText="Hi,I'm Ejaz Aalam" />
+      <ComposedTweet name="Umar Aalam" tweetText="Hi,I'm Umer Aalam" />
     </div>
   );
 };

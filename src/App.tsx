@@ -9,6 +9,8 @@ import ProfilePage from "./pages/ProfilePage";
 import Homepage from "./pages/HomePage";
 import MainLayout from "./layouts/MainLayout";
 const App = () => {
+  const composeTweet = () => {};
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
