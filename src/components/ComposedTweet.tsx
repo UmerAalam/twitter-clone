@@ -5,13 +5,14 @@ import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
+import store from "../store/store.ts";
 
 interface Props {
   name: string;
-  username?: string;
-  time?: any;
-  tweetText?: string;
-  profileImage?: string;
+  username: string;
+  time: string;
+  tweetText: string;
+  profileImage: string;
 }
 
 const ComposedTweet = ({
