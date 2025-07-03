@@ -1,45 +1,12 @@
-import { configureStore, PayloadAction } from "@reduxjs/toolkit";
-import { createSlice } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
+import { api } from "./apis/tweetsSlice";
 
-//Tweet Object
-type Tweet = {
-  id: string;
-  text: string;
-  name: string;
-  username: string;
-  time: string;
-  tweetText: string;
-  profileImage: string;
-};
-
-type TweetState = {
-  tweets: Tweet[];
-};
-
-const initialState: TweetState = {
-  tweets: [],
-};
-//Slice For Tweet
-const tweetSlice = createSlice({
-  name: "tweets",
-  initialState,
-  reducers: {
-    addTweet: (state, action: PayloadAction<Tweet>) => {
-      state.tweets.push(action.payload);
-    },
-  },
-});
-
-//store configuration
 const store = configureStore({
   reducer: {
-    tweet: tweetSlice.reducer,
+    [api.reducerPath]: api.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
 });
 
-console.log(store);
-console.log(tweetSlice);
-//exports
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = ReturnType<typeof store.dispatch>;
 export default store;
