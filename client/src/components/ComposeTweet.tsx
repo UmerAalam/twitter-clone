@@ -1,20 +1,21 @@
 import ComposedTweet from "./ComposedTweet";
+// import "./init";
 import { nanoid } from "@reduxjs/toolkit";
+import { addTweet } from "../../../server/src/server";
+import type { Tweet } from "../store/interfaces";
 const ComposeTweet = () => {
   const image =
     "https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg";
-  const newTweet = {
+  const newTweet: Tweet = {
     id: nanoid(),
-    text: "This is a sample tweet!",
     name: "John Doe",
     username: "@johndoe",
     time: "Just now",
-    tweetText: "Hello Twitter!",
-    profileImage: "https://example.com/profile.jpg",
+    text: "This is a sample tweet!",
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
-    //
+    addTweet(newTweet);
   };
 
   return (
@@ -36,10 +37,7 @@ const ComposeTweet = () => {
       </div>
       <button
         type="submit"
-        onClick={(event) => {
-          event.preventDefault();
-          console.log("hi");
-        }}
+        onClick={handleSubmit}
         className="mr-2 cursor-pointer  hover:bg-blue-300 bg-blue-400 font-bold text-white rounded-full h-10 w-20 size-fit"
       >
         Tweet

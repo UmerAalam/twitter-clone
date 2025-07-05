@@ -2,7 +2,7 @@
   "name": "server",
   "type": "module",
   "scripts": {
-    "server": "tsx watch src/index.ts",
+    "server": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/index.js"
   },

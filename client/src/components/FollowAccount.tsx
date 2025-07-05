@@ -4,7 +4,7 @@ import IconButton from "./IconButton";
 const FollowAccount = ({
   imageLink = "https://play-lh.googleusercontent.com/375NW5yL8owK_hW9igW9sh-YJbda9ZcygpDXuVvK_R7l-yJp-fuhb4qvUw_FE4XW4ms",
   name = "Cable News Network",
-  username = "@cnn",
+  username = "cnn",
 }) => {
   return (
     <div className="cursor-pointer flex justify-between py-2 px-3 hover:bg-gray-200 rounded-full">
