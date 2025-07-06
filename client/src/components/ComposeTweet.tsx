@@ -1,21 +1,14 @@
 import ComposedTweet from "./ComposedTweet";
-// import "./init";
-import { nanoid } from "@reduxjs/toolkit";
-import { addTweet } from "../../../server/src/server";
 import type { Tweet } from "../store/interfaces";
+import axios from "axios";
+import { newTweet } from "../generators/tweetGenerator";
 const ComposeTweet = () => {
   const image =
     "https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg";
-  const newTweet: Tweet = {
-    id: nanoid(),
-    name: "John Doe",
-    username: "@johndoe",
-    time: "Just now",
-    text: "This is a sample tweet!",
-  };
 
-  const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
-    addTweet(newTweet);
+  const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    await axios.post("/api/tweets", newTweet);
   };
 
   return (
