@@ -5,7 +5,7 @@ import TrendingTweet from "./TrendingTweet";
 const TrendingForYou = () => {
   return (
     <>
-      <div className="w-9/10 rounded-2xl bg-gray-100">
+      <div className="w-full rounded-2xl bg-gray-100">
         <div className="flex justify-between">
           <div className="pl-3 pt-3 font-bold inline-flex text-lg text-gray-700">
             Trends For You

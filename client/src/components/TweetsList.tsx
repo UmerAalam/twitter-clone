@@ -1,17 +1,20 @@
-import React from "react";
 import ComposedTweet from "./ComposedTweet";
 import { useGetPostsQuery } from "../store/apis/tweetsSlice";
 import type { Tweet } from "../store/interfaces";
 
 const TweetList = () => {
-  const { data, isLoading } = useGetPostsQuery(undefined);
+  const { data, isLoading } = useGetPostsQuery(null);
   console.log(data);
-  const renderedTweets = data.map((tweet: Tweet) => {
-    return <ComposedTweet tweet={tweet} />
-  })
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Loading data...</div>
   }
+  const renderedTweets = data.map((tweet: Tweet) => {
+    return <div key={tweet.username}>
+      <hr />
+      <ComposedTweet tweet={tweet} />
+    </div>
+  })
+
   return <div>{renderedTweets}</div>
 }
 export default TweetList;

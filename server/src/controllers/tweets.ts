@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import type { Tweet } from "../../../client/src/store/interfaces.ts";
+import { Client } from "pg";
 
 let posts: Tweet[] = [
   {
@@ -11,6 +12,26 @@ let posts: Tweet[] = [
   },
 ];
 
+// const con = new Client({
+//   port: 5432,
+//   host: "localhost",
+//   user: "postgres",
+//   password: "password",
+//   database: "tweets",
+// })
+//
+// con.connect().then(() => console.log("connected"));
+// const getTweets = async () => {
+//   const tweetsList = con.query("Select * from tweets", (err, res) => {
+//     if (!err) {
+//       console.log(res.rows);
+//     } else {
+//       console.log(err.message)
+//     }
+//     con.end;
+//   });
+//   return tweetsList;
+// }
 
 export const createTweet = async (c: Context) => {
   const body = await c.req.json();

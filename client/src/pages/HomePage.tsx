@@ -3,9 +3,7 @@ import HomeFeed from "../components/HomeFeed";
 const HomePage = () => {
   return (
     <>
-      <div>
-        <HomeFeed />
-      </div>
+      <HomeFeed />
     </>
   );
 };

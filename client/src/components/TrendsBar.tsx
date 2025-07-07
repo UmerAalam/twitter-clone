@@ -5,7 +5,7 @@ import WhoToFollow from "./WhoToFollow";
 
 const TrendsBar = () => {
   return (
-    <div className="flex flex-col gap-3 items-center bg-gray-50 rounded-2xl">
+    <div className="flex flex-col h-screen w-full p-3 gap-3 bg-gray-50 rounded-2xl">
       <SearchBar />
       <TrendingForYou />
       <WhoToFollow />

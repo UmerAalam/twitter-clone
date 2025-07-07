@@ -43,30 +43,31 @@ const iconButtons = [
 ];
 
 const MenuBar = () => {
+  const renderedButtons = iconButtons.map((btn, index) => {
+    return (
+      <IconButton
+        containerCss={
+          "cursor-pointer w-full max-w-2xl h-10 rounded-full hover:bg-gray-100 items-center size-fit inline-flex my-0"
+        }
+        iconCss={"ml-3 font-normal"}
+        icon={btn.icon}
+        iconText={btn.iconText}
+        textCss={"text-gray-700 font-normal ml-3 text-xl"}
+        key={index}
+      />
+    );
+  });
   return (
     <>
-      <div className="pr-5 flex justify-end bg-gray-50 rounded-2xl">
+      <div className="p-5 h-screen flex justify-end bg-gray-50 rounded-2xl">
         <div className="grid-cols-1 inline-grid gap-4 size-fit">
           <FaTwitter
             className="ml-3 text-blue-400 hover:text-blue-300 mt-4"
             size={28}
           />
-          {/* Adding empty dive to create extra-space between first and second icon */}
+          {/* Adding empty div to create extra-space between first and second icon */}
           <div></div>
-          {iconButtons.map((btn, index) => {
-            return (
-              <IconButton
-                containerCss={
-                  "cursor-pointer w-full max-w-2xl h-10 rounded-full hover:bg-gray-100 items-center size-fit inline-flex my-0"
-                }
-                iconCss={"ml-3 font-normal"}
-                icon={btn.icon}
-                iconText={btn.iconText}
-                textCss={"text-gray-700 font-normal ml-3 text-xl"}
-                key={index}
-              />
-            );
-          })}
+          {renderedButtons}
           <div className="grid-cols-1 inline-grid gap-y-26">
             <button
               title="Twitter"
