@@ -7,8 +7,8 @@ const newTweet: Tweet = {
   username:
     faker.person.firstName().toLowerCase() +
     Math.floor(Math.random() * 100).toString(),
-  time: Date.now().toString(),
-  text: faker.person.jobDescriptor(),
+  time: "Just Now",
+  text: faker.lorem.paragraph(3),
 };
 
 export { newTweet };

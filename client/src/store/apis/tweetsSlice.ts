@@ -12,11 +12,14 @@ export const api = createApi({
       providesTags: ["tweets"],
       query: () => "/tweets",
     }),
-    addPost: builder.query({
-      providesTags: ["tweets"],
-      query: () => "/tweets",
+    addPost: builder.mutation({
+      query: (newTweet) => ({
+        url: "/tweets",
+        method: "POST",
+        body: newTweet,
+      })
     })
   }),
 });
 
-export const { useGetPostsQuery } = api;
+export const { useGetPostsQuery, useAddPostMutation } = api;

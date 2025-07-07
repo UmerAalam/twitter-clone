@@ -1,7 +1,7 @@
 import React from "react";
 import ComposedTweet from "./ComposedTweet";
 import ComposeTweet from "./ComposeTweet";
-
+import TweetList from "./TweetsList";
 const HomeFeed = () => {
   return (
     <>
@@ -12,20 +12,7 @@ const HomeFeed = () => {
         <hr />
         <ComposeTweet />
         <hr />
-        {/* {feedTweets.map((tweet) => {
-          return (
-            <>
-              <hr />
-              <ComposedTweet
-                name={tweet.name}
-                username={tweet.username}
-                tweetText={tweet.tweetText}
-                time={tweet.time}
-                profileImage={tweet.profileImage}
-              />
-            </>
-          );
-        })} */}
+        <TweetList />
       </div>
     </>
   );
