@@ -1,5 +1,4 @@
-import React from "react";
-import { FaTwitter, FaHashtag, FaRegBell, FaRegBookmark } from "react-icons/fa";
+import React from "react"; import { FaTwitter, FaHashtag, FaRegBell, FaRegBookmark } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { CgMoreO } from "react-icons/cg";
 import { RiFileList2Line } from "react-icons/ri";

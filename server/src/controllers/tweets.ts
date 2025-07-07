@@ -15,8 +15,7 @@ let posts: Tweet[] = [
 export const createTweet = async (c: Context) => {
   const body = await c.req.json();
   posts.push(body);
-  c.status(201);
-  return c.json(body);
+  return c.json(body, 201);
 }
 
 export const listTweets = (c: Context) => {
@@ -28,10 +27,9 @@ export const deleteTweet = (c: Context) => {
   const postIndex = posts.findIndex((p) => p.id === id);
 
   if (postIndex === -1) {
-    c.status(404);
     return c.json({
       message: 'Not Found',
-    })
+    }, 404)
   }
 
   const post = posts[postIndex];

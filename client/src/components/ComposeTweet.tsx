@@ -1,5 +1,3 @@
-import ComposedTweet from "./ComposedTweet";
-import type { Tweet } from "../store/interfaces";
 import axios from "axios";
 import { newTweet } from "../generators/tweetGenerator";
 const ComposeTweet = () => {
@@ -19,7 +17,6 @@ const ComposeTweet = () => {
           src={image}
           alt="profile-image"
         />
-        {/* <div></div> */}
         <textarea
           name="compose-tweet"
           id="compose-tweet"
