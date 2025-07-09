@@ -9,7 +9,7 @@ import store from "../store/store.ts";
 import type { Tweet } from "../store/interfaces.ts";
 
 interface Props {
-  tweet: Tweet
+  tweet: Tweet;
 }
 const profileImage = "";
 const ComposedTweet = ({ tweet }: Props) => {
@@ -48,22 +48,22 @@ const ComposedTweet = ({ tweet }: Props) => {
           <div className="flex justify-evenly pt-3">
             <IconButton
               textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
-              iconText={Math.floor(Math.random() * 100).toString()}
+              iconText={tweet.comments.toString()}
               icon={<FaRegComment className="cursor-pointer" size={22} />}
             />
             <IconButton
               textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
-              iconText={Math.floor(Math.random() * 100).toString()}
+              iconText={tweet.reposts.toString()}
               icon={<BiRepost className="cursor-pointer" size={22} />}
             />
             <IconButton
               textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
-              iconText={Math.floor(Math.random() * 100).toString()}
+              iconText={tweet.likes.toString()}
               icon={<IoHeartOutline className="cursor-pointer" size={22} />}
             />
             <IconButton
               textCss={"font-normal text-sm ml-4 my-auto cursor-auto"}
-              iconText={Math.floor(Math.random() * 100).toString()}
+              iconText={tweet.shares.toString()}
               icon={<IoShareOutline className="cursor-pointer" size={22} />}
             />
           </div>

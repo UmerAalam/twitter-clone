@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Outlet } from "react-router-dom";
 import MenuBar from "../components/MenuBar";
 import TrendsBar from "../components/TrendsBar";
+import SignUpPage from "../pages/SignUpPage";
 const MainLayout = () => {
   return (
     <div className="flex justify-center">
