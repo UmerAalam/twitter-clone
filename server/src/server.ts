@@ -1,10 +1,12 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { createTweet, listTweets } from "./controllers/tweets.js";
+import { createUser } from "./controllers/users.js";
 import { cors } from "hono/cors";
-import { createUser } from "./controllers/users.ts";
+import { logger } from "hono/logger";
+import { listUsers } from "./controllers/users.js";
 const app = new Hono();
-
+app.use(logger());
 app.use(
   "/api",
   cors({
@@ -16,8 +18,8 @@ app.use(
 //Tweets
 app.post("/api/tweets", createTweet);
 app.get("/api/tweets", listTweets);
-// app.delete("/api/tweets/:id", deleteTweet);
 //Users
+app.get("/api/users", listUsers);
 app.post("/api/users", createUser);
 serve(
   {

@@ -14,7 +14,6 @@ const getTweetsPostgres = async () => {
   const tweetsList = await con.query<Tweet>("Select * from tweet");
   return tweetsList.rows;
 };
-
 const createTweetPostgres = async ({
   id,
   name,
@@ -43,16 +42,3 @@ export const listTweets = async (c: Context) => {
   const tweets = await getTweetsPostgres();
   return c.json(tweets, 200);
 };
-
-// export const deleteTweet = (c: Context) => {
-//   const id = c.req.param("id");
-//   if (!id) {
-//     return c.json(
-//       {
-//         message: "Not Found",
-//       },
-//       404,
-//     );
-//   }
-//   return c.json();
-// };

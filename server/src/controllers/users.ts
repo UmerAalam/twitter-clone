@@ -1,6 +1,7 @@
 import { Client } from "pg";
 import type { Context } from "hono";
 import type { SignUpUser } from "../../../client/src/store/interfaces.js";
+
 const con = new Client({
   port: 5432,
   host: "localhost",
@@ -10,7 +11,7 @@ const con = new Client({
 });
 con.connect().then(() => console.log("connected"));
 
-const createTweetPostgres = async ({
+const createUserPostgres = async ({
   id,
   firstName,
   lastName,
@@ -18,18 +19,25 @@ const createTweetPostgres = async ({
   password,
 }: SignUpUser): Promise<SignUpUser> => {
   const user = await con.query<SignUpUser>(
-    `INSERT INTO users (id ,firstName, lastName,email,password ) VALUES($1, $2, $3, $4, $5,$6) RETURNING *;`,
+    `INSERT INTO users (id ,firstName, lastName,email,password ) VALUES($1, $2, $3, $4, $5) RETURNING *;`,
     [id, firstName, lastName, email, password],
   );
   return user.rows[0];
 };
-
-export const createUser = async (c: Context) => {
+const listPostgresUsers = async () => {
+  const usersList = await con.query<SignUpUser>("Select * from users");
+  return usersList.rows;
+};
+const createUser = async (c: Context) => {
   const body = await c.req.json();
-  const addUser = await createTweetPostgres(body);
+  console.log(body);
+  const addUser = await createUserPostgres(body);
+  console.log(addUser);
   return c.json(addUser, 201);
 };
-// export const deleteUser = (c: Context) => {
-//   const id = c.req.param("id");
-//   return c.json();
-// };
+const listUsers = async (c: Context) => {
+  const users = await listPostgresUsers();
+  return c.json(users, 200);
+};
+
+export { createUser, listUsers };

@@ -1,4 +1,3 @@
-// services/api.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
@@ -6,8 +5,19 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3000/api",
   }),
-  tagTypes: ["tweets"],
+  tagTypes: ["tweets", "users"],
   endpoints: (builder) => ({
+    getUsers: builder.query({
+      providesTags: ["users"],
+      query: () => "/users",
+    }),
+    addUser: builder.mutation({
+      query: (newUser) => ({
+        url: "/users",
+        method: "POST",
+        body: newUser,
+      }),
+    }),
     getPosts: builder.query({
       providesTags: ["tweets"],
       query: () => "/tweets",
@@ -17,8 +27,8 @@ export const api = createApi({
         url: "/tweets",
         method: "POST",
         body: newTweet,
-      })
-    })
+      }),
+    }),
   }),
 });
 

@@ -15,7 +15,7 @@ const SignUpPage = () => {
   };
 
   const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event?.preventDefault();
+    event.preventDefault();
     const newUser: SignUpUser = {
       id: nanoid(),
       firstName,
@@ -23,6 +23,7 @@ const SignUpPage = () => {
       email,
       password,
     };
+    console.log(newUser);
     AddUser(newUser);
   };
   return (
