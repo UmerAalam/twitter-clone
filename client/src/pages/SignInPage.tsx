@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 const SignInPage = () => {
   return (
     <div className="flex bg-white h-screen justify-center p-1">
-      <div className="rounded-2xl bg-white my-auto white shadow-gray-200 inset-shadow-2xs shadow-lg h-[64%] w-[26%] font-black">
+      <div className="rounded-2xl bg-white my-auto white shadow-gray-200 inset-shadow-2xs shadow-lg h-[520px] w-[400px] font-black">
         <h2 className="flex justify-center text-gray-700 text-4xl mt-7">
           Sign in
         </h2>

@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import type { SignUpUser } from "../store/interfaces";
 import { nanoid } from "@reduxjs/toolkit";
+import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
+import axios from "axios";
 const SignUpPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const AddUser = async (user: SignUpUser) => {
+    await axios.post("/api/users", user);
+  };
+
   const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     const newUser: SignUpUser = {
@@ -16,7 +23,7 @@ const SignUpPage = () => {
       email,
       password,
     };
-    console.log(newUser);
+    AddUser(newUser);
   };
   return (
     <div className="flex bg-white h-screen justify-center p-1">

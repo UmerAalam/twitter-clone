@@ -1,9 +1,10 @@
 import react from "react";
 import { Outlet } from "react-router-dom";
-export const SignLayout = () => {
+const SignLayout = () => {
   return (
     <div>
       <Outlet />
     </div>
   );
 };
+export default SignLayout;

@@ -3,24 +3,29 @@ import {
   createBrowserRouter,
   RouterProvider,
   Route,
+  Routes,
 } from "react-router";
 import ProfilePage from "./pages/ProfilePage";
 import Homepage from "./pages/HomePage";
 import MainLayout from "./layouts/MainLayout";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
+import SignLayout from "./layouts/SignLayout";
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<Homepage />} />
-        <Route path="/user" element={<ProfilePage />} />
-        <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/sign-in" element=<SignInPage /> />
+      <Route>
+        <Route element={<MainLayout />}>
+          <Route index element={<Homepage />} />
+          <Route path="/user" element={<ProfilePage />} />
+        </Route>
+        <Route element={<SignLayout />}>
+          <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
+        </Route>
       </Route>,
     ),
   );
-
   return <RouterProvider router={router} />;
 };
 

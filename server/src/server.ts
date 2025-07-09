@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
-import { createTweet, deleteTweet, listTweets } from "./controllers/tweets.js";
+import { createTweet, listTweets } from "./controllers/tweets.js";
 import { cors } from "hono/cors";
-
+import { createUser } from "./controllers/users.ts";
 const app = new Hono();
 
 app.use(
@@ -13,11 +13,12 @@ app.use(
     allowHeaders: ["Content-Type", "Authorization"],
   }),
 );
-
+//Tweets
 app.post("/api/tweets", createTweet);
 app.get("/api/tweets", listTweets);
-app.delete("/api/tweets/:id", deleteTweet);
-
+// app.delete("/api/tweets/:id", deleteTweet);
+//Users
+app.post("/api/users", createUser);
 serve(
   {
     fetch: app.fetch,
