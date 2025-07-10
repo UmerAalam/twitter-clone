@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import type { SignUpUser } from "../store/interfaces";
 import { nanoid } from "@reduxjs/toolkit";
+import { useAddPostMutation } from "../store/store";
 import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
 import axios from "axios";
 const SignUpPage = () => {
@@ -9,10 +10,8 @@ const SignUpPage = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const AddUser = async (user: SignUpUser) => {
-    await axios.post("/api/users", user);
-  };
+  const [addUser, result] = useAddPostMutation();
+  const AddUser = async (user: SignUpUser) => {};
 
   const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,7 +22,6 @@ const SignUpPage = () => {
       email,
       password,
     };
-    console.log(newUser);
     AddUser(newUser);
   };
   return (

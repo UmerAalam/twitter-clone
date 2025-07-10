@@ -9,7 +9,7 @@ const con = new Client({
   database: "users",
   password: "password",
 });
-con.connect().then(() => console.log("connected"));
+con.connect().then(() => console.log("connected users"));
 
 const createUserPostgres = async ({
   id,
