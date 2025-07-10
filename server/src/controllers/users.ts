@@ -1,6 +1,7 @@
 import { Client } from "pg";
 import type { Context } from "hono";
 import type { SignUpUser } from "../../../client/src/store/interfaces.js";
+import { create } from "domain";
 
 const con = new Client({
   port: 5432,
@@ -22,8 +23,10 @@ const createUserPostgres = async ({
     `INSERT INTO users (id ,firstName, lastName,email,password ) VALUES($1, $2, $3, $4, $5) RETURNING *;`,
     [id, firstName, lastName, email, password],
   );
+  console.log(user.rows[0]);
   return user.rows[0];
 };
+
 const listPostgresUsers = async () => {
   const usersList = await con.query<SignUpUser>("Select * from users");
   return usersList.rows;

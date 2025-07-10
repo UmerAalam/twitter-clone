@@ -11,18 +11,21 @@ const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [addUser, result] = useAddPostMutation();
-  const AddUser = async (user: SignUpUser) => {};
+  const AddUser = async (user: SignUpUser) => {
+    console.log(user);
+    await addUser(user);
+  };
 
-  const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSumbitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newUser: SignUpUser = {
-      id: nanoid(),
+      id: Math.floor(Math.random() * 10000).toString(),
       firstName,
       lastName,
       email,
       password,
     };
-    AddUser(newUser);
+    await AddUser(newUser);
   };
   return (
     <div className="flex bg-white h-screen justify-center p-1">

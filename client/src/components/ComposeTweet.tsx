@@ -12,10 +12,8 @@ const ComposeTweet = () => {
     const tweet = newTweet;
     tweet.text = text;
     addTweet(tweet);
-    console.log(tweet);
-    await axios.post("/api/tweets", tweet);
+    setText("");
   };
-
   return (
     <form id="postTweet" className="text-right">
       <div className="flex items-start w-full p-3">
@@ -30,8 +28,9 @@ const ComposeTweet = () => {
           placeholder="What's happening?"
           className="px-3 pt-2 w-full text-lg min-h-34 resize-none rounded-2xl"
           maxLength={240}
+          value={text}
           onChange={(e) => setText(e.target.value)}
-        ></textarea>
+        />
       </div>
       <button
         type="submit"

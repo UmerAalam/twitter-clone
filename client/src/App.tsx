@@ -3,7 +3,6 @@ import {
   createBrowserRouter,
   RouterProvider,
   Route,
-  Routes,
 } from "react-router";
 import ProfilePage from "./pages/ProfilePage";
 import Homepage from "./pages/HomePage";

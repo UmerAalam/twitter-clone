@@ -1,15 +1,13 @@
 import ComposedTweet from "./ComposedTweet";
 import { useGetPostsQuery } from "../store/apis/tweetsSlice";
 import type { Tweet } from "../store/interfaces";
+import { useState } from "react";
 import axios from "axios";
-import { useAsyncError } from "react-router-dom";
-import { json } from "express";
 
 const TweetList = () => {
   const { data, isLoading } = useGetPostsQuery(null);
-  console.log(data);
   if (isLoading) {
-    return <div>Loading data...</div>;
+    return <div className="flex justify-center">Loading data...</div>;
   }
   const renderedTweets = data.map((tweet: Tweet) => {
     return (
