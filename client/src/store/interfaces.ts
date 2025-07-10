@@ -16,6 +16,5 @@ interface SignUpUser {
   email: string;
   password: string;
 }
-
 export type { SignUpUser };
 export type { Tweet };

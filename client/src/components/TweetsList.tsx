@@ -1,7 +1,6 @@
 import ComposedTweet from "./ComposedTweet";
-import { useGetPostsQuery } from "../store/apis/tweetsSlice";
 import type { Tweet } from "../store/interfaces";
-
+import { useGetPostsQuery } from "../store/store";
 const TweetList = () => {
   const { data, isLoading } = useGetPostsQuery(null);
   if (isLoading) {

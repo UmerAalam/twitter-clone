@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { useGetUsersQuery } from "../store/store";
 const SignInPage = () => {
+  const { data, isLoading } = useGetUsersQuery(null);
+  console.log(data);
+  const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
   return (
     <div className="flex bg-white h-screen justify-center p-1">
       <div className="rounded-2xl bg-white my-auto white shadow-gray-200 inset-shadow-2xs shadow-lg h-[520px] w-[400px] font-black">
@@ -31,6 +37,7 @@ const SignInPage = () => {
             required
           />
           <button
+            onSubmit={handleSubmit}
             type="submit"
             className="cursor-pointer hover:bg-blue-300 text-white rounded-md flex items-center justify-center mx-auto mt-7 bg-blue-400 text-xl h-12 w-[80%]"
           >

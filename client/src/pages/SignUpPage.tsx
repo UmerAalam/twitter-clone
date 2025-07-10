@@ -8,12 +8,9 @@ const SignUpPage = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [addUser, result] = useAddUserMutation();
-  const AddUser = (user: SignUpUser) => {
-    addUser(user);
-  };
+  const [addUser] = useAddUserMutation();
 
-  const handleSumbitForm = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newUser: SignUpUser = {
       id: Math.floor(Math.random() * 10000).toString(),
@@ -22,7 +19,7 @@ const SignUpPage = () => {
       email,
       password,
     };
-    await AddUser(newUser);
+    addUser(newUser);
   };
   return (
     <div className="flex bg-white h-screen justify-center p-1">

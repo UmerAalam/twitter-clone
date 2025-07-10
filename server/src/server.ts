@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { createTweet, listTweets } from "./controllers/tweets.js";
-import { createUser } from "./controllers/users.js";
+import { createUser, findUser } from "./controllers/users.js";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { listUsers } from "./controllers/users.js";
@@ -19,7 +19,7 @@ app.use(
 app.post("/api/tweets", createTweet);
 app.get("/api/tweets", listTweets);
 //Users
-app.get("/api/users", listUsers);
+app.get("/api/users", findUser);
 app.post("/api/users", createUser);
 serve(
   {
