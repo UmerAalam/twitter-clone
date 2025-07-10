@@ -17,6 +17,7 @@ export const api = createApi({
         method: "POST",
         body: newUser,
       }),
+      invalidatesTags: ["users"],
     }),
     getPosts: builder.query({
       providesTags: ["tweets"],
@@ -28,8 +29,14 @@ export const api = createApi({
         method: "POST",
         body: newTweet,
       }),
+      invalidatesTags: ["tweets"],
     }),
   }),
 });
 
-export const { useGetPostsQuery, useAddPostMutation } = api;
+export const {
+  useGetPostsQuery,
+  useAddPostMutation,
+  useGetUsersQuery,
+  useAddUserMutation,
+} = api;

@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import type { SignUpUser } from "../store/interfaces";
-import { nanoid } from "@reduxjs/toolkit";
-import { useAddPostMutation } from "../store/store";
-import { LuChartNoAxesColumnIncreasing } from "react-icons/lu";
-import axios from "axios";
+import { useAddUserMutation } from "../store/store";
+import { Link } from "react-router-dom";
 const SignUpPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [addUser, result] = useAddPostMutation();
-  const AddUser = async (user: SignUpUser) => {
-    console.log(user);
-    await addUser(user);
+  const [addUser, result] = useAddUserMutation();
+  const AddUser = (user: SignUpUser) => {
+    addUser(user);
   };
 
   const handleSumbitForm = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -78,7 +75,9 @@ const SignUpPage = () => {
           </button>
           <div className="flex justify-center mt-2 font-medium text-gray-400">
             Already have an account?
-            <a className="cursor-pointer ml-1 text-blue-400">Login</a>
+            <Link to="/sign-in" className="cursor-pointer ml-1 text-blue-400">
+              Login
+            </Link>
           </div>
         </form>
         <div className="flex justify-between mx-9 mt-5">

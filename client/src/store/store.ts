@@ -1,5 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { api, useAddPostMutation, useGetPostsQuery } from "./apis/tweetsSlice";
+import {
+  api,
+  useAddPostMutation,
+  useGetPostsQuery,
+  useGetUsersQuery,
+  useAddUserMutation,
+} from "./apis/tweetsSlice";
 const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
@@ -7,5 +13,10 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
 });
-export { useAddPostMutation, useGetPostsQuery };
+export {
+  useAddPostMutation,
+  useGetPostsQuery,
+  useGetUsersQuery,
+  useAddUserMutation,
+};
 export default store;

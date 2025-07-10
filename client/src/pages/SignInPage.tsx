@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 const SignInPage = () => {
   return (
@@ -37,7 +38,9 @@ const SignInPage = () => {
           </button>
           <div className="flex justify-center mt-2 font-medium text-gray-400">
             Don't have account?
-            <a className="cursor-pointer ml-1 text-blue-400">Sign up</a>
+            <Link to="/sign-up" className="cursor-pointer ml-1 text-blue-400">
+              Sign up
+            </Link>
           </div>
         </form>
         <div className="flex justify-between mx-9 mt-5">
