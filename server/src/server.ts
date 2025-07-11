@@ -5,6 +5,8 @@ import { createUser, findUser } from "./controllers/users.js";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { listUsers } from "./controllers/users.js";
+import type { Context } from "hono/jsx";
+import type { UserData } from "../../client/src/store/interfaces.js";
 const app = new Hono();
 app.use(logger());
 app.use(
@@ -19,8 +21,8 @@ app.use(
 app.post("/api/tweets", createTweet);
 app.get("/api/tweets", listTweets);
 //Users
-app.get("/api/users", findUser);
-app.post("/api/users", createUser);
+app.get("/api/auth/sign-in", findUser);
+app.post("/api/auth/sign-up", createUser);
 serve(
   {
     fetch: app.fetch,

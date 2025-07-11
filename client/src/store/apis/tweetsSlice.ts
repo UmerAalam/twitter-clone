@@ -5,19 +5,19 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3000/api",
   }),
-  tagTypes: ["tweets", "users"],
+  tagTypes: ["tweets", "auth"],
   endpoints: (builder) => ({
     getUsers: builder.query({
-      providesTags: ["users"],
-      query: () => "/users",
+      providesTags: ["auth"],
+      query: () => "/auth/sign-in",
     }),
     addUser: builder.mutation({
       query: (newUser) => ({
-        url: "/users",
+        url: "/auth/sign-up",
         method: "POST",
         body: newUser,
       }),
-      invalidatesTags: ["users"],
+      invalidatesTags: ["auth"],
     }),
     getPosts: builder.query({
       providesTags: ["tweets"],

@@ -29,33 +29,35 @@ const listPostgresUsers = async () => {
 };
 const createUser = async (c: Context) => {
   const body = await c.req.json();
-  console.log(body);
   const addUser = await createUserPostgres(body);
-  console.log(addUser);
   return c.json(addUser, 201);
 };
-const findUser = async (c: Context) => {
-  // const body = await c.req.json();
-  // console.log(body);
-  const user = await findUserPostgres({
-    id: "",
-    email: "umer@test.com",
-    password: "15220707",
-    firstName: "",
-    lastName: "",
-  });
-  return c.json(user, 200);
-};
+interface UserData {
+  email: string;
+  password: string;
+}
 
-const findUserPostgres = async ({
-  // id,
-  // firstName,
-  // lastName,
-  email,
-  password,
-}: SignUpUser) => {
+const findUser = async (c: Context) => {
+  const { email, password } = await c.req.json();
+  console.log(email, password);
+  if (!email || !password) {
+    return c.json({ error: "Email and password are required" }, 400);
+  }
+  try {
+    const user = await findUserPostgres({ email, password });
+    if (!user) {
+      return c.json({ error: "User not found or invalid credentials" }, 404);
+    }
+
+    return c.json(user, 200);
+  } catch (error) {
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+const findUserPostgres = async ({ email, password }: UserData) => {
+  console.log(email, password);
   const user = await con.query<SignUpUser>(
-    `SELECT * FROM users WHERE email = $1 AND password = $2;`,
+    `SELECT * FROM users WHERE email = $1 AND password = $2`,
     [email, password],
   );
   return user.rows[0];

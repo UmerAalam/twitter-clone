@@ -9,6 +9,10 @@ interface Tweet {
   likes: number;
   shares: number;
 }
+interface UserData {
+  email: string;
+  password: string;
+}
 interface SignUpUser {
   id: string;
   firstName: string;
@@ -16,5 +20,4 @@ interface SignUpUser {
   email: string;
   password: string;
 }
-export type { SignUpUser };
-export type { Tweet };
+export type { SignUpUser, UserData, Tweet };
