@@ -18,6 +18,8 @@ const app = new Hono()
   .route("/api", tweetsRouter)
   .route("/api", authRouter);
 
+export type AppType = typeof app;
+
 serve(
   {
     fetch: app.fetch,

@@ -1,15 +1,18 @@
 import { Hono } from "hono";
-import type { Tweet } from "../../../client/src/store/interfaces.ts";
 import sql from "../db.js";
-import type {
-  CreateTweet,
-  DeleteTweet,
-  FindManyTweet,
-  FindOneTweet,
-  UpdateTweet,
+import {
+  createTweetSchema,
+  updateTweetSchema,
+  type CreateTweet,
+  type DeleteTweet,
+  type FindManyTweet,
+  type FindOneTweet,
+  type Tweet,
+  type UpdateTweet,
 } from "../types.js";
+import { zValidator } from "@hono/zod-validator";
 
-const findManyTweet = async (_props: FindManyTweet) => {
+const findManyTweet = async (_props: FindManyTweet): Promise<Tweet[]> => {
   const tweetList = await sql<Tweet[]>`SELECT * FROM tweets`;
   return tweetList;
 };
@@ -29,44 +32,54 @@ const createTweetPostgres = async (props: CreateTweet): Promise<Tweet> => {
   return tweet[0];
 };
 
-const findOneTweet = async ({ id }: FindOneTweet) => {
-  const tweet = await sql`SELECT * FROM tweets WHERE id = ${id}`;
+const findOneTweet = async ({ id }: FindOneTweet): Promise<Tweet> => {
+  const tweet = await sql<Tweet[]>`SELECT * FROM tweets WHERE id = ${id}`;
   return tweet[0];
 };
 
-const deleteTweet = async ({ id }: DeleteTweet) => {
+const deleteTweet = async ({ id }: DeleteTweet): Promise<Tweet | undefined> => {
   const exists = await findOneTweet({ id });
   if (!exists) {
     return;
   }
 
-  const deletedTweet =
-    await sql`DELETE FROM tweets WHERE id = ${id} RETURNING *`;
+  const deletedTweet = await sql<
+    Tweet[]
+  >`DELETE FROM tweets WHERE id = ${id} RETURNING *`;
 
   return deletedTweet[0];
 };
 
-const updateTweet = async ({ id, text }: UpdateTweet) => {
+const updateTweet = async ({
+  id,
+  text,
+}: UpdateTweet): Promise<Tweet | undefined> => {
   const exists = await findOneTweet({ id });
   if (!exists) {
     return;
   }
 
-  const updatedTweet =
-    await sql`UPDATE tweets SET text=${text} WHERE id = ${id} RETURNING *`;
+  const updatedTweet = await sql<
+    Tweet[]
+  >`UPDATE tweets SET text=${text} WHERE id = ${id} RETURNING *`;
 
   return updatedTweet[0];
 };
 
 export const tweetsRouter = new Hono()
   .basePath("tweets")
-  .post("/", async (c) => {
+  .post("/", zValidator("json", createTweetSchema), async (c) => {
     const body = await c.req.json();
     const addedTweet = await createTweetPostgres(body);
     return c.json(addedTweet, 201);
   })
   .get("/", async (c) => {
     const tweets = await findManyTweet({});
+    return c.json(tweets, 200);
+  })
+  .get("/:id", async (c) => {
+    const id = c.req.param("id");
+    const tweets = await findOneTweet({ id });
     return c.json(tweets, 200);
   })
   .delete("/:id", async (c) => {
@@ -78,12 +91,21 @@ export const tweetsRouter = new Hono()
 
     return c.json(tweet);
   })
-  .patch("/:id", async (c) => {
-    const id = c.req.param("id");
-    const body: UpdateTweet = await c.req.json();
-    const tweet = await updateTweet({ id, text: body.text });
-    if (!tweet) {
-      return c.json({ message: "Tweet Not Found" }, 404);
-    }
-    return c.json(tweet);
-  });
+  .patch(
+    "/:id",
+    zValidator(
+      "json",
+      updateTweetSchema.pick({
+        text: true,
+      }),
+    ),
+    async (c) => {
+      const id = c.req.param("id");
+      const body: UpdateTweet = await c.req.json();
+      const tweet = await updateTweet({ id, text: body.text });
+      if (!tweet) {
+        return c.json({ message: "Tweet Not Found" }, 404);
+      }
+      return c.json(tweet);
+    },
+  );

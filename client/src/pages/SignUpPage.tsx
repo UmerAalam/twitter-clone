@@ -1,25 +1,23 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import type { SignUpUser } from "../store/interfaces";
-import { useAddUserMutation } from "../store/store";
 import { Link } from "react-router-dom";
 const SignUpPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [addUser] = useAddUserMutation();
+  // const [addUser] = useAddUserMutation();
 
   const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newUser: SignUpUser = {
-      id: Math.floor(Math.random() * 10000).toString(),
-      firstName,
-      lastName,
-      email,
-      password,
-    };
-    addUser(newUser);
+    // const newUser: SignUpUser = {
+    //   id: Math.floor(Math.random() * 10000).toString(),
+    //   firstName,
+    //   lastName,
+    //   email,
+    //   password,
+    // };
+    // addUser(newUser);
   };
   return (
     <div className="flex bg-white h-screen justify-center p-1">

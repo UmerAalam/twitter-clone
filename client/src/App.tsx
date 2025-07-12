@@ -10,6 +10,7 @@ import MainLayout from "./layouts/MainLayout";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import SignLayout from "./layouts/SignLayout";
+
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
