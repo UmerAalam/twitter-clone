@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
-import { tweetsRouter } from "./controllers/tweets.js";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { authRouter } from "./controllers/auth.js";
+import { authRouter } from "./modules/auth/auth.routes.js";
+import { tweetsRouter } from "./modules/tweet/tweet.routes.js";
 
 const app = new Hono()
   .use(logger())
