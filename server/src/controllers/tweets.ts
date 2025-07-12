@@ -1,31 +1,47 @@
 import { Hono } from "hono";
 import type { Tweet } from "../../../client/src/store/interfaces.ts";
 import sql from "../db.js";
+import type {
+  CreateTweet,
+  DeleteTweet,
+  FindManyTweet,
+  FindOneTweet,
+} from "../types.js";
 
-const getTweetsPostgres = async () => {
-  const tweetList = await sql<Tweet[]>`SELECT * FROM tweet`;
+const findManyTweet = async (_props: FindManyTweet) => {
+  const tweetList = await sql<Tweet[]>`SELECT * FROM tweets`;
   return tweetList;
 };
 
-const createTweetPostgres = async ({
-  id,
-  name,
-  username,
-  time,
-  text,
-  comments,
-  reposts,
-  likes,
-  shares,
-}: Tweet): Promise<Tweet> => {
+const createTweetPostgres = async (props: CreateTweet): Promise<Tweet> => {
+  const { name, username, time, text, comments, reposts, likes, shares } =
+    props;
+
+  const id = crypto.randomUUID();
   const tweet = await sql<Tweet[]>`
-  INSERT INTO tweet
+  INSERT INTO tweets
       (id, name, username, time, text,comments,reposts,likes,shares) 
       VALUES(${id},${name}, ${username}, ${time}, ${text},${comments},${reposts},${likes},${shares}) 
   RETURNING *;
 `;
 
   return tweet[0];
+};
+
+const findOneTweet = async ({ id }: FindOneTweet) => {
+  const tweet = await sql`SELECT * FROM tweets WHERE id = ${id}`;
+  return tweet[0];
+};
+
+const deleteTweet = async ({ id }: DeleteTweet) => {
+  const exists = await findOneTweet({ id });
+  if (!exists) {
+    return;
+  }
+
+  const deletedTweet = await sql`SELECT * FROM tweets WHERE RETURNING *`;
+
+  return deletedTweet;
 };
 
 export const tweetsRouter = new Hono()
@@ -36,6 +52,15 @@ export const tweetsRouter = new Hono()
     return c.json(addedTweet, 201);
   })
   .get("/", async (c) => {
-    const tweets = await getTweetsPostgres();
+    const tweets = await findManyTweet({});
     return c.json(tweets, 200);
+  })
+  .delete("/:id", async (c) => {
+    const id = c.req.param("id");
+    const tweet = await deleteTweet({ id });
+    if (!tweet) {
+      return c.json({ message: "Tweet Not Found" }, 404);
+    }
+
+    return c.json(tweet);
   });
