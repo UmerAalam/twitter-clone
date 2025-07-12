@@ -6,6 +6,7 @@ import type {
   DeleteTweet,
   FindManyTweet,
   FindOneTweet,
+  UpdateTweet,
 } from "../types.js";
 
 const findManyTweet = async (_props: FindManyTweet) => {
@@ -39,9 +40,22 @@ const deleteTweet = async ({ id }: DeleteTweet) => {
     return;
   }
 
-  const deletedTweet = await sql`SELECT * FROM tweets WHERE RETURNING *`;
+  const deletedTweet =
+    await sql`DELETE FROM tweets WHERE id = ${id} RETURNING *`;
 
-  return deletedTweet;
+  return deletedTweet[0];
+};
+
+const updateTweet = async ({ id, text }: UpdateTweet) => {
+  const exists = await findOneTweet({ id });
+  if (!exists) {
+    return;
+  }
+
+  const updatedTweet =
+    await sql`UPDATE tweets SET text=${text} WHERE id = ${id} RETURNING *`;
+
+  return updatedTweet[0];
 };
 
 export const tweetsRouter = new Hono()
@@ -62,5 +76,14 @@ export const tweetsRouter = new Hono()
       return c.json({ message: "Tweet Not Found" }, 404);
     }
 
+    return c.json(tweet);
+  })
+  .patch("/:id", async (c) => {
+    const id = c.req.param("id");
+    const body: UpdateTweet = await c.req.json();
+    const tweet = await updateTweet({ id, text: body.text });
+    if (!tweet) {
+      return c.json({ message: "Tweet Not Found" }, 404);
+    }
     return c.json(tweet);
   });
