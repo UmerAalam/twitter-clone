@@ -1,8 +1,7 @@
-import { nanoid } from "@reduxjs/toolkit";
-import type { Tweet } from "../store/interfaces";
 import { faker } from "@faker-js/faker";
-let newTweet: Tweet = {
-  id: nanoid(),
+import { CreateTweet } from "../../../server/src/modules/tweet/tweet.dto";
+
+let newTweet: CreateTweet = {
   name: faker.person.fullName(),
   username:
     faker.person.firstName().toLowerCase() +

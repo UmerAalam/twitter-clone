@@ -11,7 +11,9 @@ import type {
 export const findManyTweet = async (
   _props: FindManyTweet,
 ): Promise<Tweet[]> => {
-  const tweetList = await sql<Tweet[]>`SELECT * FROM tweets`;
+  const tweetList = await sql<
+    Tweet[]
+  >`SELECT * FROM tweets ORDER BY created_at  DESC`;
   return tweetList;
 };
 

@@ -1,5 +1,3 @@
-import React from "react";
-import ComposedTweet from "./ComposedTweet";
 import ComposeTweet from "./ComposeTweet";
 import TweetList from "./TweetsList";
 const HomeFeed = () => {

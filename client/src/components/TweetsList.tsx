@@ -1,16 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import ComposedTweet from "./ComposedTweet";
 import { client } from "../lib/client";
 
-const TweetList = () => {
-  const { isLoading, data } = useQuery({
+export const tweetListQueryOptions = () => {
+  return queryOptions({
     queryFn: async () => {
       const res = await client.api.tweets.$get();
       const data = await res.json();
       return data;
     },
-    queryKey: ["tweets"],
+    queryKey: ["tweets", "list"],
   });
+};
+
+const TweetList = () => {
+  const { isLoading, data } = useQuery(tweetListQueryOptions());
 
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
@@ -24,6 +28,7 @@ const TweetList = () => {
       </div>
     );
   });
+
   return <div>{renderedTweets}</div>;
 };
 export default TweetList;

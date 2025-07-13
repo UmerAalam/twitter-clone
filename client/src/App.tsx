@@ -10,6 +10,7 @@ import MainLayout from "./layouts/MainLayout";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import SignLayout from "./layouts/SignLayout";
+import CommentPage from "./pages/CommentPage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -17,6 +18,7 @@ const App = () => {
       <Route>
         <Route element={<MainLayout />}>
           <Route index element={<Homepage />} />
+          <Route path="/tweets/:id" element={<CommentPage />} />
           <Route path="/user" element={<ProfilePage />} />
         </Route>
         <Route element={<SignLayout />}>
