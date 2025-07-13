@@ -26,12 +26,12 @@ export const tweetsRouter = new Hono()
     return c.json(tweets, 200);
   })
   .get("/:id", async (c) => {
-    const id = c.req.param("id");
+    const id = parseInt(c.req.param("id"));
     const tweets = await findOneTweet({ id });
     return c.json(tweets, 200);
   })
   .delete("/:id", async (c) => {
-    const id = c.req.param("id");
+    const id = parseInt(c.req.param("id"));
     const tweet = await deleteTweet({ id });
     if (!tweet) {
       return c.json({ message: "Tweet Not Found" }, 404);
@@ -48,7 +48,7 @@ export const tweetsRouter = new Hono()
       }),
     ),
     async (c) => {
-      const id = c.req.param("id");
+      const id = parseInt(c.req.param("id"));
       const body: UpdateTweet = await c.req.json();
       const tweet = await updateTweet({ id, text: body.text });
       if (!tweet) {

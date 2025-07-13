@@ -22,7 +22,7 @@ const TweetList = () => {
 
   const renderedTweets = data?.map((tweet) => {
     return (
-      <div key={tweet.username}>
+      <div key={tweet?.id}>
         <hr />
         <ComposedTweet tweet={tweet} />
       </div>

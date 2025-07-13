@@ -1,4 +1,3 @@
-import React from "react";
 import { MdVerified } from "react-icons/md";
 import IconButton from "./IconButton";
 import { FaRegComment } from "react-icons/fa";
@@ -30,15 +29,15 @@ const ComposedTweet = ({ tweet }: Props) => {
         <div className="w-full">
           <div className="cursor-pointer">
             <h2 className="font-bold text-sm flex">
-              {tweet.name}
+              Umer
               <IconButton
                 icon={<MdVerified size={16} className="text-blue-400 ml-1" />}
               ></IconButton>
               <div className="pl-1 text-sm text-gray-400 font-medium">
-                {"@" + tweet.username}
+                {"@" + "Umer"}
               </div>
               <div className="pl-3 text-sm text-gray-400 font-medium">
-                {tweet.time}
+                {tweet.createdAt}
               </div>
             </h2>
             <p className="cursor-auto flex font-normal text-base">
@@ -53,7 +52,7 @@ const ComposedTweet = ({ tweet }: Props) => {
                 className="font-normal text-sm my-auto text-gray-800 cursor-pointer"
                 icon={<FaRegComment className="mr-1" size={22} />}
               >
-                {tweet.comments.toString()}
+                {/* {tweet.comments.toString()} */}
               </IconButton>
             </Link>
             <IconButton
@@ -62,7 +61,7 @@ const ComposedTweet = ({ tweet }: Props) => {
               icon={<BiRepost className="mr-1" size={22} />}
               className="font-normal text-sm my-auto text-gray-800 cursor-pointer"
             >
-              {tweet.comments.toString()}
+              {/* {tweet.comments.toString()} */}
             </IconButton>
             <IconButton
               flex
@@ -70,7 +69,7 @@ const ComposedTweet = ({ tweet }: Props) => {
               icon={<IoHeartOutline className="mr-1" size={22} />}
               className="font-normal text-sm my-auto text-gray-800 cursor-pointer"
             >
-              {tweet.comments.toString()}
+              {/* {tweet.comments.toString()} */}
             </IconButton>
             <IconButton
               flex
@@ -78,7 +77,7 @@ const ComposedTweet = ({ tweet }: Props) => {
               icon={<IoShareOutline className="mr-1" size={22} />}
               className="font-normal text-sm my-auto text-gray-800 cursor-pointer"
             >
-              {tweet.comments.toString()}
+              {/* {tweet.comments.toString()} */}
             </IconButton>
           </div>
         </div>

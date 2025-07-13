@@ -1,41 +1,34 @@
-import sql from "../../db.js";
+import { eq } from "drizzle-orm";
+import db from "../../db.js";
+import { tweetsTable } from "../../db/schema.js";
 import type {
   FindManyTweet,
-  Tweet,
-  CreateTweet,
   FindOneTweet,
   DeleteTweet,
   UpdateTweet,
 } from "./tweet.dto.js";
 
+type Tweet = typeof tweetsTable.$inferSelect;
+type CreateTweet = typeof tweetsTable.$inferInsert;
+
 export const findManyTweet = async (
   _props: FindManyTweet,
 ): Promise<Tweet[]> => {
-  const tweetList = await sql<
-    Tweet[]
-  >`SELECT * FROM tweets ORDER BY created_at  DESC`;
-  return tweetList;
+  return db.select().from(tweetsTable);
 };
 
 export const createTweetPostgres = async (
   props: CreateTweet,
 ): Promise<Tweet> => {
-  const { name, username, time, text, comments, reposts, likes, shares } =
-    props;
-
-  const id = crypto.randomUUID();
-  const tweet = await sql<Tweet[]>`
-  INSERT INTO tweets
-      (id, name, username, time, text,comments,reposts,likes,shares) 
-      VALUES(${id},${name}, ${username}, ${time}, ${text},${comments},${reposts},${likes},${shares}) 
-  RETURNING *;
-`;
-
-  return tweet[0];
+  const res = await db.insert(tweetsTable).values(props).returning();
+  return res[0];
 };
 
 export const findOneTweet = async ({ id }: FindOneTweet): Promise<Tweet> => {
-  const tweet = await sql<Tweet[]>`SELECT * FROM tweets WHERE id = ${id}`;
+  const tweet = await db
+    .select()
+    .from(tweetsTable)
+    .where(eq(tweetsTable.id, id));
   return tweet[0];
 };
 
@@ -47,11 +40,11 @@ export const deleteTweet = async ({
     return;
   }
 
-  const deletedTweet = await sql<
-    Tweet[]
-  >`DELETE FROM tweets WHERE id = ${id} RETURNING *`;
+  const deleteTweet = await db
+    .delete(tweetsTable)
+    .where(eq(tweetsTable.id, id));
 
-  return deletedTweet[0];
+  return deleteTweet[0];
 };
 
 export const updateTweet = async ({
@@ -63,9 +56,12 @@ export const updateTweet = async ({
     return;
   }
 
-  const updatedTweet = await sql<
-    Tweet[]
-  >`UPDATE tweets SET text=${text} WHERE id = ${id} RETURNING *`;
+  const updatedTweet = await db
+    .update(tweetsTable)
+    .set({
+      text: text,
+    })
+    .where(eq(tweetsTable.id, id));
 
   return updatedTweet[0];
 };

@@ -1,12 +1,7 @@
 // db.js
-import postgres from "postgres";
+import "dotenv/config";
+import { drizzle } from "drizzle-orm/postgres-js";
 
-const sql = postgres({
-  port: 5432,
-  host: "localhost",
-  user: "postgres",
-  password: "password",
-  database: "tweets",
-}); // will use psql environment variables
+const db = drizzle(process.env.DATABASE_URL!);
 
-export default sql;
+export default db;

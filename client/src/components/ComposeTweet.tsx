@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { newTweet } from "../generators/tweetGenerator";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "../lib/client";
 import { CreateTweet } from "../../../server/src/modules/tweet/tweet.dto";
@@ -34,9 +33,9 @@ const ComposeTweet = () => {
   });
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const tweet = newTweet;
-    tweet.text = text;
-    mutate(tweet);
+    mutate({
+      text,
+    });
     setText("");
   };
   return (

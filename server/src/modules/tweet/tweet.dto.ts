@@ -1,43 +1,27 @@
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
 import z from "zod";
+import { tweetsTable } from "../../db/schema.js";
 
-export const baseTweetSchema = z.object({
-  name: z.string().min(1),
-  username: z.string(),
-  time: z.string(),
-  text: z.string(),
-  comments: z.number(),
-  reposts: z.number(),
-  likes: z.number(),
-  shares: z.number(),
+export const tweetSchema = createSelectSchema(tweetsTable);
+
+export const createTweetSchema = createInsertSchema(tweetsTable);
+export const updateTweetSchema = createUpdateSchema(tweetsTable);
+
+export const findOneTweetSchema = tweetSchema.pick({
+  id: true,
 });
 
-export const tweetSchema = baseTweetSchema.merge(
-  z.object({
-    id: z.string(),
-  }),
-);
-
-export const createTweetSchema = baseTweetSchema;
-
-export const updateTweetSchema = z.object({
-  id: z.string(),
-  text: z.string(),
-});
-
-export const deleteTweetSchema = z.object({
-  id: z.string(),
-});
-
-export const findOneTweetSchema = z.object({
-  id: z.string(),
-});
+export const deleteTweetSchema = findOneTweetSchema;
 
 export const findManyTweetSchema = z.object({});
 
-export interface BaseTweet extends z.infer<typeof baseTweetSchema> {}
-export interface Tweet extends z.infer<typeof tweetSchema> {}
-export interface CreateTweet extends z.infer<typeof createTweetSchema> {}
-export interface UpdateTweet extends z.infer<typeof updateTweetSchema> {}
-export interface DeleteTweet extends z.infer<typeof deleteTweetSchema> {}
-export interface FindOneTweet extends z.infer<typeof findOneTweetSchema> {}
-export interface FindManyTweet extends z.infer<typeof findManyTweetSchema> {}
+export type Tweet = typeof tweetSchema._input;
+export type UpdateTweet = typeof updateTweetSchema._input;
+export type CreateTweet = typeof createTweetSchema._input;
+export type DeleteTweet = typeof deleteTweetSchema._input;
+export type FindOneTweet = typeof findOneTweetSchema._input;
+export type FindManyTweet = typeof findManyTweetSchema._input;
