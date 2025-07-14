@@ -22,3 +22,10 @@ export const tweetsTable = pgTable("tweets", {
     .references(() => usersTable.id),
   createdAt: timestamp().notNull().defaultNow(),
 });
+// export const likesTable = pgTable("likes", {
+//   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+//   tweetId: integer("tweet_id")
+//     .notNull()
+//     .references(() => tweetsTable.id),
+//   created_at: timestamp().notNull().defaultNow(),
+// });
