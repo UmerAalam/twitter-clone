@@ -3,13 +3,34 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
-
+import { useMutation } from "@tanstack/react-query";
+import type { SignIn } from "../../../server/src/modules/auth/auth.dto";
+import { client } from "../lib/client";
+import { useNavigate } from "react-router-dom";
 const SignInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggle, setToggle] = useState(true);
+  const navigate = useNavigate();
+  const { mutate } = useMutation({
+    mutationFn: async (user: SignIn) => {
+      const res = await client.api.auth["sign-in"].$post({ json: user });
+      return await res.json();
+    },
+    onSuccess: () => {
+      navigate("/");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    const newUser: SignIn = {
+      email,
+      password,
+    };
+    mutate(newUser);
   };
   return (
     <div className="flex bg-white h-screen justify-center p-1">
