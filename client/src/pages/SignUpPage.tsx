@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
-import { SignUp } from "../../../server/src/modules/auth/auth.dto.ts";
+import { SignUp, User } from "../../../server/src/modules/auth/auth.dto.ts";
 import { useMutation } from "@tanstack/react-query";
+import { client } from "../lib/client.ts";
+import { json } from "express";
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const mutate = useMutation({
-    mutationFn: async (user: SignUp) => {},
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (user: SignUp) => {
+      const res = await client.api.auth["sign-up"].$post({ json: user });
+      if (!res.ok) {
+        throw new Error("Unable to sign-up");
+      }
+      return await res.json();
+    },
   });
   const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -21,6 +29,7 @@ const SignUpPage = () => {
         password,
         email,
       };
+      mutate(newUser);
     }
   };
   return (
