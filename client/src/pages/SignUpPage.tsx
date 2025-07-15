@@ -1,24 +1,27 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import { SignUp } from "../../../server/src/modules/auth/auth.dto.ts";
+import { useMutation } from "@tanstack/react-query";
 const SignUpPage = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [addUser] = useAddUserMutation();
-
+  const mutate = useMutation({
+    mutationFn: async (user: SignUp) => {},
+  });
   const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const newUser: SignUpUser = {
-    //   id: Math.floor(Math.random() * 10000).toString(),
-    //   firstName,
-    //   lastName,
-    //   email,
-    //   password,
-    // };
-    // addUser(newUser);
+    if (password == confirmPassword) {
+      const newUser: SignUp = {
+        name,
+        avatar:
+          "https://i.ibb.co/LBcb2Bt/formula-physics-worksheet-illustration-wallpaper.jpg",
+        password,
+        email,
+      };
+    }
   };
   return (
     <div className="flex bg-white h-screen justify-center p-1">
@@ -33,7 +36,7 @@ const SignUpPage = () => {
             placeholder="Full Name"
             type="text"
             maxLength={10}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             required
           />
           <input

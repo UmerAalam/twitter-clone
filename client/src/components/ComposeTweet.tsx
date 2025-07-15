@@ -4,9 +4,6 @@ import { client } from "../lib/client";
 import { CreateTweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { tweetListQueryOptions } from "./TweetsList";
 import { tweetDetailQueryOptions } from "../pages/CommentPage";
-import { id_ID } from "@faker-js/faker/.";
-
-const newTweet: CreateTweet = {};
 
 const ComposeTweet = () => {
   const image =
@@ -37,6 +34,11 @@ const ComposeTweet = () => {
   });
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    const newTweet: CreateTweet = {
+      text,
+      createdAt: "Just Now",
+    };
+    mutate(newTweet);
     setText("");
   };
   return (

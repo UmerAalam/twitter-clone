@@ -8,14 +8,8 @@ const SignInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggle, setToggle] = useState(true);
-  const { data } = useGetUsersQuery(null);
-  const findUser = (user: UserData) => {
-    console.log(data);
-  };
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const user = { email, password };
-    findUser(user);
   };
   return (
     <div className="flex bg-white h-screen justify-center p-1">

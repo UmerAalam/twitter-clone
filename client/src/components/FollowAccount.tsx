@@ -18,10 +18,7 @@ const FollowAccount = ({
         <div className="font-bold">
           <h2 className="text-sm inline-flex">
             {name}
-            <IconButton
-              iconCss={"text-blue-400 pl-1 my-auto hover:text-blue-300"}
-              icon={<MdVerified size={18} />}
-            />
+            <IconButton icon={<MdVerified size={18} />}></IconButton>
           </h2>
           <h3 className="text-gray-400 text-[12px]">{"@" + username}</h3>
         </div>

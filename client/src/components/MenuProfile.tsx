@@ -16,7 +16,7 @@ const MenuProfile = () => {
       </div>
       <IconButton
         icon={<MdOutlineMoreHoriz className="text-right" size={20} />}
-      />
+      ></IconButton>
     </div>
   );
 };

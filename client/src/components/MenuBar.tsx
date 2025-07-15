@@ -1,4 +1,5 @@
-import React from "react"; import { FaTwitter, FaHashtag, FaRegBell, FaRegBookmark } from "react-icons/fa";
+import React from "react";
+import { FaTwitter, FaHashtag, FaRegBell, FaRegBookmark } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { CgMoreO } from "react-icons/cg";
 import { RiFileList2Line } from "react-icons/ri";
@@ -44,18 +45,7 @@ const iconButtons = [
 
 const MenuBar = () => {
   const renderedButtons = iconButtons.map((btn, index) => {
-    return (
-      <IconButton
-        containerCss={
-          "cursor-pointer w-full max-w-2xl h-10 rounded-full hover:bg-gray-100 items-center size-fit inline-flex my-0"
-        }
-        iconCss={"ml-3 font-normal"}
-        icon={btn.icon}
-        iconText={btn.iconText}
-        textCss={"text-gray-700 font-normal ml-3 text-xl"}
-        key={index}
-      />
-    );
+    return <IconButton icon={btn.icon} key={index}></IconButton>;
   });
   return (
     <>
@@ -82,5 +72,4 @@ const MenuBar = () => {
     </>
   );
 };
-
 export default MenuBar;

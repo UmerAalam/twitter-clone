@@ -1,3 +1,4 @@
+import { timeStamp } from "console";
 import {
   integer,
   pgTable,
@@ -9,9 +10,11 @@ import {
 export const usersTable = pgTable("users", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
-  age: integer().notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
   password: text().notNull(),
+  avatar: varchar({ length: 255 }).notNull(),
+  created_at: timestamp().notNull().defaultNow(),
+  updated_at: timestamp().notNull().defaultNow(),
 });
 
 export const tweetsTable = pgTable("tweets", {

@@ -1,27 +1,37 @@
-import {
-  createInsertSchema,
-  createSelectSchema,
-  createUpdateSchema,
-} from "drizzle-zod";
 import z from "zod";
-import { tweetsTable } from "../../db/schema.js";
 
-export const tweetSchema = createSelectSchema(tweetsTable);
-
-export const createTweetSchema = createInsertSchema(tweetsTable);
-export const updateTweetSchema = createUpdateSchema(tweetsTable);
-
-export const findOneTweetSchema = tweetSchema.pick({
-  id: true,
+export const baseTweetSchema = z.object({
+  text: z.string(),
+  createdAt: z.string(),
 });
 
-export const deleteTweetSchema = findOneTweetSchema;
+export const tweetSchema = baseTweetSchema.merge(
+  z.object({
+    id: z.number(),
+  }),
+);
+
+export const createTweetSchema = baseTweetSchema;
+
+export const updateTweetSchema = z.object({
+  id: z.number(),
+  text: z.string(),
+});
+
+export const deleteTweetSchema = z.object({
+  id: z.number(),
+});
+
+export const findOneTweetSchema = z.object({
+  id: z.number(),
+});
 
 export const findManyTweetSchema = z.object({});
 
-export type Tweet = typeof tweetSchema._input;
-export type UpdateTweet = typeof updateTweetSchema._input;
-export type CreateTweet = typeof createTweetSchema._input;
-export type DeleteTweet = typeof deleteTweetSchema._input;
-export type FindOneTweet = typeof findOneTweetSchema._input;
-export type FindManyTweet = typeof findManyTweetSchema._input;
+export interface BaseTweet extends z.infer<typeof baseTweetSchema> {}
+export interface Tweet extends z.infer<typeof tweetSchema> {}
+export interface CreateTweet extends z.infer<typeof createTweetSchema> {}
+export interface UpdateTweet extends z.infer<typeof updateTweetSchema> {}
+export interface DeleteTweet extends z.infer<typeof deleteTweetSchema> {}
+export interface FindOneTweet extends z.infer<typeof findOneTweetSchema> {}
+export interface FindManyTweet extends z.infer<typeof findManyTweetSchema> {}

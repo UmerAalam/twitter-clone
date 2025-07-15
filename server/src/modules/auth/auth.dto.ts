@@ -1,33 +1,27 @@
-import z from "zod";
+import { z } from "zod";
 
 export const signInSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
 
-export const signUpSchema = z
-  .object({
-    email: z.string().email(),
-    password: z.string().min(8),
-    confirmPassword: z.string().min(8),
-    name: z.string(),
-    avatar: z.string().url(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
-  })
-  .superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: "custom",
-        message: "The passwords did not match",
-        path: ["confirmPassword"],
-      });
-    }
-  });
+export const signUpSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string().min(8),
+  avatar: z.string().url(),
+});
+
+export const userSchema = z.object({
+  id: z.number(),
+  email: z.string().email(),
+  password: z.string(),
+  name: z.string(),
+  avatar: z.string().url(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
 
 export interface SignIn extends z.infer<typeof signInSchema> {}
 export interface SignUp extends z.infer<typeof signUpSchema> {}
-
-export interface User extends z.infer<typeof signUpSchema> {
-  id: string;
-}
+export interface User extends z.infer<typeof userSchema> {}
