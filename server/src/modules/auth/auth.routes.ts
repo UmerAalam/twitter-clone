@@ -3,6 +3,7 @@ import { type Context, Hono } from "hono";
 import {
   signInSchema,
   signUpSchema,
+  userSchema,
   type SignIn,
   type SignUp,
 } from "../auth/auth.dto.js";
@@ -14,6 +15,9 @@ const JWT_SECRET = process.env.SECRET_KEY || "";
 
 export const authRouter = new Hono()
   .basePath("/auth")
+  .get("/me", zValidator("json", userSchema), async (c) => {
+    //
+  })
   .post("/sign-up", zValidator("json", signUpSchema), async (c) => {
     const body: SignUp = await c.req.json();
     const userEmail = await findUserEmail({ email: body.email });

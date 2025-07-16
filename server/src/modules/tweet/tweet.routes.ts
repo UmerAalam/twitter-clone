@@ -13,9 +13,11 @@ import {
   deleteTweet,
   updateTweet,
 } from "./tweet.service.js";
+import { authMiddleware } from "../auth/AuthMiddleWare.js";
 
 export const tweetsRouter = new Hono()
   .basePath("tweets")
+  .use(authMiddleware)
   .post("/", zValidator("json", createTweetSchema), async (c) => {
     const body = await c.req.json();
     const addedTweet = await createTweetPostgres(body);

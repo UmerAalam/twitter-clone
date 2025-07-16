@@ -5,7 +5,15 @@ import { client } from "../lib/client";
 export const tweetListQueryOptions = () => {
   return queryOptions({
     queryFn: async () => {
-      const res = await client.api.tweets.$get();
+      const token = localStorage.getItem("token");
+      const res = await client.api.tweets.$get(
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       const data = await res.json();
       return data;
     },
