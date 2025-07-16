@@ -11,7 +11,6 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     if (typeof decoded === "string") throw new Error("Invalid token");
     c.set("user", decoded);
-    console.log("decoded");
     await next();
   } catch {
     return c.text("Invalid or expired token", 403);
