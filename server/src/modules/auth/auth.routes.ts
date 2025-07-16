@@ -11,19 +11,16 @@ import { createUserPostgres, findUserEmail } from "./auth.service.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 const JWT_SECRET = process.env.SECRET_KEY || "";
-
 export const authRouter = new Hono()
   .basePath("/auth")
   .get("/me", async (c) => {
     const authHeader = c.req.header("Authorization");
-    console.log("Token Found");
-    console.log(authHeader);
     if (!authHeader) return c.text("Missing token", 401);
     const token = authHeader.split(" ")[1];
     const payload = jwt.verify(token, JWT_SECRET);
-    console.log(payload);
     if (typeof payload === "string") throw new Error("Invalid Payload");
-    const user = findUserEmail(email);
+    const email = payload.email as string;
+    const user = await findUserEmail({ email });
     return c.json(user);
   })
   .post("/sign-up", zValidator("json", signUpSchema), async (c) => {
