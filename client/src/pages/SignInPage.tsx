@@ -15,7 +15,7 @@ const SignInPage = () => {
   const { mutate } = useMutation({
     mutationFn: async (user: SignIn) => {
       const res = await client.api.auth["sign-in"].$post({ json: user });
-      return await res.json();
+      return res.json();
     },
     onSuccess: () => {
       navigate("/");
