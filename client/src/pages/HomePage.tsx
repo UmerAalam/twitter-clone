@@ -3,17 +3,19 @@ import HomeFeed from "../components/HomeFeed";
 const HomePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
-    const token = document.cookie;
+    const token = localStorage.getItem("token");
     if (token) {
-      if (token.includes("token=")) {
-        setIsLoggedIn(true);
-      }
+      setIsLoggedIn(true);
     }
   }, []);
   return (
     <>
-      {isLoggedIn ? <div>User is Logged In</div> : <div>Want to Sign Up</div>}
       <HomeFeed />
+      {isLoggedIn ? (
+        <div className="flex justify-center">User is Logged In</div>
+      ) : (
+        <div className="flex justify-center">Need to Sign Up</div>
+      )}
     </>
   );
 };
