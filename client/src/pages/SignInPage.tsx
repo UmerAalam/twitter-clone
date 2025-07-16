@@ -21,7 +21,7 @@ const SignInPage = () => {
       navigate("/");
     },
     onError: (error) => {
-      console.log(error);
+      return { message: error.message };
     },
   });
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {

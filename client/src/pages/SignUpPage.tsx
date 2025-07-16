@@ -5,18 +5,23 @@ import { SignUp, User } from "../../../server/src/modules/auth/auth.dto.ts";
 import { useMutation } from "@tanstack/react-query";
 import { client } from "../lib/client.ts";
 import { json } from "express";
+import { useNavigate } from "react-router-dom";
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
   const { mutate, isPending } = useMutation({
     mutationFn: async (user: SignUp) => {
       const res = await client.api.auth["sign-up"].$post({ json: user });
       if (!res.ok) {
         throw new Error("Unable to sign-up");
       }
-      return await res.json();
+      return res.json();
+    },
+    onSuccess: () => {
+      navigate("/sign-in");
     },
   });
   const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
