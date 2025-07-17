@@ -16,7 +16,6 @@ const SignInPage = () => {
     mutationFn: async (user: SignIn) => {
       const res = await client.api.auth["sign-in"].$post({ json: user });
       if (!res.ok) {
-        console.error(await res.json());
         throw new Error("Response Error");
       }
       return res.json();

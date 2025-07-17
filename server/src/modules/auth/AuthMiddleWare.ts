@@ -1,6 +1,5 @@
 import type { MiddlewareHandler } from "hono";
 import jwt from "jsonwebtoken";
-import { createMiddleware } from "hono/factory";
 const JWT_SECRET = process.env.SECRET_KEY || "";
 
 export const authMiddleware: MiddlewareHandler = async (c, next) => {

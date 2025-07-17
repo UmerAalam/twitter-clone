@@ -3,7 +3,6 @@ import { type Context, Hono } from "hono";
 import {
   signInSchema,
   signUpSchema,
-  userSchema,
   type SignIn,
   type SignUp,
 } from "../auth/auth.dto.js";
@@ -21,7 +20,15 @@ export const authRouter = new Hono()
     if (typeof payload === "string") throw new Error("Invalid Payload");
     const email = payload.email as string;
     const user = await findUserEmail({ email });
-    return c.json(user);
+    const userWithoutPassword = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      avatar: user.avatar,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+    };
+    return c.json(userWithoutPassword);
   })
   .post("/sign-up", zValidator("json", signUpSchema), async (c) => {
     const body: SignUp = await c.req.json();
