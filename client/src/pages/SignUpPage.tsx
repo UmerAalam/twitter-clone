@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { SignUp, User } from "../../../server/src/modules/auth/auth.dto.ts";
 import { useMutation } from "@tanstack/react-query";
 import { client } from "../lib/client.ts";
-import { json } from "express";
 import { useNavigate } from "react-router-dom";
 const SignUpPage = () => {
   const [name, setName] = useState("");

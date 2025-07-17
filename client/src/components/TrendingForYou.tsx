@@ -11,10 +11,8 @@ const TrendingForYou = () => {
             Trends For You
           </div>
           <IconButton
-            containerCss={"p-3"}
-            iconCss={"hover:text-gray-600"}
-            icon={<FiSettings fontWeight={100} size={20} />}
-          />
+            icon={<FiSettings size={18} className="m-3 text-gray-700" />}
+          ></IconButton>
         </div>
         <TrendingTweet />
         <TrendingTweet tag="Gamerz" country="Japan" tweetCount={1245} />

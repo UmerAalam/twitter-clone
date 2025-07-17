@@ -8,7 +8,6 @@ const HomePage = () => {
   useEffect(() => {
     const fetchToken = async () => {
       const token = localStorage.getItem("token");
-      console.log(token);
       const res = await client.api.auth.me.$get(
         {},
         {
@@ -21,7 +20,10 @@ const HomePage = () => {
         navigate("/sign-in");
         throw new Error("Invalid Token Need To Sign In Again");
       }
-      return res.json();
+      const data = await res.json();
+      localStorage.setItem("UserData", JSON.stringify(data));
+      setIsLoggedIn(true);
+      return data;
     };
     fetchToken();
   }, []);
