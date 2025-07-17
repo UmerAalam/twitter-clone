@@ -12,7 +12,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState("");
   const [toggle, setToggle] = useState(true);
   const navigate = useNavigate();
-  const { mutate, error } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async (user: SignIn) => {
       const res = await client.api.auth["sign-in"].$post({ json: user });
       if (!res.ok) {

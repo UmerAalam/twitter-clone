@@ -1,12 +1,29 @@
 import { useEffect, useState } from "react";
 import HomeFeed from "../components/HomeFeed";
+import { client } from "../lib/client";
+import { useNavigate } from "react-router-dom";
 const HomePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    }
+    const fetchToken = async () => {
+      const token = localStorage.getItem("token");
+      console.log(token);
+      const res = await client.api.auth.me.$get(
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!res.ok) {
+        navigate("/sign-in");
+        throw new Error("Invalid Token Need To Sign In Again");
+      }
+      return res.json();
+    };
+    fetchToken();
   }, []);
   return (
     <>
