@@ -22,7 +22,6 @@ const userData = () => {
 };
 function GenerateUsername(name: string) {
   let getUserNumber = localStorage.getItem("userNumber");
-  console.log(getUserNumber);
   if (!getUserNumber) {
     getUserNumber = GenerateUserNumber();
     localStorage.setItem("userNumber", getUserNumber);
