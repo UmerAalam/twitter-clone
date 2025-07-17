@@ -2,7 +2,7 @@ import MainProfile from "./MainProfile";
 
 const ProfilePage = () => {
   return (
-    <div className="">
+    <div>
       <MainProfile />
     </div>
   );

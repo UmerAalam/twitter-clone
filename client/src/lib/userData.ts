@@ -21,8 +21,17 @@ const userData = () => {
   return userDataUpdated;
 };
 function GenerateUsername(name: string) {
-  const username = "@" + name + Math.floor(Math.random() * 100);
+  let getUserNumber = localStorage.getItem("userNumber");
+  console.log(getUserNumber);
+  if (!getUserNumber) {
+    getUserNumber = GenerateUserNumber();
+    localStorage.setItem("userNumber", getUserNumber);
+  }
+  const username = "@" + name + getUserNumber;
   return username;
+}
+function GenerateUserNumber() {
+  return Math.floor(Math.random() * 100).toString();
 }
 function ConvertToUpperCase(data: string) {
   const upperCaseData = data.charAt(0).toUpperCase() + data.slice(1);
