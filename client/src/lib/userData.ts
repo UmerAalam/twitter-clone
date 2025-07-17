@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 interface UserData {
   id: number;
   name: string;
@@ -7,18 +9,30 @@ interface UserData {
   created_at: string;
   updated_at: string;
 }
-const userData = () => {
-  const userDataString = localStorage.getItem("UserData");
-  const userData: UserData = userDataString ? JSON.parse(userDataString) : null;
-  const userDataUpdated = {
-    id: userData.id,
-    name: ConvertToUpperCase(userData.name),
-    username: GenerateUsername(userData.name),
-    avatar: userData.avatar,
-    created_at: userData.created_at,
-    updated_at: userData.updated_at,
-  };
-  return userDataUpdated;
+const useUserData = () => {
+  const navigate = useNavigate();
+  const [userData, setUseData] = useState<UserData | null>(null);
+  useEffect(() => {
+    const userDataString = localStorage.getItem("UserData");
+    if (!userDataString) {
+      navigate("/sign-in");
+      return;
+    }
+    const userData: UserData = userDataString
+      ? JSON.parse(userDataString)
+      : null;
+    const userDataUpdated: UserData = {
+      id: userData.id,
+      name: ConvertToUpperCase(userData.name),
+      username: GenerateUsername(userData.name),
+      email: userData.email,
+      avatar: userData.avatar,
+      created_at: userData.created_at,
+      updated_at: userData.updated_at,
+    };
+    setUseData(userDataUpdated);
+  }, []);
+  return userData;
 };
 function GenerateUsername(name: string) {
   let getUserNumber = localStorage.getItem("userNumber");
@@ -37,4 +51,4 @@ function ConvertToUpperCase(data: string) {
   return upperCaseData;
 }
 
-export { ConvertToUpperCase, userData };
+export { ConvertToUpperCase, useUserData };

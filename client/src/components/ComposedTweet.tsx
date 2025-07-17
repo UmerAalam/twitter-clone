@@ -37,7 +37,7 @@ const ComposedTweet = ({ tweet }: Props) => {
                 {"@" + "Umer"}
               </div>
               <div className="pl-3 text-sm text-gray-400 font-medium">
-                {tweet.createdAt}
+                {tweet.createdAt.slice(11, 19)}
               </div>
             </h2>
             <p className="cursor-auto flex font-normal text-base">
