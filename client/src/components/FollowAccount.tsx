@@ -1,14 +1,12 @@
-import React from "react";
 import { MdVerified } from "react-icons/md";
 import IconButton from "./IconButton";
-import { client } from "../lib/client";
 const FollowAccount = ({
   imageLink = "https://play-lh.googleusercontent.com/375NW5yL8owK_hW9igW9sh-YJbda9ZcygpDXuVvK_R7l-yJp-fuhb4qvUw_FE4XW4ms",
   name = "Cable News Network",
   username = "cnn",
 }) => {
   return (
-    <div className="cursor-pointer flex justify-between py-2 px-3 hover:bg-gray-200 rounded-full">
+    <div className="cursor-pointer flex justify-between py-2 px-3 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full">
       <div className="inline-flex gap-2 justify-center rounded-full h-12 items-center">
         <img
           className="rounded-full w-10 h-10 object-cover my-auto"
@@ -17,14 +15,21 @@ const FollowAccount = ({
           alt="account-to-follow"
         />
         <div className="font-bold">
-          <h2 className="text-sm inline-flex">
+          <h2 className="text-sm inline-flex dark:text-white">
             {name}
-            <IconButton icon={<MdVerified size={18} />}></IconButton>
+            <IconButton
+              icon={
+                <MdVerified
+                  className="dark:text-white text-blue-500 ml-1 mb-1"
+                  size={18}
+                />
+              }
+            ></IconButton>
           </h2>
           <h3 className="text-gray-400 text-[12px]">{"@" + username}</h3>
         </div>
       </div>
-      <button className="hover:bg-blue-300 my-auto bg-blue-400 font-semibold text-white rounded-full h-8 w-20 size-fit">
+      <button className="hover:bg-blue-300 my-auto bg-blue-400 dark:text-gray-700 dark:bg-white dark:hover:bg-gray-400 font-bold text-white rounded-full h-8 w-20">
         Follow
       </button>
     </div>

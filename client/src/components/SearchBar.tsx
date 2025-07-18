@@ -14,7 +14,7 @@ const SearchBar = () => {
           }
         ></IconButton>
         <input
-          className="p-3 outline-0 text-gray-400 dark:text-gray-100"
+          className="p-3 outline-0 text-gray-400 dark:text-white"
           type="text"
           placeholder="Search Twitter"
         />

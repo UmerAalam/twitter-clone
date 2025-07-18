@@ -2,9 +2,9 @@ import React from "react";
 import FollowAccount from "./FollowAccount";
 const WhoToFollow = () => {
   return (
-    <div className="w-full rounded-2xl bg-gray-100">
+    <div className="w-full rounded-2xl bg-gray-100 dark:bg-gray-700">
       <div className="flex justify-between">
-        <div className="font-bold inline-flex p-3 text-lg text-gray-700">
+        <div className="font-bold inline-flex p-3 text-lg text-gray-700 dark:text-white">
           Who To Follow
         </div>
       </div>
