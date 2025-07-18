@@ -39,7 +39,7 @@ const SignInPage = () => {
     mutate(newUser);
   };
   return (
-    <div className="flex bg-white h-screen justify-center p-1">
+    <div className="flex bg-white h-screen justify-center p-1 dark:bg-gray-800">
       <div className="rounded-2xl bg-white py-8 my-auto white shadow-gray-200 inset-shadow-2xs shadow-lg h-[520px] w-[400px] font-black">
         <h2 className="flex justify-center text-gray-700 text-4xl mt-7">
           Sign in

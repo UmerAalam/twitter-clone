@@ -31,9 +31,13 @@ const HomePage = () => {
     <>
       <HomeFeed />
       {isLoggedIn ? (
-        <div className="flex justify-center">User is Logged In</div>
+        <div className="flex justify-center dark:text-white">
+          User is Logged In
+        </div>
       ) : (
-        <div className="flex justify-center">Need to Sign Up</div>
+        <div className="flex justify-center dark:text-white">
+          Need to Sign Up
+        </div>
       )}
     </>
   );

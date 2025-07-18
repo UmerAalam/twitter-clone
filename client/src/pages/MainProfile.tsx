@@ -7,7 +7,7 @@ const MainProfile = () => {
   const profileImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   return (
-    <div className=" bg-gray-50 rounded-2xl">
+    <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
         <img
           className="object-cover w-full h-full"
@@ -23,7 +23,7 @@ const MainProfile = () => {
         />
       </div>
       <div className="ml-5 flex justify-between">
-        <h2 className="text-xl font-bold inline-flex flex-col">
+        <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
           {data?.name}
           <p className="text-gray-400 text-sm font-normal">{data?.username}</p>
         </h2>
@@ -31,7 +31,7 @@ const MainProfile = () => {
           Edit Profile
         </button>
       </div>
-      <p className="px-5 mt-2">
+      <p className="px-5 mt-2 dark:text-white">
         A good Twitter bio should be concise, engaging, and reflect your
         personality or brand.
       </p>
@@ -40,19 +40,19 @@ const MainProfile = () => {
         {data?.created_at.slice(0, 10)}
       </h2>
       <div className="px-5">
-        <h2 className="inline-flex gap-1 font-light">
+        <h2 className="inline-flex gap-1 font-light dark:text-white">
           <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
           Following
         </h2>
-        <h2 className="inline-flex ml-3 gap-1 font-light">
+        <h2 className="inline-flex ml-3 gap-1 font-light dark:text-white">
           <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
           Followers
         </h2>
       </div>
       <div className="mt-3 text-lg font-bold text-gray-600 flex justify-evenly">
-        <h2 className="cursor-pointer inline-flex flex-col">
+        <h2 className="cursor-pointer inline-flex flex-col dark:text-white">
           Tweets
-          <span className="rounded-full bg-blue-400 h-1 w-full"></span>
+          <span className="rounded-full bg-blue-400 h-1 mb-1 w-full "></span>
         </h2>
         <h2 className="cursor-pointer inline-flex flex-col">
           Tweets & replies

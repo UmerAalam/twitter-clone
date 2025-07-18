@@ -29,9 +29,9 @@ const DarkModeToggle = () => {
             }`}
           >
             {isChecked ? (
-              <BiMoon className="text-white" size={14} />
+              <BiMoon className="text-gray-800 dark:text-white" size={14} />
             ) : (
-              <BiSun className="text-blue-500" size={14} />
+              <BiSun className="text-white" size={14} />
             )}
           </div>
         </div>

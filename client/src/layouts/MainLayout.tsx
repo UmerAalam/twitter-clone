@@ -5,7 +5,7 @@ import TrendsBar from "../components/TrendsBar";
 import SignUpPage from "../pages/SignUpPage";
 const MainLayout = () => {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center dark:bg-gray-700 min-h-screen">
       <div className="fixed w-1/4 pr-3 top-0 left-0">
         <MenuBar />
       </div>
