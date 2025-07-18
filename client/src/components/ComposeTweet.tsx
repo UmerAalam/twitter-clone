@@ -32,11 +32,15 @@ const ComposeTweet = () => {
       );
     },
   });
+  // const userId = JSON.parse(localStorage.getItem("userData"));
+  // if (!userId) return;
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const newTweet: CreateTweet = {
       text,
       createdAt: "Just Now",
+      //Temporary User ID
+      userId: 5,
     };
     mutate(newTweet);
     setText("");
@@ -53,7 +57,7 @@ const ComposeTweet = () => {
           name="compose-tweet"
           id="compose-tweet"
           placeholder="What's happening?"
-          className="px-3 pt-2 w-full text-lg min-h-34 resize-none rounded-2xl"
+          className="px-3 pt-2 w-full text-lg min-h-34 resize-none rounded-2xl dark:text-white dark:bg-gray-800"
           maxLength={240}
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -62,7 +66,7 @@ const ComposeTweet = () => {
       <button
         type="submit"
         onClick={handleSubmit}
-        className="mr-2 cursor-pointer  hover:bg-blue-300 bg-blue-400 font-bold text-white rounded-full h-10 w-20 size-fit"
+        className="mr-2 cursor-pointer  hover:bg-blue-300 bg-blue-400 dark:text-white dark:bg-gray-800 dark:hover:bg-gray-500 font-bold text-white rounded-full h-10 w-20 size-fit"
       >
         Tweet
       </button>

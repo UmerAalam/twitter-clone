@@ -1,24 +1,9 @@
 @import "tailwindcss";
-h2 {
-    font-family: "Varela Round", sans-serif;
-}
-p {
-    font-family: "Varela Round", sans-serif;
-}
-button {
-    font-family: "Varela Round", sans-serif;
-}
-input {
-    font-family: "Varela Round", sans-serif;
-}
-div {
-    font-family: "Varela Round", sans-serif;
-}
-hr {
-    margin-top: 5px;
-    border: 1px solid gainsboro;
-    opacity: 50%;
-}
-a:hover {
-    text-decoration: underline;
+
+.root {
+  --primary: #51a4fb;
+  --secondary: #f9f9f9;
+  --color-dark: #272830;
+  --light: #9aa1ac;
+  --extra-light: #c8cbd2;
 }

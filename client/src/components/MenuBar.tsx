@@ -50,13 +50,12 @@ const iconButtons = [
     path: "/more",
   },
 ];
-
 const MenuBar = () => {
   const navigate = useNavigate();
   const renderedButtons = iconButtons.map((btn, index) => {
     return (
       <IconButton
-        className="flex items-center gap-3 font-bold hover:bg-gray-100 rounded-2xl h-10 pl-3"
+        className="flex items-center gap-3 font-bold text-gray-800 hover:bg-gray-100 rounded-2xl h-10 pl-3"
         icon={btn.icon}
         key={index}
         onClick={() => {
