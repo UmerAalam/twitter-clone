@@ -3,6 +3,7 @@ import z from "zod";
 export const baseTweetSchema = z.object({
   text: z.string(),
   createdAt: z.string(),
+  userId: z.number(),
 });
 
 export const tweetSchema = baseTweetSchema.merge(

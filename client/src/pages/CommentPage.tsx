@@ -2,6 +2,8 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { client } from "../lib/client";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import ComposedTweet from "../components/ComposedTweet";
+import type { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 export const tweetDetailQueryOptions = (id: number) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -33,12 +35,19 @@ const CommentPage = () => {
   const { isLoading, data } = useQuery(
     tweetDetailQueryOptions(parseInt(params.id!)),
   );
+  if (!data) return;
+  const currentTweet: Tweet = {
+    id: data.id,
+    text: data.text,
+    createdAt: data.createdAt,
+    userId: data.userId,
+  };
   return (
     <div>
       {isLoading ? (
         <div>Loading Tweet Data</div>
       ) : (
-        JSON.stringify(data, null, 4)
+        <ComposedTweet tweet={currentTweet} />
       )}
     </div>
   );
