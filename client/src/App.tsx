@@ -19,7 +19,7 @@ const App = () => {
         <Route element={<MainLayout />}>
           <Route index element={<Homepage />} />
           <Route path="/tweets/:id" element={<CommentPage />} />
-          <Route path="/user" element={<ProfilePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route element={<SignLayout />}>
           <Route path="/sign-in" element={<SignInPage />} />
