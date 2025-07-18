@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
-.root {
-  --primary: #51a4fb;
-  --secondary: #f9f9f9;
-  --color-dark: #272830;
-  --light: #9aa1ac;
-  --extra-light: #c8cbd2;
-}
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*   --primary: #51a4fb; */
+/*   --secondary: #f9f9f9; */
+/*   --color-dark: #272830; */
+/*   --light: #9aa1ac; */
+/*   --extra-light: #c8cbd2; */
