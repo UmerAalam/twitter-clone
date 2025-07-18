@@ -1,6 +1,7 @@
 import React from "react";
 import { MdVerified } from "react-icons/md";
 import IconButton from "./IconButton";
+import { client } from "../lib/client";
 const FollowAccount = ({
   imageLink = "https://play-lh.googleusercontent.com/375NW5yL8owK_hW9igW9sh-YJbda9ZcygpDXuVvK_R7l-yJp-fuhb4qvUw_FE4XW4ms",
   name = "Cable News Network",

@@ -3,6 +3,7 @@ import { type Context, Hono } from "hono";
 import {
   signInSchema,
   signUpSchema,
+  userWithoutPasswordScheme,
   type SignIn,
   type SignUp,
 } from "../auth/auth.dto.js";
@@ -29,6 +30,9 @@ export const authRouter = new Hono()
       updated_at: user.updated_at,
     };
     return c.json(userWithoutPassword);
+  })
+  .get("/users", zValidator("json", userWithoutPasswordScheme), async (c) => {
+    //
   })
   .post("/sign-up", zValidator("json", signUpSchema), async (c) => {
     const body: SignUp = await c.req.json();

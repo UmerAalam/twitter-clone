@@ -14,7 +14,8 @@ const WhoToFollow = () => {
         imageLink="https://i.ibb.co/W4BZK6ZN/umer-logo.jpg"
       />
       <FollowAccount
-        name="Sajeel Aalam" username="sajeelaalam"
+        name="Sajeel Aalam"
+        username="sajeelaalam"
         imageLink="https://ugc.production.linktr.ee/75ca4cbb-8c52-494b-a806-7e0d517d73b1_FullSizeRender.jpeg?io=true&size=avatar-v3_0"
       />
       <FollowAccount />

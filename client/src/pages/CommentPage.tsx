@@ -43,11 +43,11 @@ const CommentPage = () => {
     userId: data.userId,
   };
   return (
-    <div>
+    <div className="bg-gray-50 rounded-2xl">
       {isLoading ? (
         <div>Loading Tweet Data</div>
       ) : (
-        <ComposedTweet tweet={currentTweet} />
+        <ComposedTweet className="pt-7" tweet={currentTweet} />
       )}
     </div>
   );
