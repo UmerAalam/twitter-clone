@@ -6,7 +6,12 @@ const MenuProfile = () => {
   const navigate = useNavigate();
   const data = useUserData();
   return (
-    <div className="cursor-pointer px-2 inline-flex gap-2 justify-center rounded-full hover:bg-gray-100 h-12 items-center">
+    <div
+      onClick={() => {
+        navigate("/");
+      }}
+      className="cursor-pointer px-2 inline-flex gap-2 justify-center rounded-full hover:bg-gray-100 h-12 items-center"
+    >
       <img
         className="rounded-full w-10 h-10 object-cover my-auto"
         width={200}
@@ -18,9 +23,6 @@ const MenuProfile = () => {
         <h3 className="text-gray-400 text-[12px]">{data?.username}</h3>
       </div>
       <IconButton
-        onClick={() => {
-          navigate("/profile");
-        }}
         icon={<MdOutlineMoreHoriz className="text-right" size={20} />}
       ></IconButton>
     </div>

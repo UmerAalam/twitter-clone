@@ -11,7 +11,7 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import SignLayout from "./layouts/SignLayout";
 import CommentPage from "./pages/CommentPage";
-
+import NotFoundPage from "./pages/NotFoundPage.tsx";
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -24,6 +24,7 @@ const App = () => {
         <Route element={<SignLayout />}>
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/*" element={<NotFoundPage />} />
         </Route>
       </Route>,
     ),
