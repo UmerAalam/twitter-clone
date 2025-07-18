@@ -10,7 +10,7 @@ const MenuProfile = () => {
       onClick={() => {
         navigate("/");
       }}
-      className="cursor-pointer px-2 inline-flex gap-2 justify-center rounded-full hover:bg-gray-100 h-12 items-center"
+      className="cursor-pointer dark:hover:bg-gray-700 px-2 inline-flex gap-2 justify-center rounded-full hover:bg-gray-100 h-12 items-center"
     >
       <img
         className="rounded-full w-10 h-10 object-cover my-auto"
@@ -19,11 +19,16 @@ const MenuProfile = () => {
         alt="profile-image"
       />
       <div className="font-bold size-fit">
-        <h2 className="text-sm">{data?.name}</h2>
+        <h2 className="text-sm dark:text-white">{data?.name}</h2>
         <h3 className="text-gray-400 text-[12px]">{data?.username}</h3>
       </div>
       <IconButton
-        icon={<MdOutlineMoreHoriz className="text-right" size={20} />}
+        icon={
+          <MdOutlineMoreHoriz
+            className="text-right text-gray-800 dark:text-white"
+            size={20}
+          />
+        }
       ></IconButton>
     </div>
   );

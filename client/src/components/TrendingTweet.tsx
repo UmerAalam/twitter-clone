@@ -9,12 +9,14 @@ const TrendingTweet = ({
 }) => {
   return (
     <>
-      <div className="cursor-pointer py-2 px-3 text-gray-400 font-medium rounded-2xl hover:bg-gray-200 ">
+      <div className="cursor-pointer py-2 px-3 text-gray-400 font-medium rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-600 ">
         <div className="flex justify-between">
           <span>Trending in {country}</span>
           <IconButton icon={<MdOutlineMoreHoriz size={20} />} />
         </div>
-        <div className="text-gray-700 text-lg font-semibold">{"#" + tag}</div>
+        <div className="text-gray-700 dark:text-gray-100 text-lg font-semibold">
+          {"#" + tag}
+        </div>
         <div className="text-gray-400 py-0.5">{tweetCount}</div>
       </div>
     </>

@@ -55,7 +55,7 @@ const MenuBar = () => {
   const renderedButtons = iconButtons.map((btn, index) => {
     return (
       <IconButton
-        className="flex items-center gap-3 font-bold text-gray-800 hover:bg-gray-100 rounded-2xl h-10 pl-3"
+        className="flex items-center gap-3 font-bold dark:text-white dark:hover:bg-gray-700 text-gray-800 hover:bg-gray-100 rounded-2xl h-10 pl-3"
         icon={btn.icon}
         key={index}
         onClick={() => {
@@ -68,10 +68,13 @@ const MenuBar = () => {
   });
   return (
     <>
-      <div className="p-5 h-screen flex justify-end bg-gray-50 rounded-2xl">
+      <div className="p-5 h-screen flex justify-end bg-gray-50 dark:bg-gray-800 rounded-2xl">
         <div className="grid-cols-1 inline-grid size-fit">
           <FaTwitter
-            className="ml-3 text-blue-400 hover:text-blue-300 mt-4"
+            onClick={() => {
+              navigate("/");
+            }}
+            className="ml-3 text-blue-400 hover:text-blue-300 dark:text-white dark:hover:text-gray-100 mt-4"
             size={28}
           />
           {/* Adding empty div to create extra-space between first and second icon */}
@@ -81,7 +84,7 @@ const MenuBar = () => {
             <div className="h-4"></div>
             <button
               title="Twitter"
-              className="cursor-pointer hover:bg-blue-300 mt-3 bg-blue-400 font-bold text-white rounded-full h-10 w-full size-fit"
+              className="cursor-pointer dark:text-gray-800 dark:bg-white dark:hover:bg-gray-100 hover:bg-blue-300 mt-3 bg-blue-400 font-bold text-white rounded-full h-10 w-full size-fit"
             >
               Tweet
             </button>
