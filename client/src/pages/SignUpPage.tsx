@@ -5,7 +5,9 @@ import { SignUp, User } from "../../../server/src/modules/auth/auth.dto.ts";
 import { useMutation } from "@tanstack/react-query";
 import { client } from "../lib/client.ts";
 import { useNavigate } from "react-router-dom";
+import { CheckDarkMode } from "../components/DarkModeToggle.tsx";
 const SignUpPage = () => {
+  CheckDarkMode();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,9 +39,9 @@ const SignUpPage = () => {
     }
   };
   return (
-    <div className="flex bg-white h-screen justify-center p-1">
-      <div className="rounded-2xl bg-white white shadow-gray-200 my-auto inset-shadow-2xs shadow-lg h-[600px] w-[400px] font-black">
-        <h2 className="flex justify-center text-gray-700 text-4xl my-7">
+    <div className="flex bg-white dark:bg-gray-800 h-screen justify-center p-1">
+      <div className="rounded-2xl bg-white dark:bg-gray-700 dark:shadow-gray-600/50 shadow-gray-200 my-auto inset-shadow-2xs shadow-lg h-[600px] w-[400px] font-black">
+        <h2 className="flex justify-center text-gray-700 dark:text-white text-4xl my-7">
           Sign up
         </h2>
         <form onSubmit={handleSumbitForm}>
