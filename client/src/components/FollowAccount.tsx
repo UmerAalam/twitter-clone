@@ -20,8 +20,8 @@ const FollowAccount = ({
             <IconButton
               icon={
                 <MdVerified
-                  className="dark:text-white text-blue-500 ml-1 mb-1"
-                  size={18}
+                  className="dark:text-white text-blue-500 pl-1"
+                  size={20}
                 />
               }
             ></IconButton>

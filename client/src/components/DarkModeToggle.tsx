@@ -1,13 +1,28 @@
 import React, { useState } from "react";
 import { BiMoon } from "react-icons/bi";
 import { BiSun } from "react-icons/bi";
+
+export const CheckDarkMode = () => {
+  let darkMode = localStorage.getItem("Mode");
+  if (darkMode?.includes("DarkMode")) {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+};
+const handleClick = () => {
+  document.documentElement.classList.toggle("dark");
+};
 const DarkModeToggle = () => {
   const [isChecked, setIsChecked] = useState(false);
+  const darkMode = localStorage.getItem("DarkMode");
+  if (!darkMode && isChecked) {
+    localStorage.setItem("Mode", "DarkMode");
+  } else if (!isChecked) {
+    localStorage.setItem("Mode", "LightMode");
+  }
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
-  };
-  const handleClick = () => {
-    document.documentElement.classList.toggle("dark");
   };
   return (
     <>
@@ -31,7 +46,7 @@ const DarkModeToggle = () => {
             {isChecked ? (
               <BiMoon className="text-gray-800 dark:text-white" size={14} />
             ) : (
-              <BiSun className="text-white" size={14} />
+              <BiSun className="text-blue-500" size={14} />
             )}
           </div>
         </div>

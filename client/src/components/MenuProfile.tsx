@@ -8,7 +8,7 @@ const MenuProfile = () => {
   return (
     <div
       onClick={() => {
-        navigate("/");
+        navigate("/profile");
       }}
       className="cursor-pointer dark:hover:bg-gray-700 px-2 inline-flex gap-2 justify-center rounded-full hover:bg-gray-100 h-12 items-center"
     >

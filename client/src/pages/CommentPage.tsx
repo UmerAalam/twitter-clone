@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ComposedTweet from "../components/ComposedTweet";
 import type { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
+import ReplyTweet from "../components/ReplyTweet";
 export const tweetDetailQueryOptions = (id: number) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -43,12 +44,18 @@ const CommentPage = () => {
     userId: data.userId,
   };
   return (
-    <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
-      {isLoading ? (
-        <div className="dark:text-gray-800">Loading Tweet Data</div>
-      ) : (
-        <ComposedTweet className="pt-7 dark:text-white" tweet={currentTweet} />
-      )}
+    <div>
+      <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
+        {isLoading ? (
+          <div className="dark:text-gray-800">Loading Tweet Data</div>
+        ) : (
+          <ComposedTweet
+            className="pt-7 dark:text-white"
+            tweet={currentTweet}
+          />
+        )}
+      </div>
+      <ReplyTweet />
     </div>
   );
 };

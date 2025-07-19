@@ -33,7 +33,12 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
             <h2 className="font-bold text-sm flex dark:text-white">
               Umer
               <IconButton
-                icon={<MdVerified size={16} className="text-blue-400 ml-1" />}
+                icon={
+                  <MdVerified
+                    size={16}
+                    className="text-blue-400 dark:text-white ml-1"
+                  />
+                }
               ></IconButton>
               <div className="pl-1 text-sm text-gray-400 font-medium">
                 {"@" + "Umer"}
