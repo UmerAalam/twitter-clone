@@ -66,7 +66,7 @@ const ComposeTweet = () => {
       <button
         type="submit"
         onClick={handleSubmit}
-        className="mr-2 cursor-pointer  hover:bg-blue-300 bg-blue-400 dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 font-bold text-white rounded-full h-10 w-20 size-fit"
+        className="mr-4 mb-3 cursor-pointer  hover:bg-blue-300 bg-blue-400 dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100 font-bold text-white rounded-full h-9 w-24 size-fit"
       >
         Tweet
       </button>

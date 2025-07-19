@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { IoEye } from "react-icons/io5";
@@ -7,11 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 import type { SignIn } from "../../../server/src/modules/auth/auth.dto";
 import { client } from "../lib/client";
 import { useNavigate } from "react-router-dom";
-import { CheckDarkMode } from "../components/DarkModeToggle";
+
 const SignInPage = () => {
-  useEffect(() => {
-    CheckDarkMode();
-  }, []);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggle, setToggle] = useState(true);
@@ -50,7 +47,7 @@ const SignInPage = () => {
         </h2>
         <form onSubmit={handleSubmit} id="sign-in">
           <div className="w-[80%] mx-auto">
-            <label className="text-gray-800 font-semibold dark:text-white">
+            <label className="text-gray-800 dark:text-white font-semibold">
               Email
             </label>
             <input
@@ -74,6 +71,7 @@ const SignInPage = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   type={toggle ? "password" : "text"}
+                  minLength={8}
                   required
                 />
                 <span
@@ -109,7 +107,7 @@ const SignInPage = () => {
         </div>
         <button
           type="submit"
-          className="hover:bg-gray-50  dark:text-white outline-2 outline-gray-700 cursor-pointer text-gray-700 rounded-md flex items-center justify-center mx-auto mt-7 bg-white-400 text-xl h-12 w-[80%]"
+          className="hover:bg-gray-50 dark:hover:bg-gray-700  dark:text-white outline-2 outline-gray-700 cursor-pointer text-gray-700 rounded-md flex items-center justify-center mx-auto mt-7 bg-white-400 text-xl h-12 w-[80%]"
         >
           <FcGoogle className="mr-2" size={24} />
           Sign in with Google
