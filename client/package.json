@@ -19,6 +19,7 @@
     "@tanstack/react-router": "^1.128.8",
     "@tanstack/react-router-devtools": "^1.128.8",
     "@tanstack/router-vite-plugin": "^1.128.8",
+    "@tanstack/router-plugin": "^1.128.8",
     "autoprefixer": "^10.4.21",
     "axios": "^1.10.0",
     "classnames": "^2.5.1",
@@ -35,7 +36,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@tanstack/router-plugin": "^1.128.8",
     "@types/express": "^5.0.3",
     "@types/react": "^19.1.5",
     "@types/react-dom": "^19.1.5",
