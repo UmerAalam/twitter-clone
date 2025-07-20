@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import HomeFeed from "../components/HomeFeed";
 import { client } from "../lib/client";
 import { useNavigate } from "@tanstack/react-router";
+
 const HomePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();

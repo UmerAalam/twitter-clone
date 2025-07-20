@@ -30,11 +30,12 @@ export const tweetDetailQueryOptions = (id: number) => {
     enabled: !!id,
   });
 };
-
-const CommentPage = () => {
-  const params = useParams({ from: "/tweet" });
+interface Props {
+  tweetId: string;
+}
+const CommentPage = ({ tweetId }: Props) => {
   const { isLoading, data } = useQuery(
-    tweetDetailQueryOptions(parseInt(params.id!)),
+    tweetDetailQueryOptions(parseInt(tweetId)),
   );
   if (!data) return;
   const currentTweet: Tweet = {

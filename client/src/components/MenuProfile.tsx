@@ -1,14 +1,14 @@
 import IconButton from "./IconButton";
 import { MdOutlineMoreHoriz } from "react-icons/md";
 import { useUserData } from "../lib/userData";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 const MenuProfile = () => {
   const navigate = useNavigate();
   const data = useUserData();
   return (
     <div
       onClick={() => {
-        navigate("/profile");
+        navigate({ to: "/profile" });
       }}
       className="cursor-pointer dark:hover:bg-gray-700 px-2 inline-flex gap-2 justify-center rounded-full hover:bg-gray-100 h-12 items-center"
     >

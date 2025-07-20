@@ -22,10 +22,9 @@ const SignInPage = () => {
       return res.json();
     },
     onSuccess: (data) => {
-      if ("token" in data) {
-        localStorage.setItem("token", data.token);
-      }
-      navigate({ to: "/sign-in" });
+      localStorage.setItem("token", data.token);
+      console.log("onSuccess");
+      navigate({ to: "/" });
     },
     onError: (error) => {
       return { message: error.message };

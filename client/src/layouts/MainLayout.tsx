@@ -1,8 +1,6 @@
-import React, { Fragment } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "@tanstack/react-router";
 import MenuBar from "../components/MenuBar";
 import TrendsBar from "../components/TrendsBar";
-import SignUpPage from "../pages/SignUpPage";
 const MainLayout = () => {
   return (
     <div className="flex justify-center dark:bg-gray-700 min-h-screen">
