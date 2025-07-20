@@ -5,7 +5,7 @@ import { BiRepost } from "react-icons/bi";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { useUserData } from "../lib/userData";
 import classNames from "classnames";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {

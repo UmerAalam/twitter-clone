@@ -9,7 +9,7 @@ const HomeFeed = () => {
           <span className="dark:text-white">Home</span>
           <DarkModeToggle />
         </div>
-        <hr className="dark:text-gray-700" />
+        <hr className="text-gray-200 dark:text-gray-700" />
         <ComposeTweet />
         <TweetList />
       </div>

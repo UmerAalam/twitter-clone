@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-
 type ThemeMode = "dark" | "light";
 type ThemeContextState = {
   mode: ThemeMode;

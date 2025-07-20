@@ -1,4 +1,3 @@
-import React from "react";
 import IconButton from "./IconButton";
 import { MdOutlineMoreHoriz } from "react-icons/md";
 
