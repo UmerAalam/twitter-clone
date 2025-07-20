@@ -19,7 +19,7 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
-const rootElement = document.getElementById("app");
+const rootElement = document.getElementById("root");
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
@@ -30,3 +30,14 @@ if (rootElement && !rootElement.innerHTML) {
     </QueryClientProvider>,
   );
 }
+//
+// const router = createRouter({
+//   routeTree,
+// });
+// ReactDOM.createRoot(document.getElementById("root")!).render(
+//   <QueryClientProvider client={queryClient}>
+//     <StrictMode>
+//       <RouterProvider router={router} />
+//     </StrictMode>
+//   </QueryClientProvider>,
+// );

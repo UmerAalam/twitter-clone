@@ -5,5 +5,5 @@ export const Route = createFileRoute("/sign-in/")({
 });
 
 function RouteComponent() {
-  return SignInPage;
+  return SignInPage();
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import HomeFeed from "../components/HomeFeed";
 import { client } from "../lib/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 const HomePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
@@ -17,7 +17,9 @@ const HomePage = () => {
         },
       );
       if (!res.ok) {
-        navigate("/sign-in");
+        navigate({
+          to: "/sign-in",
+        });
         throw new Error("Invalid Token Need To Sign In Again");
       }
       const data = await res.json();
