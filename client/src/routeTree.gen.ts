@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignUpIndexRouteImport } from './routes/sign-up/index'
 import { Route as SignInIndexRouteImport } from './routes/sign-in/index'
-import { Route as HomeIndexRouteImport } from './routes/home/index'
+import { Route as TweetsTweetIdRouteImport } from './routes/tweets/$tweetId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,42 +29,42 @@ const SignInIndexRoute = SignInIndexRouteImport.update({
   path: '/sign-in/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HomeIndexRoute = HomeIndexRouteImport.update({
-  id: '/home/',
-  path: '/home/',
+const TweetsTweetIdRoute = TweetsTweetIdRouteImport.update({
+  id: '/tweets/$tweetId',
+  path: '/tweets/$tweetId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/home': typeof HomeIndexRoute
+  '/tweets/$tweetId': typeof TweetsTweetIdRoute
   '/sign-in': typeof SignInIndexRoute
   '/sign-up': typeof SignUpIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/home': typeof HomeIndexRoute
+  '/tweets/$tweetId': typeof TweetsTweetIdRoute
   '/sign-in': typeof SignInIndexRoute
   '/sign-up': typeof SignUpIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/home/': typeof HomeIndexRoute
+  '/tweets/$tweetId': typeof TweetsTweetIdRoute
   '/sign-in/': typeof SignInIndexRoute
   '/sign-up/': typeof SignUpIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home' | '/sign-in' | '/sign-up'
+  fullPaths: '/' | '/tweets/$tweetId' | '/sign-in' | '/sign-up'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home' | '/sign-in' | '/sign-up'
-  id: '__root__' | '/' | '/home/' | '/sign-in/' | '/sign-up/'
+  to: '/' | '/tweets/$tweetId' | '/sign-in' | '/sign-up'
+  id: '__root__' | '/' | '/tweets/$tweetId' | '/sign-in/' | '/sign-up/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  HomeIndexRoute: typeof HomeIndexRoute
+  TweetsTweetIdRoute: typeof TweetsTweetIdRoute
   SignInIndexRoute: typeof SignInIndexRoute
   SignUpIndexRoute: typeof SignUpIndexRoute
 }
@@ -92,11 +92,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/home/': {
-      id: '/home/'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof HomeIndexRouteImport
+    '/tweets/$tweetId': {
+      id: '/tweets/$tweetId'
+      path: '/tweets/$tweetId'
+      fullPath: '/tweets/$tweetId'
+      preLoaderRoute: typeof TweetsTweetIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -104,7 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  HomeIndexRoute: HomeIndexRoute,
+  TweetsTweetIdRoute: TweetsTweetIdRoute,
   SignInIndexRoute: SignInIndexRoute,
   SignUpIndexRoute: SignUpIndexRoute,
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 interface UserData {
   id: number;
   name: string;
@@ -15,7 +15,7 @@ const useUserData = () => {
   useEffect(() => {
     const userDataString = localStorage.getItem("UserData");
     if (!userDataString) {
-      navigate("/sign-in");
+      navigate({ to: "/sign-up" });
       return;
     }
     const userData: UserData = userDataString

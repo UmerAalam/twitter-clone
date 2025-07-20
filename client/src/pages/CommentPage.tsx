@@ -1,7 +1,7 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { client } from "../lib/client";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import ComposedTweet from "../components/ComposedTweet";
 import type { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import ReplyTweet from "../components/ReplyTweet";
@@ -9,7 +9,7 @@ export const tweetDetailQueryOptions = (id: number) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   if (!token) {
-    navigate("/sign-in");
+    navigate({ to: "/sign-in" });
   }
   return queryOptions({
     queryFn: async () => {
@@ -32,7 +32,7 @@ export const tweetDetailQueryOptions = (id: number) => {
 };
 
 const CommentPage = () => {
-  const params = useParams();
+  const params = useParams({ from: "/tweet" });
   const { isLoading, data } = useQuery(
     tweetDetailQueryOptions(parseInt(params.id!)),
   );

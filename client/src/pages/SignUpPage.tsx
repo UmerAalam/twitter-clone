@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { SignUp } from "../../../server/src/modules/auth/auth.dto.ts";
 import { useMutation } from "@tanstack/react-query";
 import { client } from "../lib/client.ts";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
@@ -21,7 +21,7 @@ const SignUpPage = () => {
       return res.json();
     },
     onSuccess: () => {
-      navigate("/sign-in");
+      navigate({ to: "/sign-in" });
     },
   });
   const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
