@@ -14,8 +14,7 @@ const DarkModeToggle = () => {
           <input
             type="checkbox"
             checked={isDarkMode}
-            onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-            // onChange={handleCheckboxChange}
+            onChange={() => setMode(mode === "dark" ? "light" : "dark")}
             className="sr-only"
           />
           <div

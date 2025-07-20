@@ -20,7 +20,9 @@ export const tweetsRouter = new Hono()
   .use(authMiddleware)
   .post("/", zValidator("json", createTweetSchema), async (c) => {
     const body = await c.req.json();
+    console.log(body);
     const addedTweet = await createTweetPostgres(body);
+    console.log(addedTweet);
     return c.json(addedTweet, 201);
   })
   .get("/", async (c) => {

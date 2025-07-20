@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import db from "../../db.js";
-import { tweetsTable } from "../../db/schema.js";
+import { tweetsTable, usersTable } from "../../db/schema.js";
 import type {
   FindManyTweet,
   FindOneTweet,
@@ -8,27 +8,63 @@ import type {
   UpdateTweet,
 } from "./tweet.dto.js";
 
-type Tweet = typeof tweetsTable.$inferSelect;
+type Tweet = typeof tweetsTable.$inferSelect & {
+  user: {
+    id: number;
+    name: string;
+  } | null;
+};
 type CreateTweet = typeof tweetsTable.$inferInsert;
 
 export const findManyTweet = async (
   _props: FindManyTweet,
 ): Promise<Tweet[]> => {
-  return db.select().from(tweetsTable);
+  return db
+    .select({
+      id: tweetsTable.id,
+      text: tweetsTable.text,
+      userId: tweetsTable.userId,
+      createdAt: tweetsTable.createdAt,
+      user: {
+        id: usersTable.id,
+        name: usersTable.name,
+      },
+    })
+    .from(tweetsTable)
+    .orderBy(desc(tweetsTable.createdAt))
+    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId));
 };
 
 export const createTweetPostgres = async (
   props: CreateTweet,
 ): Promise<Tweet> => {
-  const res = await db.insert(tweetsTable).values(props).returning();
-  return res[0];
+  const res = await db
+    .insert(tweetsTable)
+    .values({
+      ...props,
+      createdAt: props.createdAt ? new Date(props.createdAt) : undefined,
+    })
+    .returning();
+
+  return findOneTweet({ id: res[0].id });
 };
 
 export const findOneTweet = async ({ id }: FindOneTweet): Promise<Tweet> => {
   const tweet = await db
-    .select()
+    .select({
+      id: tweetsTable.id,
+      text: tweetsTable.text,
+      userId: tweetsTable.userId,
+      createdAt: tweetsTable.createdAt,
+      user: {
+        id: usersTable.id,
+        name: usersTable.name,
+      },
+    })
     .from(tweetsTable)
-    .where(eq(tweetsTable.id, id));
+    .where(eq(tweetsTable.id, id))
+    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId));
+
   return tweet[0];
 };
 

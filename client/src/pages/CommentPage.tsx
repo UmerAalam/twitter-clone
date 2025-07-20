@@ -55,7 +55,7 @@ const CommentPage = () => {
           />
         )}
       </div>
-      <ReplyTweet />
+      {/* <ReplyTweet /> */}
     </div>
   );
 };

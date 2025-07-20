@@ -4,43 +4,45 @@ import { client } from "../lib/client";
 import { CreateTweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { tweetListQueryOptions } from "./TweetsList";
 import { tweetDetailQueryOptions } from "../pages/CommentPage";
-
+import { useUserData } from "../lib/userData";
 const ComposeTweet = () => {
+  const userData = useUserData();
   const image =
     "https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg";
   const [text, setText] = useState("");
 
   const queryClient = useQueryClient();
-
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async (props: CreateTweet) => {
-      const res = await client.api.tweets.$post({
-        json: {
-          ...props,
+      const token = localStorage.getItem("token");
+      const res = await client.api.tweets.$post(
+        {
+          json: {
+            ...props,
+          },
         },
-      });
-
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       if (!res.ok) {
         throw new Error("Error creating tweet");
       }
-
       const parsedRes = await res.json();
-
       await queryClient.invalidateQueries(tweetListQueryOptions());
       await queryClient.invalidateQueries(
         tweetDetailQueryOptions(parsedRes.id),
       );
     },
   });
-  // const userId = JSON.parse(localStorage.getItem("userData"));
-  // if (!userId) return;
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const newTweet: CreateTweet = {
       text,
-      createdAt: "Just Now",
-      //Temporary User ID
-      userId: 5,
+      createdAt: new Date().toString(),
+      userId: userData?.id || 0,
     };
     mutate(newTweet);
     setText("");
