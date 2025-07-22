@@ -56,7 +56,7 @@ const CommentPage = ({ tweetId }: Props) => {
           />
         )}
       </div>
-      {/* <ReplyTweet /> */}
+      <ReplyTweet tweet={currentTweet} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-interface UserData {
+export interface UserData {
   id: number;
   name: string;
   username: string;

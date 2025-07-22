@@ -52,7 +52,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
             </p>
           </div>
           <div className="flex justify-evenly pt-3">
-            <Link to={`/tweets/${tweet.id}`}>
+            <Link to="/tweets/$tweetId" params={{ tweetId: String(tweet.id) }}>
               <IconButton
                 flex
                 row
