@@ -7,7 +7,6 @@ export const createUserPostgres = async (props: SignUp): Promise<SignUp> => {
   const res = await db.insert(usersTable).values(props).returning();
   return res[0];
 };
-
 export const findUser = async (props: SignIn) => {
   const res = await db
     .select()

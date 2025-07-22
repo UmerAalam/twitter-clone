@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { client } from "./client";
 export interface UserData {
   id: number;
   name: string;
@@ -9,6 +10,19 @@ export interface UserData {
   created_at: string;
   updated_at: string;
 }
+const getUserDataByID = async (id: number) => {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+  const userData = await client.api.auth[":id"].$get(
+    { json: { id } },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return userData;
+};
 const useUserData = () => {
   const navigate = useNavigate();
   const [userData, setUseData] = useState<UserData | null>(null);

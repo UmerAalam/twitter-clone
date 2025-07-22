@@ -2,12 +2,16 @@ import { zValidator } from "@hono/zod-validator";
 import { type Context, Hono } from "hono";
 import {
   signInSchema,
+  userIdScheme,
   signUpSchema,
-  userWithoutPasswordScheme,
   type SignIn,
   type SignUp,
 } from "../auth/auth.dto.js";
-import { createUserPostgres, findUserEmail } from "./auth.service.js";
+import {
+  createUserPostgres,
+  findUserEmail,
+  findUserById,
+} from "./auth.service.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 const JWT_SECRET = process.env.SECRET_KEY || "";
@@ -31,8 +35,10 @@ export const authRouter = new Hono()
     };
     return c.json(userWithoutPassword);
   })
-  .get("/users", zValidator("json", userWithoutPasswordScheme), async (c) => {
-    //
+  .get("/:id", zValidator("json", userIdScheme), async (c) => {
+    const id = parseInt(c.req.param("id"));
+    const tweets = await findUserById({ id });
+    return c.json(tweets, 200);
   })
   .post("/sign-up", zValidator("json", signUpSchema), async (c) => {
     const body: SignUp = await c.req.json();

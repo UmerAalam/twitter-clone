@@ -6,14 +6,13 @@ import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { Link } from "@tanstack/react-router";
-import { useUserData } from "../lib/userData";
 import classNames from "classnames";
+import { client } from "../lib/client";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
-  const userData = useUserData();
-  const profileImage = userData?.avatar || "";
+  const profileImage = "";
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   return (
     <>
