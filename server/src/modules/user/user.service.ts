@@ -1,6 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 import db from "../../db.js";
 import { usersTable } from "../../db/schema.js";
+
 export const findUserById = async (props: { id: number }) => {
   const res = await db
     .select()

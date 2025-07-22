@@ -9,5 +9,6 @@ export const usersRouter = new Hono()
   .get("/", zValidator("json", userIdScheme), async (c) => {
     const { id }: UserID = await c.req.json();
     const userData = await findUserById({ id });
+    console.log(userData);
     return c.json(userData);
   });
