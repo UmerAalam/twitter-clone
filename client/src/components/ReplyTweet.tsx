@@ -22,7 +22,7 @@ const ReplyTweet = ({ tweet }: Props) => {
         <p className="font-bold text-blue-400">replying to {tweet.userId}</p>
         <button
           type="button"
-          className="font-bold text-blue-400 cursor-pointer hover:bg-blue-300 bg-blue-400 dark:bg-white dark:hover:bg-gray-100 font-bold rounded-full h-9 w-24 size-fit"
+          className="font-bold text-gray-800 cursor-pointer hover:bg-blue-300 bg-blue-400 dark:bg-white dark:hover:bg-gray-100 font-bold rounded-full h-9 w-24 size-fit"
         >
           Reply
         </button>

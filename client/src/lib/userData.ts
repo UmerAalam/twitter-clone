@@ -13,7 +13,7 @@ export interface UserData {
 const getUserDataByID = async (id: number) => {
   const token = localStorage.getItem("token");
   if (!token) return;
-  const userData = await client.api.auth[":id"].$get(
+  const userData = await client.api.users.$get(
     { json: { id } },
     {
       headers: {
@@ -65,4 +65,4 @@ function ConvertToUpperCase(data: string) {
   return upperCaseData;
 }
 
-export { ConvertToUpperCase, useUserData };
+export { ConvertToUpperCase, useUserData, getUserDataByID };

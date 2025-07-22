@@ -39,6 +39,7 @@ const ComposeTweet = () => {
   });
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    if (text.length == 0) return;
     const newTweet: CreateTweet = {
       text,
       createdAt: new Date().toString(),
