@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-interface UserData {
+import { useNavigate } from "@tanstack/react-router";
+import { client } from "./client";
+export interface UserData {
   id: number;
   name: string;
   username: string;
@@ -11,11 +12,11 @@ interface UserData {
 }
 const useUserData = () => {
   const navigate = useNavigate();
-  const [userData, setUseData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   useEffect(() => {
     const userDataString = localStorage.getItem("UserData");
     if (!userDataString) {
-      navigate("/sign-in");
+      navigate({ to: "/sign-up" });
       return;
     }
     const userData: UserData = userDataString
@@ -30,7 +31,7 @@ const useUserData = () => {
       created_at: userData.created_at,
       updated_at: userData.updated_at,
     };
-    setUseData(userDataUpdated);
+    setUserData(userDataUpdated);
   }, []);
   return userData;
 };

@@ -5,15 +5,15 @@ import { BiRepost } from "react-icons/bi";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
-import { Link } from "react-router-dom";
-import { useUserData } from "../lib/userData";
+import { Link } from "@tanstack/react-router";
 import classNames from "classnames";
+import useCustomUserData from "../lib/customUserData";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
-const ComposedTweet = ({ tweet, ...rest }: Props) => {
-  const userData = useUserData();
-  const profileImage = userData?.avatar || "";
+
+const ComposedTweet = async ({ tweet, ...rest }: Props) => {
+  const {data} = useCustomUserData(tweet.id.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   return (
     <>
@@ -21,11 +21,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
         <img
           className="flex rounded-full w-10 h-10 object-cover mr-2"
           width={200}
-          src={
-            profileImage
-              ? profileImage
-              : "https://i.ibb.co/W4BZK6ZN/umer-logo.jpg"
-          }
+          src={data?.avatar}
           alt="umer-logo"
         />
         <div className="w-full">
@@ -52,7 +48,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
             </p>
           </div>
           <div className="flex justify-evenly pt-3">
-            <Link to={`/tweets/${tweet.id}`}>
+            <Link to="/tweets/$tweetId" params={{ tweetId: String(tweet.id) }}>
               <IconButton
                 flex
                 row

@@ -31,7 +31,7 @@ const TweetList = () => {
   const renderedTweets = data?.map((tweet) => {
     return (
       <div key={tweet?.id}>
-        <hr className="dark:text-gray-700" />
+        <hr className="text-gray-200 dark:text-gray-700" />
         <ComposedTweet tweet={tweet} />
       </div>
     );

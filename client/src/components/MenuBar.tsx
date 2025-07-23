@@ -1,4 +1,3 @@
-import React from "react";
 import { FaTwitter, FaHashtag, FaRegBell, FaRegBookmark } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { CgMoreO } from "react-icons/cg";
@@ -7,7 +6,7 @@ import { HiOutlineMail } from "react-icons/hi";
 import { GoHomeFill } from "react-icons/go";
 import IconButton from "./IconButton";
 import MenuProfile from "./MenuProfile";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 const iconButtons = [
   {
     icon: <GoHomeFill size={26} />,
@@ -59,7 +58,7 @@ const MenuBar = () => {
         icon={btn.icon}
         key={index}
         onClick={() => {
-          navigate(btn.path);
+          navigate({ to: btn.path });
         }}
       >
         {btn.iconText}
@@ -72,7 +71,7 @@ const MenuBar = () => {
         <div className="grid-cols-1 inline-grid size-fit">
           <FaTwitter
             onClick={() => {
-              navigate("/");
+              navigate({ to: "/" });
             }}
             className="ml-3 text-blue-400 hover:text-blue-300 dark:text-white dark:hover:text-gray-100 mt-4"
             size={28}

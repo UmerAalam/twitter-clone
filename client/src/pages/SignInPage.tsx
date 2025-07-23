@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { FcGoogle } from "react-icons/fc";
 import { IoEye } from "react-icons/io5";
 import { IoEyeOff } from "react-icons/io5";
 import { useMutation } from "@tanstack/react-query";
 import type { SignIn } from "../../../server/src/modules/auth/auth.dto";
 import { client } from "../lib/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -22,10 +22,9 @@ const SignInPage = () => {
       return res.json();
     },
     onSuccess: (data) => {
-      if ("token" in data) {
-        localStorage.setItem("token", data.token);
-      }
-      navigate("/");
+      localStorage.setItem("token", data.token);
+      console.log("onSuccess");
+      navigate({ to: "/" });
     },
     onError: (error) => {
       return { message: error.message };
