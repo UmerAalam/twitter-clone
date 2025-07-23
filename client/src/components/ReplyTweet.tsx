@@ -1,5 +1,6 @@
 import { BaseTweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { useState } from "react";
+import useCustomUserData from "../lib/customUserData";
 
 interface Props {
   tweet: BaseTweet;
@@ -7,6 +8,8 @@ interface Props {
 
 const ReplyTweet = ({ tweet }: Props) => {
   const [text, setText] = useState("");
+  const { data } = useCustomUserData(tweet.userId.toString());
+  if (!data) return;
   return (
     <div className="bg-gray-50 mt-3 dark:bg-gray-800 rounded-2xl h-50 w-full">
       <textarea
@@ -19,7 +22,9 @@ const ReplyTweet = ({ tweet }: Props) => {
         onChange={(e) => setText(e.target.value)}
       />
       <div className="flex px-3 justify-between h-12 text-gray-800 dark:text-white">
-        <p className="font-bold text-blue-400">replying to {tweet.userId}</p>
+        <p className="font-bold text-blue-400">
+          replying to {"@" + data.name + data.id}
+        </p>
         <button
           type="button"
           className="font-bold text-gray-800 cursor-pointer hover:bg-blue-300 bg-blue-400 dark:bg-white dark:hover:bg-gray-100 font-bold rounded-full h-9 w-24 size-fit"

@@ -3,7 +3,6 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 interface UserData {
   id: number;
   name: string;
-  username: string;
   email: string;
   avatar: string;
   created_at: string;

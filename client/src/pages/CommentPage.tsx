@@ -1,6 +1,5 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { client } from "../lib/client";
-import { useParams } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
 import ComposedTweet from "../components/ComposedTweet";
 import type { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
@@ -44,6 +43,7 @@ const CommentPage = ({ tweetId }: Props) => {
     createdAt: data.createdAt,
     userId: data.userId,
   };
+  console.log(data.userId);
   return (
     <div>
       <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
