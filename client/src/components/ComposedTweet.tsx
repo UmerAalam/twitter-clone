@@ -6,14 +6,14 @@ import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { Link } from "@tanstack/react-router";
-import { getUserDataByID } from "../lib/userData.js";
 import classNames from "classnames";
-
+import useCustomUserData from "../lib/customUserData";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
 
 const ComposedTweet = async ({ tweet, ...rest }: Props) => {
+  const {data} = useCustomUserData(tweet.id.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   return (
     <>
@@ -21,7 +21,7 @@ const ComposedTweet = async ({ tweet, ...rest }: Props) => {
         <img
           className="flex rounded-full w-10 h-10 object-cover mr-2"
           width={200}
-          src={userData.profileImage}
+          src={data?.avatar}
           alt="umer-logo"
         />
         <div className="w-full">

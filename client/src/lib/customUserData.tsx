@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { client } from "./client";
-type UserData = {
+import { queryOptions, useQuery } from "@tanstack/react-query";
+interface UserData {
   id: number;
   name: string;
   username: string;
@@ -8,28 +8,29 @@ type UserData = {
   avatar: string;
   created_at: string;
   updated_at: string;
-};
-const useCustomUserData = (id: number) => {
-  const [userData, setUserData] = useState<Promise<UserData> | null>(null);
-  useEffect(() => {
-    const getUserDataByID = async (id: number) => {
+}
+export const userDataQueryOptions = (id: string) => {
+  return queryOptions({
+    queryFn: async () => {
       const token = localStorage.getItem("token");
-      if (!token) return;
-      const res = await client.api.users.$get(
-        { json: { id } },
+      const res = await client.api.users[":id"].$get(
+        {
+          param: { id },
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (!res.ok) {
-        throw new Error("Response Error");
-      }
-      return res.json();
-    };
-    setUserData(getUserDataByID(id));
-  }, []);
-  return userData;
+      const data = await res.json();
+
+      return data as UserData;
+    },
+    queryKey: ["user", "detail", id],
+  });
 };
+
+const useCustomUserData = (id: string) => useQuery(userDataQueryOptions(id));
+
 export default useCustomUserData;
