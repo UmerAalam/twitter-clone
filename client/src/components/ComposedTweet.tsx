@@ -12,8 +12,9 @@ interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
 
-const ComposedTweet = async ({ tweet, ...rest }: Props) => {
-  const {data} = useCustomUserData(tweet.id.toString());
+const ComposedTweet = ({ tweet, ...rest }: Props) => {
+  const { data } = useCustomUserData(tweet.id.toString());
+  if (!data) return;
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   return (
     <>
@@ -27,7 +28,7 @@ const ComposedTweet = async ({ tweet, ...rest }: Props) => {
         <div className="w-full">
           <div className="cursor-pointer">
             <h2 className="font-bold text-sm flex dark:text-white">
-              Umer
+              {data?.name}
               <IconButton
                 icon={
                   <MdVerified
@@ -37,7 +38,7 @@ const ComposedTweet = async ({ tweet, ...rest }: Props) => {
                 }
               ></IconButton>
               <div className="pl-1 text-sm text-gray-400 font-medium">
-                {"@" + "Umer"}
+                {"@" + data?.name.toLowerCase() + data?.id}
               </div>
               <div className="pl-3 text-sm text-gray-400 font-medium">
                 {tweet.createdAt.slice(11, 19)}
@@ -54,34 +55,26 @@ const ComposedTweet = async ({ tweet, ...rest }: Props) => {
                 row
                 className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
                 icon={<FaRegComment className="mr-1" size={22} />}
-              >
-                {/* {tweet.comments.toString()} */}
-              </IconButton>
+              ></IconButton>
             </Link>
             <IconButton
               flex
               row
               icon={<BiRepost className="mr-1" size={26} />}
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
-            >
-              {/* {tweet.comments.toString()} */}
-            </IconButton>
+            ></IconButton>
             <IconButton
               flex
               row
               icon={<IoHeartOutline className="mr-1" size={24} />}
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
-            >
-              {/* {tweet.comments.toString()} */}
-            </IconButton>
+            ></IconButton>
             <IconButton
               flex
               row
               icon={<IoShareOutline className="mr-1" size={24} />}
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
-            >
-              {/* {tweet.comments.toString()} */}
-            </IconButton>
+            ></IconButton>
           </div>
         </div>
       </div>
