@@ -14,8 +14,6 @@ interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
 }
 
 const ComposedTweet = async ({ tweet, ...rest }: Props) => {
-  const userData = await getUserDataByID(tweet.userId);
-  if (!userData) return;
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   return (
     <>
@@ -23,7 +21,7 @@ const ComposedTweet = async ({ tweet, ...rest }: Props) => {
         <img
           className="flex rounded-full w-10 h-10 object-cover mr-2"
           width={200}
-          src={userData.avatar}
+          src={userData.profileImage}
           alt="umer-logo"
         />
         <div className="w-full">

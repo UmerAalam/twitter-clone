@@ -10,22 +10,9 @@ export interface UserData {
   created_at: string;
   updated_at: string;
 }
-const getUserDataByID = async (id: number) => {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-  const userData = await client.api.users.$get(
-    { json: { id } },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-  return userData;
-};
 const useUserData = () => {
   const navigate = useNavigate();
-  const [userData, setUseData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   useEffect(() => {
     const userDataString = localStorage.getItem("UserData");
     if (!userDataString) {
@@ -44,7 +31,7 @@ const useUserData = () => {
       created_at: userData.created_at,
       updated_at: userData.updated_at,
     };
-    setUseData(userDataUpdated);
+    setUserData(userDataUpdated);
   }, []);
   return userData;
 };
@@ -65,4 +52,4 @@ function ConvertToUpperCase(data: string) {
   return upperCaseData;
 }
 
-export { ConvertToUpperCase, useUserData, getUserDataByID };
+export { ConvertToUpperCase, useUserData };

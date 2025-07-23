@@ -7,8 +7,17 @@ export const usersRouter = new Hono()
   .basePath("users")
   .use(authMiddleware)
   .get("/", zValidator("json", userIdScheme), async (c) => {
-    const { id }: UserID = await c.req.json();
-    const userData = await findUserById({ id });
-    console.log(userData);
-    return c.json(userData);
+    const body: UserID = await c.req.json();
+    const { id, avatar, created_at, email, name, updated_at } =
+      await findUserById({ id: body.id });
+    console.log("User data fetched");
+    const userWithoutPassword = {
+      id,
+      avatar,
+      created_at,
+      email,
+      name,
+      updated_at,
+    };
+    return c.json(userWithoutPassword);
   });
