@@ -11,7 +11,6 @@ import useCustomUserData from "../lib/customUserData";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
-
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(tweet.userId.toString());
   if (isPending) return <div>Loading...</div>;

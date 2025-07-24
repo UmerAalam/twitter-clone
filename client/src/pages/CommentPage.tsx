@@ -4,6 +4,8 @@ import { useNavigate } from "@tanstack/react-router";
 import ComposedTweet from "../components/ComposedTweet";
 import type { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import ReplyTweet from "../components/ReplyTweet";
+import getTweetComments from "../lib/getCommentsOfTweet";
+import { tweetsTable } from "../../../server/src/db/schema";
 export const tweetDetailQueryOptions = (id: number) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -29,10 +31,17 @@ export const tweetDetailQueryOptions = (id: number) => {
     enabled: !!id,
   });
 };
+interface Comment {
+  id: number;
+  text: string;
+  userId: number;
+  createdAt: string;
+}
 interface Props {
   tweetId: string;
 }
 const CommentPage = ({ tweetId }: Props) => {
+  const comments = getTweetComments(tweetId);
   const { isLoading, data } = useQuery(
     tweetDetailQueryOptions(parseInt(tweetId)),
   );
@@ -41,9 +50,8 @@ const CommentPage = ({ tweetId }: Props) => {
     id: data.id,
     text: data.text,
     createdAt: data.createdAt,
-    userId: data.userId,
+    userId: data.userId.toString(),
   };
-  console.log(data.userId);
   return (
     <div>
       <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
