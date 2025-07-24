@@ -13,7 +13,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
 }
 
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
-  const { data, isPending } = useCustomUserData(tweet.id.toString());
+  const { data, isPending } = useCustomUserData(tweet.userId.toString());
   if (isPending) return <div>Loading...</div>;
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   return (

@@ -4,23 +4,23 @@ const MainProfile = () => {
   const id = localStorage.getItem("userId") || "0";
   const { data } = useCustomUserData(id);
   if (!data) return;
-  const backgroundImage =
+  const avatar =
     "https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg";
-  const profileImage =
+  const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   return (
     <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
         <img
           className="rounded-t-2xl object-cover w-full h-full"
-          src={profileImage}
+          src={backgroundImage}
           alt="profile-background-image"
         />
       </div>
       <div className="flex justify-center overflow-hidden w-24 h-24 ml-7 -mt-12 bg-black outline-3 outline-white rounded-full">
         <img
           className="object-cover"
-          src={backgroundImage}
+          src={data.avatar || avatar}
           alt="profile-page-image"
         />
       </div>

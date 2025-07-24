@@ -23,7 +23,7 @@ const ReplyTweet = ({ tweet }: Props) => {
       />
       <div className="flex px-3 justify-between h-12 text-gray-800 dark:text-white">
         <p className="font-bold text-blue-400">
-          replying to {"@" + data.name + data.id}
+          replying to {"@" + data.name.toLowerCase() + data.id}
         </p>
         <button
           type="button"

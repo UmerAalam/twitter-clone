@@ -21,7 +21,6 @@ const HomePage = () => {
         navigate({
           to: "/sign-in",
         });
-        throw new Error("Invalid Token Need To Sign In Again");
       }
       const data = await res.json();
       localStorage.setItem("UserData", JSON.stringify(data));
