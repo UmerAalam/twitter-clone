@@ -16,13 +16,20 @@ export const usersTable = pgTable("users", {
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
 });
-
 export const tweetsTable = pgTable("tweets", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   text: text().notNull(),
   userId: integer("user_id")
     .notNull()
     .references(() => usersTable.id),
+  createdAt: timestamp().notNull().defaultNow(),
+});
+export const commentsTable = pgTable("comments", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  text: text().notNull(),
+  tweetId: integer("tweet_id")
+    .notNull()
+    .references(() => tweetsTable.id),
   createdAt: timestamp().notNull().defaultNow(),
 });
 // export const likesTable = pgTable("likes", {

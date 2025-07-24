@@ -5,6 +5,7 @@ import { logger } from "hono/logger";
 import { authRouter } from "./modules/auth/auth.routes.js";
 import { tweetsRouter } from "./modules/tweet/tweet.routes.js";
 import { usersRouter } from "./modules/user/user.routes.js";
+import { commentsRouter } from "./modules/comments/comment.routes.js";
 const app = new Hono()
   .use(logger())
   .use(
@@ -17,6 +18,7 @@ const app = new Hono()
   )
   .route("/api", tweetsRouter)
   .route("/api", authRouter)
+  .route("/api", commentsRouter)
   .route("/api", usersRouter);
 
 export type AppType = typeof app;
