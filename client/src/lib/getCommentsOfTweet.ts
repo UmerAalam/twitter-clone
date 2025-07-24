@@ -6,13 +6,14 @@ interface Comments {
   tweet_id: number;
   created_at: string;
 }
-const getCommentQueryOptions = (id: string) => {
+const getCommentQueryOptions = (id: number) => {
   return queryOptions({
     queryFn: async () => {
       const token = localStorage.getItem("token");
+      console.log("id");
       const res = await client.api.comments[":id"].$get(
         {
-          param: { id },
+          param: { id: String(id) },
         },
         {
           headers: {
@@ -21,13 +22,12 @@ const getCommentQueryOptions = (id: string) => {
         },
       );
       const data = await res.json();
-
       return data;
     },
-    queryKey: ["user", "detail", id],
+    queryKey: [id],
   });
 };
 
-const getTweetComments = (id: string) => useQuery(getCommentQueryOptions(id));
+const getTweetComments = (id: number) => useQuery(getCommentQueryOptions(id));
 
 export default getTweetComments;

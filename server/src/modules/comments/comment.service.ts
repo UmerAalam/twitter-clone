@@ -6,6 +6,6 @@ export const findComments = async (props: { id: number }) => {
   const res = await db
     .select()
     .from(commentsTable)
-    .where(eq(commentsTable.id, props.id));
+    .where(eq(commentsTable.tweetId, props.id));
   return res;
 };

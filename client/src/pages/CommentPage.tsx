@@ -6,6 +6,7 @@ import type { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import ReplyTweet from "../components/ReplyTweet";
 import getTweetComments from "../lib/getCommentsOfTweet";
 import { tweetsTable } from "../../../server/src/db/schema";
+import ComposedComment from "../components/ComposedComment";
 export const tweetDetailQueryOptions = (id: number) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -31,21 +32,21 @@ export const tweetDetailQueryOptions = (id: number) => {
     enabled: !!id,
   });
 };
-interface Comment {
+export interface Comment {
   id: number;
   text: string;
-  userId: number;
+  tweetId: number;
   createdAt: string;
 }
 interface Props {
-  tweetId: string;
+  tweetId: number;
 }
 const CommentPage = ({ tweetId }: Props) => {
   const comments = getTweetComments(tweetId);
-  const { isLoading, data } = useQuery(
-    tweetDetailQueryOptions(parseInt(tweetId)),
-  );
+  const { isLoading, data } = useQuery(tweetDetailQueryOptions(tweetId));
+  if (isLoading) return;
   if (!data) return;
+  console.log(comments.data);
   const currentTweet: Tweet = {
     id: data.id,
     text: data.text,
@@ -65,6 +66,9 @@ const CommentPage = ({ tweetId }: Props) => {
         )}
       </div>
       <ReplyTweet tweet={currentTweet} />
+      {comments.data?.map((comment) => {
+        return <ComposedComment comment={comment} />;
+      })}
     </div>
   );
 };
