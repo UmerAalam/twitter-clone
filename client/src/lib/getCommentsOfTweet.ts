@@ -10,7 +10,7 @@ const getCommentQueryOptions = (id: number) => {
   return queryOptions({
     queryFn: async () => {
       const token = localStorage.getItem("token");
-      console.log("id");
+      console.log(id);
       const res = await client.api.comments[":id"].$get(
         {
           param: { id: String(id) },

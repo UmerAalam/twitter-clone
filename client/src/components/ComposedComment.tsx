@@ -9,9 +9,10 @@ import useCustomUserData from "../lib/customUserData";
 import type { Comment } from "../pages/CommentPage";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   comment: Comment;
+  userId: number;
 }
-const ComposedComment = ({ comment, ...rest }: Props) => {
-  const { data, isPending } = useCustomUserData(comment.tweetId.toString());
+const ComposedComment = ({ comment, userId, ...rest }: Props) => {
+  const { data, isPending } = useCustomUserData(userId.toString());
   if (isPending)
     return (
       <div className="text-gray-800 dark:text-white flex justify-center">
