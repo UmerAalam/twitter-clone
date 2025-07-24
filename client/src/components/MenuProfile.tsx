@@ -4,8 +4,8 @@ import { useNavigate } from "@tanstack/react-router";
 import useCustomUserData from "../lib/customUserData";
 const MenuProfile = () => {
   const navigate = useNavigate();
-  const id = 3;
-  const { data } = useCustomUserData(id.toString());
+  const id = localStorage.getItem("userId") || "0";
+  const { data } = useCustomUserData(id);
   if (!data) return;
   return (
     <div
@@ -22,7 +22,9 @@ const MenuProfile = () => {
       />
       <div className="font-bold size-fit">
         <h2 className="text-sm dark:text-white">{data?.name}</h2>
-        <h3 className="text-gray-400 text-[12px]">{data?.name + data?.id}</h3>
+        <h3 className="text-gray-400 text-[12px]">
+          {"@" + data?.name + data?.id}
+        </h3>
       </div>
       <IconButton
         icon={

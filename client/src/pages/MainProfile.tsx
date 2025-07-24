@@ -1,8 +1,8 @@
 import { SlCalender } from "react-icons/sl";
 import useCustomUserData from "../lib/customUserData";
 const MainProfile = () => {
-  const id = 1;
-  const { data } = useCustomUserData(id.toString());
+  const id = localStorage.getItem("userId") || "0";
+  const { data } = useCustomUserData(id);
   if (!data) return;
   const backgroundImage =
     "https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg";
@@ -12,7 +12,7 @@ const MainProfile = () => {
     <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
         <img
-          className="object-cover w-full h-full"
+          className="rounded-t-2xl object-cover w-full h-full"
           src={profileImage}
           alt="profile-background-image"
         />
@@ -28,10 +28,10 @@ const MainProfile = () => {
         <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
           {data?.name}
           <p className="text-gray-400 text-sm font-normal">
-            {data?.name + data?.id}
+            {"@" + data?.name + data?.id}
           </p>
         </h2>
-        <button className="cursor-pointer -mt-9 mr-5 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">
+        <button className="cursor-pointer text-sm -mt-9 mr-5 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">
           Edit Profile
         </button>
       </div>
