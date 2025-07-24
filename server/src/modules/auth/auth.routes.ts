@@ -50,5 +50,5 @@ export const authRouter = new Hono()
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
       expiresIn: "1h",
     });
-    return c.json({ token });
+    return c.json({ token, id: user.id });
   });

@@ -21,11 +21,9 @@ const SignInPage = () => {
       return res.json();
     },
     onSuccess: (data) => {
-      if (!localStorage.getItem("token")) {
-        localStorage.setItem("token", data.token);
-      }
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.id.toString());
       navigate({ to: "/" });
-      console.log(data.token);
     },
     onError: (error) => {
       return { message: error.message };

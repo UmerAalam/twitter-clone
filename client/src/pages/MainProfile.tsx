@@ -1,7 +1,9 @@
 import { SlCalender } from "react-icons/sl";
-import { useUserData } from "../lib/userData";
+import useCustomUserData from "../lib/customUserData";
 const MainProfile = () => {
-  const data = useUserData();
+  const id = 1;
+  const { data } = useCustomUserData(id.toString());
+  if (!data) return;
   const backgroundImage =
     "https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg";
   const profileImage =
@@ -25,7 +27,9 @@ const MainProfile = () => {
       <div className="ml-5 flex justify-between">
         <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
           {data?.name}
-          <p className="text-gray-400 text-sm font-normal">{data?.username}</p>
+          <p className="text-gray-400 text-sm font-normal">
+            {data?.name + data?.id}
+          </p>
         </h2>
         <button className="cursor-pointer -mt-9 mr-5 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">
           Edit Profile

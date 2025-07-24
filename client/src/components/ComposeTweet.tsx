@@ -4,11 +4,16 @@ import { client } from "../lib/client";
 import { CreateTweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { tweetListQueryOptions } from "./TweetsList";
 import { tweetDetailQueryOptions } from "../pages/CommentPage";
+import { useNavigate } from "@tanstack/react-router";
 const ComposeTweet = () => {
   const image =
     "https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg";
   const [text, setText] = useState("");
-
+  const navigate = useNavigate();
+  const id = localStorage.getItem("userId");
+  if (!id) {
+    return navigate({ to: "/sign-in" });
+  }
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: async (props: CreateTweet) => {
@@ -41,7 +46,7 @@ const ComposeTweet = () => {
     const newTweet: CreateTweet = {
       text,
       createdAt: new Date().toString(),
-      userId: userData?.id || 0,
+      userId: id,
     };
     mutate(newTweet);
     setText("");
