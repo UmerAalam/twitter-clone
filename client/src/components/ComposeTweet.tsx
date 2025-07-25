@@ -36,11 +36,11 @@ const ComposeTweet = () => {
       const parsedRes = await res.json();
       await queryClient.invalidateQueries(tweetListQueryOptions());
       await queryClient.invalidateQueries(
-        tweetDetailQueryOptions(parsedRes.id),
+        tweetDetailQueryOptions(Number(parsedRes.id)),
       );
     },
   });
-  const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (text.length == 0) return;
     const newTweet: CreateTweet = {

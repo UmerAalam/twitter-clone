@@ -32,10 +32,10 @@ export const tweetDetailQueryOptions = (id: number) => {
   });
 };
 export interface Comment {
-  id: number;
+  id?: number;
   text: string;
   tweetId: number;
-  createdAt: string;
+  createdAt?: string;
 }
 interface Props {
   tweetId: number;

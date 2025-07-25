@@ -8,7 +8,7 @@ interface UserData {
   created_at: string;
   updated_at: string;
 }
-const userDataQueryOptions = (id: string) => {
+export const userDataQueryOptions = (id: string) => {
   return queryOptions({
     queryFn: async () => {
       const token = localStorage.getItem("token");

@@ -45,7 +45,7 @@ const ComposedComment = ({ comment, userId, ...rest }: Props) => {
                 {"@" + data?.name.toLowerCase() + data?.id}
               </div>
               <div className="pl-3 text-sm text-gray-400 font-medium">
-                {comment.createdAt.slice(11, 19)}
+                {comment.createdAt?.slice(11, 19)}
               </div>
             </h2>
             <p className="cursor-auto flex font-normal dark:text-white text-base">
