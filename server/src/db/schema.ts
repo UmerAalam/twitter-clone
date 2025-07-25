@@ -25,7 +25,7 @@ export const tweetsTable = pgTable("tweets", {
   createdAt: timestamp().notNull().defaultNow(),
 });
 export const commentsTable = pgTable("comments", {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  id: integer().primaryKey().generatedAlwaysAsIdentity().notNull(),
   text: text().notNull(),
   tweetId: integer("tweet_id")
     .notNull()

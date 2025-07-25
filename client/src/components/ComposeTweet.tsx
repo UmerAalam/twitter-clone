@@ -46,7 +46,7 @@ const ComposeTweet = () => {
     const newTweet: CreateTweet = {
       text,
       createdAt: new Date().toString(),
-      userId: id,
+      userId: Number(id),
     };
     mutate(newTweet);
     setText("");

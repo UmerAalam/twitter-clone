@@ -45,7 +45,6 @@ const CommentPage = ({ tweetId }: Props) => {
   const { isLoading, data } = useQuery(tweetDetailQueryOptions(tweetId));
   if (isLoading) return;
   if (!data) return;
-  console.log(comments.data);
   const currentTweet: Tweet = {
     id: data.id,
     text: data.text,

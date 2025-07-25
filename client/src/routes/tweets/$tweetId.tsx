@@ -7,5 +7,5 @@ export const Route = createFileRoute("/tweets/$tweetId")({
 
 function RouteComponent() {
   const { tweetId } = Route.useParams();
-  return <CommentPage tweetId={tweetId} />;
+  return <CommentPage tweetId={Number(tweetId)} />;
 }

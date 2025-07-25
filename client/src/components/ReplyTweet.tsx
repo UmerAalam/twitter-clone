@@ -1,13 +1,63 @@
-import { BaseTweet } from "../../../server/src/modules/tweet/tweet.dto";
+import {
+  BaseTweet,
+  CreateTweet,
+} from "../../../server/src/modules/tweet/tweet.dto";
 import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import useCustomUserData from "../lib/customUserData";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { client } from "../lib/client";
+import { Comment, tweetDetailQueryOptions } from "../pages/CommentPage";
+import { tweetListQueryOptions } from "./TweetsList";
 interface Props {
   tweet: BaseTweet;
 }
 
 const ReplyTweet = ({ tweet }: Props) => {
   const [text, setText] = useState("");
+  const navigate = useNavigate();
+  const id = localStorage.getItem("userId");
+  if (!id) {
+    return navigate({ to: "/sign-in" });
+  }
+  const userData = useCustomUserData(id);
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: async (props: Comment) => {
+      const token = localStorage.getItem("token");
+      const res = await client.api.comments.$post(
+        {
+          json: {
+            ...props,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!res.ok) {
+        throw new Error("Error creating tweet");
+      }
+      const parsedRes = await res.json();
+      await queryClient.invalidateQueries(tweetListQueryOptions());
+      await queryClient.invalidateQueries(
+        tweetDetailQueryOptions(parsedRes.id),
+      );
+    },
+  });
+  const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (text.length == 0) return;
+    const newTweet: CreateTweet = {
+      text,
+      createdAt: new Date().toString(),
+      userId: Number(id),
+    };
+    mutate(newTweet);
+    setText("");
+  };
   const { data } = useCustomUserData(tweet.userId.toString());
   if (!data) return;
   return (
