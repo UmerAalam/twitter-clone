@@ -6,19 +6,20 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "../lib/client";
 import { Comment } from "../pages/CommentPage";
 import { getCommentQueryOptions } from "../lib/getCommentsOfTweet";
-interface Props {
-  tweet: Tweet;
-}
 interface CommentProps {
   comment: Comment;
 }
-const ReplyTweet = ({ tweet }: Props) => {
+interface ReplyTweetProps {
+  tweet: Tweet;
+}
+const ReplyTweet = ({ tweet }: ReplyTweetProps) => {
   const [text, setText] = useState("");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const id = localStorage.getItem("userId");
   if (!id) {
-    return navigate({ to: "/sign-in" });
+    navigate({ to: "/sign-in" });
+    return;
   }
   const { mutate } = useMutation({
     mutationFn: async ({ comment }: CommentProps) => {
