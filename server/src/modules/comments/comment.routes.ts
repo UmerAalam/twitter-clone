@@ -9,7 +9,7 @@ export const commentsRouter = new Hono()
   .post("/", zValidator("json", commentSchema), async (c) => {
     const { text, tweetId, createdAt }: TweetComment = await c.req.json();
     const post = await postComment({ text, tweetId, createdAt });
-    return post;
+    return c.json(post);
   })
   .get("/:id", async (c) => {
     const id = parseInt(c.req.param("id"));

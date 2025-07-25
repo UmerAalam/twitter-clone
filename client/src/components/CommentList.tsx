@@ -1,11 +1,11 @@
-import getTweetComments from "../lib/getCommentsOfTweet";
 import ComposedComment from "./ComposedComment";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
+import { useCommentListByTweetId } from "../modules/comment/comments.query";
 interface Props {
   tweet: Tweet;
 }
 function CommentList({ tweet }: Props) {
-  const { data, isLoading } = getTweetComments(tweet.id);
+  const { data, isLoading } = useCommentListByTweetId(tweet.id);
   if (isLoading) return <div>Loading...</div>;
 
   return (

@@ -4,4 +4,5 @@ export const commentSchema = z.object({
   tweetId: z.number(),
   createdAt: z.string(),
 });
+
 export interface TweetComment extends z.infer<typeof commentSchema> {}

@@ -2,50 +2,23 @@ import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import useCustomUserData from "../lib/customUserData";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { client } from "../lib/client";
 import { Comment } from "../pages/CommentPage";
-import { getCommentQueryOptions } from "../lib/getCommentsOfTweet";
-interface CommentProps {
-  comment: Comment;
-}
+import { useCreateCommentReply } from "../modules/comment/comments.query";
+
 interface ReplyTweetProps {
   tweet: Tweet;
 }
 const ReplyTweet = ({ tweet }: ReplyTweetProps) => {
   const [text, setText] = useState("");
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const id = localStorage.getItem("userId");
+
   if (!id) {
     navigate({ to: "/sign-in" });
     return;
   }
-  const { mutate } = useMutation({
-    mutationFn: async ({ comment }: CommentProps) => {
-      const token = localStorage.getItem("token");
-      const res = await client.api.comments.$post(
-        {
-          json: {
-            text: comment.text,
-            tweetId: comment.tweetId,
-            createdAt: new Date().toString(),
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (!res.ok) {
-        throw new Error("Error creating comment");
-      }
-      await queryClient.invalidateQueries(
-        getCommentQueryOptions(Number(comment.tweetId)),
-      );
-    },
-  });
+
+  const { mutate } = useCreateCommentReply();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (text.length == 0) return;
@@ -55,9 +28,10 @@ const ReplyTweet = ({ tweet }: ReplyTweetProps) => {
       tweetId: tweet.id,
       createdAt: tweet.createdAt,
     };
-    mutate({ comment });
+    mutate({ ...comment, createdAt: new Date().toString() });
     setText("");
   };
+
   const { data } = useCustomUserData(tweet.userId.toString());
   if (!data) return;
   return (
@@ -78,7 +52,7 @@ const ReplyTweet = ({ tweet }: ReplyTweetProps) => {
           </p>
           <button
             type="submit"
-            className="font-bold text-gray-800 cursor-pointer hover:bg-blue-300 bg-blue-400 dark:bg-white dark:hover:bg-gray-100 font-bold rounded-full h-9 w-24 size-fit"
+            className="text-gray-800 cursor-pointer hover:bg-blue-300 bg-blue-400 dark:bg-white dark:hover:bg-gray-100 font-bold rounded-full h-9 w-24 size-fit"
           >
             Reply
           </button>

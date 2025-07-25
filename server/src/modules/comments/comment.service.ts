@@ -11,12 +11,11 @@ export const findComments = async (props: { id: number }) => {
   return res;
 };
 export const postComment = async ({ text, tweetId }: TweetComment) => {
-  await db
+  return await db
     .insert(commentsTable)
     .values({
       text,
       tweetId,
     })
     .returning();
-  return;
 };
