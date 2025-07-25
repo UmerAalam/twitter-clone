@@ -7,7 +7,7 @@ export const commentsRouter = new Hono()
   .basePath("comments")
   .use(authMiddleware)
   .post("/", zValidator("json", commentSchema), async (c) => {
-    const { text, tweetId, createdAt }: TweetComment = c.req.json();
+    const { text, tweetId, createdAt }: TweetComment = await c.req.json();
     const post = await postComment({ text, tweetId, createdAt });
     return post;
   })
