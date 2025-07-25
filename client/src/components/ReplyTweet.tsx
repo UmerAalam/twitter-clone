@@ -2,9 +2,10 @@ import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import useCustomUserData from "../lib/customUserData";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "../lib/client";
 import { Comment } from "../pages/CommentPage";
+import { getCommentQueryOptions } from "../lib/getCommentsOfTweet";
 interface Props {
   tweet: Tweet;
 }
@@ -13,19 +14,21 @@ interface CommentProps {
 }
 const ReplyTweet = ({ tweet }: Props) => {
   const [text, setText] = useState("");
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const id = localStorage.getItem("userId");
   if (!id) {
     return navigate({ to: "/sign-in" });
   }
-  const userData = useCustomUserData(id);
   const { mutate } = useMutation({
-    mutationFn: async (comment: CommentProps) => {
+    mutationFn: async ({ comment }: CommentProps) => {
       const token = localStorage.getItem("token");
       const res = await client.api.comments.$post(
         {
           json: {
-            //AddComment Object
+            text: comment.text,
+            tweetId: comment.tweetId,
+            createdAt: new Date().toString(),
           },
         },
         {
@@ -35,16 +38,21 @@ const ReplyTweet = ({ tweet }: Props) => {
         },
       );
       if (!res.ok) {
-        throw new Error("Error creating tweet");
+        throw new Error("Error creating comment");
       }
+      await queryClient.invalidateQueries(
+        getCommentQueryOptions(Number(comment.tweetId)),
+      );
     },
   });
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (text.length == 0) return;
     const comment: Comment = {
+      id: Number(id),
       text,
       tweetId: tweet.id,
+      createdAt: tweet.createdAt,
     };
     mutate({ comment });
     setText("");

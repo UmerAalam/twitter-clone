@@ -1,16 +1,9 @@
 import { client } from "./client";
 import { queryOptions, useQuery } from "@tanstack/react-query";
-interface Comments {
-  id: number;
-  text: string;
-  tweet_id: number;
-  created_at: string;
-}
-const getCommentQueryOptions = (id: number) => {
+export const getCommentQueryOptions = (id: number) => {
   return queryOptions({
     queryFn: async () => {
       const token = localStorage.getItem("token");
-      console.log(id);
       const res = await client.api.comments[":id"].$get(
         {
           param: { id: String(id) },
@@ -24,7 +17,7 @@ const getCommentQueryOptions = (id: number) => {
       const data = await res.json();
       return data;
     },
-    queryKey: [id],
+    queryKey: ["comments", "list", id],
   });
 };
 
