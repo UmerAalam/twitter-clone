@@ -23,7 +23,6 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
     setLike(!like);
   }
   if (isPending) return <div>Loading...</div>;
-
   return (
     <>
       <div className={classname}>
@@ -82,7 +81,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
                   <IoHeartOutline className="mr-1" size={24} />
                 )
               }
-              className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
+              className="font-normal dark:text-white text-lg my-auto text-gray-800 cursor-pointer"
             ></IconButton>
             <IconButton
               flex
