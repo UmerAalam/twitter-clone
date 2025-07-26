@@ -10,6 +10,8 @@ import { Link } from "@tanstack/react-router";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
 import { useState } from "react";
+import { useTweetLike } from "../modules/likes/likes.query";
+import type { TweetLike } from "../../../server/src/modules/likes/likes.dto";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
@@ -17,10 +19,18 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(tweet.userId.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   const [like, setLike] = useState(false);
+  const { mutate } = useTweetLike();
   function handleLike(
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ): void {
     setLike(!like);
+    const tweetLike: TweetLike = {
+      userId: data?.id || 0,
+      like,
+      tweetId: tweet.id,
+      createdAt: new Date().toISOString(),
+    };
+    mutate(tweetLike);
   }
   if (isPending) return <div>Loading...</div>;
   return (
@@ -81,8 +91,10 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
                   <IoHeartOutline className="mr-1" size={24} />
                 )
               }
-              className="font-normal dark:text-white text-lg my-auto text-gray-800 cursor-pointer"
-            ></IconButton>
+              className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
+            >
+              {tweet.likesCount}
+            </IconButton>
             <IconButton
               flex
               row
