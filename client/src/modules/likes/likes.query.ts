@@ -55,3 +55,31 @@ export const useTweetLike = () => {
     },
   });
 };
+interface UpdateLike {
+  tweetId: number;
+  like: boolean;
+}
+export const useUpdateTweetLike = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ like, tweetId }: UpdateLike) => {
+      const token = localStorage.getItem("token");
+      const res = await client.api.likes.$patch(
+        {
+          json: { tweetId, like },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!res.ok) {
+        throw new Error("Error while updating like");
+      }
+    },
+    onSuccess: async (_, { tweetId }) => {
+      await queryClient.invalidateQueries(listLikesByTweetId(Number(tweetId)));
+    },
+  });
+};

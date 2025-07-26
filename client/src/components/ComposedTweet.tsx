@@ -10,7 +10,7 @@ import { Link } from "@tanstack/react-router";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
 import { useState } from "react";
-import { useTweetLike } from "../modules/likes/likes.query";
+import { useTweetLike, useUpdateTweetLike } from "../modules/likes/likes.query";
 import type { TweetLike } from "../../../server/src/modules/likes/likes.dto";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
@@ -18,11 +18,11 @@ interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(tweet.userId.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState<boolean>(tweet.like);
+  const updateLike = useUpdateTweetLike();
   const { mutate } = useTweetLike();
-  function handleLike(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ): void {
+  if (isPending) return <div>Loading...</div>;
+  function handleLike() {
     setLike(!like);
     const tweetLike: TweetLike = {
       userId: data?.id || 0,
@@ -32,7 +32,6 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
     };
     mutate(tweetLike);
   }
-  if (isPending) return <div>Loading...</div>;
   return (
     <>
       <div className={classname}>

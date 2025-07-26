@@ -36,6 +36,7 @@ export interface Tweet extends z.infer<typeof tweetSchema> {
     name: string;
   };
   likesCount: string;
+  like: boolean;
 }
 export interface CreateTweet extends z.infer<typeof createTweetSchema> {}
 export interface UpdateTweet extends z.infer<typeof updateTweetSchema> {}
