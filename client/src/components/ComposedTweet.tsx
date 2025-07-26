@@ -2,19 +2,28 @@ import { MdVerified } from "react-icons/md";
 import IconButton from "./IconButton";
 import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
+import { IoMdHeart } from "react-icons/io";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { Link } from "@tanstack/react-router";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
+import { useState } from "react";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(tweet.userId.toString());
-  if (isPending) return <div>Loading...</div>;
   const classname = classNames(rest.className, "flex items-start w-full p-3");
+  const [like, setLike] = useState(false);
+  function handleLike(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ): void {
+    setLike(!like);
+  }
+  if (isPending) return <div>Loading...</div>;
+
   return (
     <>
       <div className={classname}>
@@ -65,7 +74,14 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
             <IconButton
               flex
               row
-              icon={<IoHeartOutline className="mr-1" size={24} />}
+              onClick={handleLike}
+              icon={
+                like ? (
+                  <IoMdHeart className="mr-1" size={24} />
+                ) : (
+                  <IoHeartOutline className="mr-1" size={24} />
+                )
+              }
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
             ></IconButton>
             <IconButton

@@ -1,9 +1,9 @@
-import { timeStamp } from "console";
 import {
   integer,
   pgTable,
   text,
   timestamp,
+  unique,
   varchar,
 } from "drizzle-orm/pg-core";
 
@@ -32,10 +32,15 @@ export const commentsTable = pgTable("comments", {
     .references(() => tweetsTable.id),
   createdAt: timestamp().notNull().defaultNow(),
 });
-// export const likesTable = pgTable("likes", {
-//   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-//   tweetId: integer("tweet_id")
-//     .notNull()
-//     .references(() => tweetsTable.id),
-//   created_at: timestamp().notNull().defaultNow(),
-// });
+export const likesTable = pgTable(
+  "tweets_likes",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    userId: integer("user_id").references(() => usersTable.id),
+    tweetId: integer("tweet_id").references(() => tweetsTable.id),
+    createdAt: timestamp().notNull().defaultNow(),
+  },
+  (table) => ({
+    uniqueLike: unique().on(table.userId, table.tweetId),
+  }),
+);
