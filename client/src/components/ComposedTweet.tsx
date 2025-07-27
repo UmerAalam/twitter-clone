@@ -19,18 +19,37 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(tweet.userId.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   const [like, setLike] = useState(false);
-  const deleteLike = useDeleteTweetLike();
+  const { mutate: deleteLike } = useDeleteTweetLike();
   const { mutate: addTweetLike } = useTweetLike();
   if (isPending) return <div>Loading...</div>;
-  if (tweet.hasLiked) {
-    setLike(true);
-  }
   function handleLike() {
-    const tweetLike: TweetLike = {
-      userId: data?.id || 0,
-      tweetId: tweet.id,
-      createdAt: new Date().toISOString(),
-    };
+    const newLikeState = !like;
+    setLike(newLikeState);
+
+    if (newLikeState) {
+      const tweetLike: TweetLike = {
+        userId: tweet?.userId,
+        tweetId: tweet?.id,
+        createdAt: new Date().toISOString(),
+      };
+      addTweetLike(tweetLike, {
+        onError: (error) => {
+          console.error("Failed to add like:", error);
+          setLike(!newLikeState);
+        },
+      });
+      console.log("Adding like");
+    } else {
+      deleteLike(
+        { tweetId: tweet?.id, userId: tweet?.userId },
+        {
+          onError: (error) => {
+            console.error("Failed to delete like:", error);
+            setLike(!newLikeState);
+          },
+        },
+      );
+    }
   }
   return (
     <>
