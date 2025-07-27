@@ -7,7 +7,6 @@ import { useMutation } from "@tanstack/react-query";
 import type { SignIn } from "../../../server/src/modules/auth/auth.dto";
 import { client } from "../lib/client";
 import { useNavigate } from "@tanstack/react-router";
-
 const SignInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +22,7 @@ const SignInPage = () => {
     },
     onSuccess: (data) => {
       localStorage.setItem("token", data.token);
-      console.log("onSuccess");
+      localStorage.setItem("userId", data.id.toString());
       navigate({ to: "/" });
     },
     onError: (error) => {
@@ -32,11 +31,11 @@ const SignInPage = () => {
   });
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newUser: SignIn = {
+    const findUser: SignIn = {
       email,
       password,
     };
-    mutate(newUser);
+    mutate(findUser);
   };
   return (
     <div className="flex bg-white h-screen justify-center p-1 dark:bg-gray-700">

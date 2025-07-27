@@ -2,40 +2,24 @@ import { MdVerified } from "react-icons/md";
 import IconButton from "./IconButton";
 import { FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
-import { IoMdHeart } from "react-icons/io";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
-import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
-import { Link } from "@tanstack/react-router";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
-import { useState } from "react";
-import { useTweetLike, useDeleteTweetLike } from "../modules/likes/likes.query";
-import type { TweetLike } from "../../../server/src/modules/likes/likes.dto";
+import type { Comment } from "../pages/CommentPage";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
-  tweet: Tweet;
+  comment: Comment;
+  userId: number;
 }
-const ComposedTweet = ({ tweet, ...rest }: Props) => {
-  const { data, isPending } = useCustomUserData(tweet.userId.toString());
+const ComposedComment = ({ comment, userId, ...rest }: Props) => {
+  const { data, isPending } = useCustomUserData(userId.toString());
+  if (isPending)
+    return (
+      <div className="text-gray-800 dark:text-white flex justify-center">
+        Loading...
+      </div>
+    );
   const classname = classNames(rest.className, "flex items-start w-full p-3");
-  const [like, setLike] = useState<boolean>(tweet.like);
-  const deleteLike = useDeleteTweetLike();
-  const { mutate } = useTweetLike();
-  if (isPending) return <div>Loading...</div>;
-  function handleLike() {
-    setLike(!like);
-    const tweetLike: TweetLike = {
-      userId: data?.id || 0,
-      like,
-      tweetId: tweet.id,
-      createdAt: new Date().toISOString(),
-    };
-    if (like) {
-    delete.mutate({ tweet});
-    } else {
-      mutate(tweetLike);
-    }
-  }
   return (
     <>
       <div className={classname}>
@@ -61,22 +45,20 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
                 {"@" + data?.name.toLowerCase() + data?.id}
               </div>
               <div className="pl-3 text-sm text-gray-400 font-medium">
-                {tweet.createdAt.slice(11, 19)}
+                {comment.createdAt?.slice(11, 19)}
               </div>
             </h2>
             <p className="cursor-auto flex font-normal dark:text-white text-base">
-              {tweet.text}
+              {comment.text}
             </p>
           </div>
           <div className="flex justify-evenly pt-3">
-            <Link to="/tweets/$tweetId" params={{ tweetId: String(tweet.id) }}>
-              <IconButton
-                flex
-                row
-                className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
-                icon={<FaRegComment className="mr-1" size={22} />}
-              ></IconButton>
-            </Link>
+            <IconButton
+              flex
+              row
+              className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
+              icon={<FaRegComment className="mr-1" size={22} />}
+            ></IconButton>
             <IconButton
               flex
               row
@@ -86,18 +68,9 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
             <IconButton
               flex
               row
-              onClick={handleLike}
-              icon={
-                like ? (
-                  <IoMdHeart className="mr-1" size={24} />
-                ) : (
-                  <IoHeartOutline className="mr-1" size={24} />
-                )
-              }
+              icon={<IoHeartOutline className="mr-1" size={24} />}
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
-            >
-              {tweet.likesCount}
-            </IconButton>
+            ></IconButton>
             <IconButton
               flex
               row
@@ -110,4 +83,5 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
     </>
   );
 };
-export default ComposedTweet;
+
+export default ComposedComment;

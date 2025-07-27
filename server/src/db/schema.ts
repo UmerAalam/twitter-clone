@@ -1,9 +1,10 @@
-import { timeStamp } from "console";
 import {
+  boolean,
   integer,
   pgTable,
   text,
   timestamp,
+  unique,
   varchar,
 } from "drizzle-orm/pg-core";
 
@@ -16,7 +17,6 @@ export const usersTable = pgTable("users", {
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
 });
-
 export const tweetsTable = pgTable("tweets", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   text: text().notNull(),
@@ -25,10 +25,24 @@ export const tweetsTable = pgTable("tweets", {
     .references(() => usersTable.id),
   createdAt: timestamp().notNull().defaultNow(),
 });
-// export const likesTable = pgTable("likes", {
-//   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-//   tweetId: integer("tweet_id")
-//     .notNull()
-//     .references(() => tweetsTable.id),
-//   created_at: timestamp().notNull().defaultNow(),
-// });
+export const commentsTable = pgTable("comments", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity().notNull(),
+  text: text().notNull(),
+  tweetId: integer("tweet_id")
+    .notNull()
+    .references(() => tweetsTable.id),
+  createdAt: timestamp().notNull().defaultNow(),
+});
+export const likesTable = pgTable(
+  "tweets_likes",
+  {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    like: boolean("like").notNull().default(false),
+    userId: integer("user_id").references(() => usersTable.id),
+    tweetId: integer("tweet_id").references(() => tweetsTable.id),
+    createdAt: timestamp().notNull().defaultNow(),
+  },
+  (table) => ({
+    uniqueLike: unique().on(table.userId, table.tweetId),
+  }),
+);

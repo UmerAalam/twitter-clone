@@ -1,5 +1,5 @@
 import IconButton from "../components/IconButton.tsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 const NotFoundPage = () => {
   const navigate = useNavigate();
   return (
@@ -12,7 +12,7 @@ const NotFoundPage = () => {
           flex
           className="flex p-5 justify-center dark:text-gray-800 dark:hover:text-gray-600 items-center h-12 rounded-full font-bold bg-white text-blue-500 hover:text-blue-300"
           onClick={() => {
-            navigate("/");
+            navigate({ to: "/" });
           }}
         >
           Back To HomePage

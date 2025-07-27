@@ -1,33 +1,37 @@
 import { SlCalender } from "react-icons/sl";
-import { useUserData } from "../lib/userData";
+import useCustomUserData from "../lib/customUserData";
 const MainProfile = () => {
-  const data = useUserData();
-  const backgroundImage =
+  const id = localStorage.getItem("userId") || "0";
+  const { data } = useCustomUserData(id);
+  if (!data) return;
+  const avatar =
     "https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg";
-  const profileImage =
+  const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   return (
     <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
         <img
-          className="object-cover w-full h-full"
-          src={profileImage}
+          className="rounded-t-2xl object-cover w-full h-full"
+          src={backgroundImage}
           alt="profile-background-image"
         />
       </div>
       <div className="flex justify-center overflow-hidden w-24 h-24 ml-7 -mt-12 bg-black outline-3 outline-white rounded-full">
         <img
           className="object-cover"
-          src={backgroundImage}
+          src={data.avatar || avatar}
           alt="profile-page-image"
         />
       </div>
       <div className="ml-5 flex justify-between">
         <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
           {data?.name}
-          <p className="text-gray-400 text-sm font-normal">{data?.username}</p>
+          <p className="text-gray-400 text-sm font-normal">
+            {"@" + data?.name + data?.id}
+          </p>
         </h2>
-        <button className="cursor-pointer -mt-9 mr-5 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">
+        <button className="cursor-pointer text-sm -mt-9 mr-5 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">
           Edit Profile
         </button>
       </div>

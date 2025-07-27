@@ -1,6 +1,6 @@
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 import db from "../../db.js";
-import { tweetsTable, usersTable } from "../../db/schema.js";
+import { likesTable, tweetsTable, usersTable } from "../../db/schema.js";
 import type {
   FindManyTweet,
   FindOneTweet,
@@ -29,10 +29,14 @@ export const findManyTweet = async (
         id: usersTable.id,
         name: usersTable.name,
       },
+      likesCount: sql<number>`(SELECT COUNT(${likesTable.id}) FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id})`,
+      like: likesTable.like,
+      likeId: likesTable.id,
     })
     .from(tweetsTable)
     .orderBy(desc(tweetsTable.createdAt))
-    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId));
+    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
+    .leftJoin(likesTable, eq(likesTable.tweetId, tweetsTable.id));
 };
 
 export const createTweetPostgres = async (
@@ -60,10 +64,12 @@ export const findOneTweet = async ({ id }: FindOneTweet): Promise<Tweet> => {
         id: usersTable.id,
         name: usersTable.name,
       },
+      likesCount: sql<number>`(SELECT COUNT(${likesTable.id}) FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id})`,
     })
     .from(tweetsTable)
     .where(eq(tweetsTable.id, id))
-    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId));
+    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
+    .leftJoin(likesTable, eq(likesTable.tweetId, tweetsTable.id));
 
   return tweet[0];
 };

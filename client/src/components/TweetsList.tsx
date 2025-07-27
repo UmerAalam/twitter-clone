@@ -1,29 +1,8 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
 import ComposedTweet from "./ComposedTweet";
-import { client } from "../lib/client";
-
-export const tweetListQueryOptions = () => {
-  return queryOptions({
-    queryFn: async () => {
-      const token = localStorage.getItem("token");
-      const res = await client.api.tweets.$get(
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      const data = await res.json();
-      return data;
-    },
-    queryKey: ["tweets", "list"],
-  });
-};
+import { useTweetList } from "../modules/tweets/tweets.query";
 
 const TweetList = () => {
-  const { isLoading, data } = useQuery(tweetListQueryOptions());
-
+  const { isLoading, data } = useTweetList();
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
   }

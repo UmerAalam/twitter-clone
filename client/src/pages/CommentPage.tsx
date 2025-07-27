@@ -1,42 +1,23 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
-import { client } from "../lib/client";
-import { useParams } from "@tanstack/react-router";
-import { useNavigate } from "@tanstack/react-router";
 import ComposedTweet from "../components/ComposedTweet";
 import type { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import ReplyTweet from "../components/ReplyTweet";
-export const tweetDetailQueryOptions = (id: number) => {
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-  if (!token) {
-    navigate({ to: "/sign-in" });
-  }
-  return queryOptions({
-    queryFn: async () => {
-      const res = await client.api.tweets[":id"].$get(
-        {
-          param: { id: String(id) },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      const data = await res.json();
-      return data;
-    },
-    queryKey: ["tweets", "details", { id }],
-    enabled: !!id,
-  });
-};
-interface Props {
-  tweetId: string;
+import CommentList from "../components/CommentList";
+import { useTweetDetail } from "../modules/tweets/tweets.query";
+
+export interface Comment {
+  id: number;
+  text: string;
+  tweetId: number;
+  createdAt: string;
 }
+interface Props {
+  tweetId: number;
+}
+
 const CommentPage = ({ tweetId }: Props) => {
-  const { isLoading, data } = useQuery(
-    tweetDetailQueryOptions(parseInt(tweetId)),
-  );
+  const { isLoading, data } = useTweetDetail(tweetId);
+
+  if (isLoading) return;
   if (!data) return;
   const currentTweet: Tweet = {
     id: data.id,
@@ -57,6 +38,7 @@ const CommentPage = ({ tweetId }: Props) => {
         )}
       </div>
       <ReplyTweet tweet={currentTweet} />
+      <CommentList tweet={currentTweet} />
     </div>
   );
 };
