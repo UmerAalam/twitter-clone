@@ -30,7 +30,11 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
       tweetId: tweet.id,
       createdAt: new Date().toISOString(),
     };
-    mutate(tweetLike);
+    if (!tweetLike.like) {
+      mutate(tweetLike);
+    } else {
+      updateLike.mutate(tweetLike);
+    }
   }
   return (
     <>
