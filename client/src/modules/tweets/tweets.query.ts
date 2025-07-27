@@ -6,7 +6,6 @@ import {
 } from "@tanstack/react-query";
 import { client } from "../../lib/client";
 import { CreateTweet } from "../../../../server/src/modules/tweet/tweet.dto";
-
 export const tweetListQueryOptions = () => {
   return queryOptions({
     queryFn: async () => {

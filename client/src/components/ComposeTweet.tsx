@@ -9,10 +9,10 @@ const ComposeTweet = () => {
   const navigate = useNavigate();
   const id = localStorage.getItem("userId");
   if (!id) {
-    return navigate({ to: "/sign-in" });
+    navigate({ to: "/sign-in" });
   }
   const { mutate } = useCreateTweet();
-  const { data } = useCustomUserData(id);
+  const { data } = useCustomUserData(id || "");
   const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (text.length == 0) return;

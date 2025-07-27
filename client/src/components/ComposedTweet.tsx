@@ -18,7 +18,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(tweet.userId.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(tweet.hasLiked || false);
   const { mutate: deleteLike } = useDeleteTweetLike();
   const { mutate: addTweetLike } = useTweetLike();
   if (isPending) return <div>Loading...</div>;
