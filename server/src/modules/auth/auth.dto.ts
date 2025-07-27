@@ -19,8 +19,8 @@ export const userWithoutPasswordScheme = z.object({
   email: z.string().email(),
   name: z.string(),
   avatar: z.string().url(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  created_at: z.date(),
+  updated_at: z.date(),
 });
 export const userSchema = z.object({
   id: z.number(),
