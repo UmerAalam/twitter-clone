@@ -3,7 +3,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 interface UserData {
   id: number;
   name: string;
-  email: string;
+  email?: string;
   avatar: string;
   created_at: string;
   updated_at: string;
@@ -29,13 +29,13 @@ export const userDataQueryOptions = (id: string) => {
     queryKey: ["user", "detail", id],
   });
 };
-export const usersDataQueryOptions = (usersCount: number) => {
+export const usersDataQueryOptions = (userCount: number) => {
   return queryOptions({
     queryFn: async () => {
       const token = localStorage.getItem("token");
       const res = await client.api.users.$get(
         {
-          json: { usersCount },
+          json: { userCount },
         },
         {
           headers: {
@@ -45,9 +45,9 @@ export const usersDataQueryOptions = (usersCount: number) => {
       );
       const data = await res.json();
 
-      return data as UserData;
+      return data;
     },
-    queryKey: ["user", "detail", usersCount],
+    queryKey: ["user", "detail", userCount],
   });
 };
 

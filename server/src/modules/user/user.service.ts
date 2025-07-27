@@ -9,7 +9,7 @@ export const findUserById = async (props: { id: number }) => {
     .where(eq(usersTable.id, props.id));
   return res[0];
 };
-export const findUsersByCount = async (props: { usersCount: number }) => {
-  const res = await db.select().from(usersTable).limit(props.usersCount);
+export const findUsersByCount = async (props: { userCount: number }) => {
+  const res = await db.select().from(usersTable).limit(props.userCount);
   return res;
 };
