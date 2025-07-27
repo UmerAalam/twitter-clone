@@ -6,20 +6,33 @@ import type {
   FindOneTweet,
   DeleteTweet,
   UpdateTweet,
+  Tweet,
+  CreateTweet,
 } from "./tweet.dto.js";
 
-type Tweet = typeof tweetsTable.$inferSelect & {
+type DbTweet = typeof tweetsTable.$inferSelect & {
   user: {
     id: number;
     name: string;
   } | null;
+  likesCount: number;
+  hasLiked?: boolean;
 };
-type CreateTweet = typeof tweetsTable.$inferInsert;
+
+const mapTweet = (tweet: DbTweet): Tweet => ({
+  id: tweet.id,
+  text: tweet.text,
+  userId: tweet.userId,
+  createdAt: tweet.createdAt.toISOString(),
+  user: tweet.user,
+  likesCount: tweet.likesCount,
+  hasLiked: tweet.hasLiked ? tweet.hasLiked : false,
+});
 
 export const findManyTweet = async (
   _props: FindManyTweet,
 ): Promise<Tweet[]> => {
-  return db
+  const results = await db
     .select({
       id: tweetsTable.id,
       text: tweetsTable.text,
@@ -30,13 +43,14 @@ export const findManyTweet = async (
         name: usersTable.name,
       },
       likesCount: sql<number>`(SELECT COUNT(${likesTable.id}) FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id})`,
-      like: likesTable.like,
-      likeId: likesTable.id,
+      hasLiked: sql<boolean>`(SELECT COUNT(${likesTable.id}) > 0 FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id} AND ${likesTable.userId} = ${usersTable.id})`,
     })
     .from(tweetsTable)
     .orderBy(desc(tweetsTable.createdAt))
     .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
     .leftJoin(likesTable, eq(likesTable.tweetId, tweetsTable.id));
+
+  return results.map(mapTweet);
 };
 
 export const createTweetPostgres = async (
@@ -65,13 +79,14 @@ export const findOneTweet = async ({ id }: FindOneTweet): Promise<Tweet> => {
         name: usersTable.name,
       },
       likesCount: sql<number>`(SELECT COUNT(${likesTable.id}) FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id})`,
+      hasLiked: sql<boolean>`SELECT COUNT(${likesTable.id}) > 0 FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id} AND ${likesTable.userId} = ${usersTable.id}`,
     })
     .from(tweetsTable)
     .where(eq(tweetsTable.id, id))
     .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
     .leftJoin(likesTable, eq(likesTable.tweetId, tweetsTable.id));
 
-  return tweet[0];
+  return mapTweet(tweet[0]);
 };
 
 export const deleteTweet = async ({

@@ -31,13 +31,12 @@ export const findManyTweetSchema = z.object({});
 
 export interface BaseTweet extends z.infer<typeof baseTweetSchema> {}
 export interface Tweet extends z.infer<typeof tweetSchema> {
-  users: {
+  user: {
     id: number;
     name: string;
-  };
-  likesCount: string;
-  like: boolean;
-  likeId: number;
+  } | null;
+  likesCount: number;
+  hasLiked?: boolean;
 }
 export interface CreateTweet extends z.infer<typeof createTweetSchema> {}
 export interface UpdateTweet extends z.infer<typeof updateTweetSchema> {}

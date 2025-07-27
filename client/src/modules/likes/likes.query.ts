@@ -61,11 +61,11 @@ export const useTweetLike = () => {
 export const useDeleteTweetLike = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ likeId }: DeleteLike) => {
+    mutationFn: async ({ tweetId, userId }: DeleteLike) => {
       const token = localStorage.getItem("token");
       const res = await client.api.likes.$delete(
         {
-          json: { likeId },
+          json: { tweetId, userId },
         },
         {
           headers: {
@@ -77,8 +77,8 @@ export const useDeleteTweetLike = () => {
         throw new Error("Error while updating like");
       }
     },
-    onSuccess: async (_, { likeId }) => {
-      await queryClient.invalidateQueries(listLikesByTweetId(Number(likeId)));
+    onSuccess: async (_, { tweetId }) => {
+      await queryClient.invalidateQueries(listLikesByTweetId(Number(tweetId)));
     },
   });
 };
