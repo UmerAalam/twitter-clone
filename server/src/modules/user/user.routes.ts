@@ -3,8 +3,6 @@ import { authMiddleware } from "../auth/AuthMiddleWare.js";
 import { findUserById, findUsersByCount } from "./user.service.js";
 import { zValidator } from "@hono/zod-validator";
 import {
-  userWithoutEmailScheme,
-  userWithoutPasswordScheme,
   type UserWithoutEmail,
   type UserWithoutPassword,
 } from "../auth/auth.dto.js";
@@ -28,8 +26,8 @@ export const usersRouter = new Hono()
 
     return c.json(userWithoutPassword);
   })
-  .get("/", zValidator("json", userCountScheme), async (c) => {
-    const { userCount } = await c.req.json();
+  .get("/", zValidator("query", userCountScheme), async (c) => {
+    const { userCount } = c.req.valid("query");
     const users: UserWithoutEmail[] = await findUsersByCount({ userCount });
     return c.json(users, 200);
   });

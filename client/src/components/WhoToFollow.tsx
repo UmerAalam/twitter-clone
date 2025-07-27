@@ -1,7 +1,7 @@
-import useCustomUserData from "../lib/customUserData";
+import { useUserCountData } from "../lib/customUserData";
 import FollowAccount from "./FollowAccount";
 const WhoToFollow = () => {
-  const { data } = useCustomUserData();
+  const { data } = useUserCountData(3);
   return (
     <div className="w-full rounded-2xl bg-gray-100 dark:bg-gray-700">
       <div className="flex justify-between">
@@ -9,8 +9,17 @@ const WhoToFollow = () => {
           Who To Follow
         </div>
       </div>
-      <FollowAccount />
-      <span className="flex text-gray-700 hover:text-gray-400 cursor-pointer pl-4 pb-3 font-bold">
+      {data?.map((user) => {
+        return (
+          <FollowAccount
+            key={user.id}
+            avatar={user.avatar}
+            name={user.name}
+            username={"@" + user.name + user.id}
+          />
+        );
+      })}
+      <span className="flex text-gray-700 dark:text-white hover:text-gray-400 cursor-pointer pl-4 pb-2 pt-1 font-bold">
         Show more
       </span>
     </div>

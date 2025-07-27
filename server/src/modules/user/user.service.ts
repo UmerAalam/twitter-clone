@@ -10,6 +10,15 @@ export const findUserById = async (props: { id: number }) => {
   return res[0];
 };
 export const findUsersByCount = async (props: { userCount: number }) => {
-  const res = await db.select().from(usersTable).limit(props.userCount);
+  const res = await db
+    .select({
+      id: usersTable.id,
+      name: usersTable.name,
+      avatar: usersTable.avatar,
+      created_at: usersTable.created_at,
+      updated_at: usersTable.updated_at,
+    })
+    .from(usersTable)
+    .limit(props.userCount);
   return res;
 };
