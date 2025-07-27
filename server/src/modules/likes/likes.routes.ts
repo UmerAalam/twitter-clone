@@ -17,8 +17,8 @@ export const tweetLikesRouter = new Hono()
     return c.json(post, 201);
   })
   .delete("/", zValidator("json", deleteLikeSchema), async (c) => {
-    const { likeId }: DeleteLike = await c.req.json();
-    const update = await deleteLike({ likeId });
+    const { userId, tweetId }: DeleteLike = await c.req.json();
+    const update = await deleteLike({ userId, tweetId });
     return c.json(update, 201);
   })
   .get("/", async (c) => {

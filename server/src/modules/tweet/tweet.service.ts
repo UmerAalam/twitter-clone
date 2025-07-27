@@ -52,7 +52,6 @@ export const findManyTweet = async (
 
   return results.map(mapTweet);
 };
-
 export const createTweetPostgres = async (
   props: CreateTweet,
 ): Promise<Tweet> => {

@@ -38,7 +38,6 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
           setLike(!newLikeState);
         },
       });
-      console.log("Adding like");
     } else {
       deleteLike(
         { tweetId: tweet?.id, userId: tweet?.userId },

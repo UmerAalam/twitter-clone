@@ -14,9 +14,6 @@ import {
   updateTweet,
 } from "./tweet.service.js";
 import { authMiddleware } from "../auth/AuthMiddleWare.js";
-interface UserID {
-  currentUserId: number;
-}
 export const tweetsRouter = new Hono()
   .basePath("tweets")
   .use(authMiddleware)
@@ -40,7 +37,6 @@ export const tweetsRouter = new Hono()
     if (!tweet) {
       return c.json({ message: "Tweet Not Found" }, 404);
     }
-
     return c.json(tweet);
   })
   .patch(

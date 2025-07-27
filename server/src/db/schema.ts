@@ -37,7 +37,6 @@ export const likesTable = pgTable(
   "tweets_likes",
   {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    like: boolean("like").notNull().default(false),
     userId: integer("user_id").references(() => usersTable.id),
     tweetId: integer("tweet_id").references(() => tweetsTable.id),
     createdAt: timestamp().notNull().defaultNow(),
