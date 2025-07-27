@@ -72,7 +72,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
                 }
               ></IconButton>
               <div className="pl-1 text-sm text-gray-400 font-medium">
-                {"@" + data?.name.toLowerCase() + data?.id}
+                {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
               </div>
               <div className="pl-3 text-sm text-gray-400 font-medium">
                 {tweet.createdAt.slice(11, 19)}

@@ -28,7 +28,7 @@ const MainProfile = () => {
         <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
           {data?.name}
           <p className="text-gray-400 text-sm font-normal">
-            {"@" + data?.name + data?.id}
+            {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
           </p>
         </h2>
         <button className="cursor-pointer text-sm -mt-9 mr-5 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">

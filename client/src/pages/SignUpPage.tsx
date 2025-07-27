@@ -28,7 +28,7 @@ const SignUpPage = () => {
     event.preventDefault();
     if (password == confirmPassword) {
       const newUser: SignUp = {
-        name: name.split(" ").join(" "),
+        name,
         avatar:
           "https://i.ibb.co/LBcb2Bt/formula-physics-worksheet-illustration-wallpaper.jpg",
         password,
