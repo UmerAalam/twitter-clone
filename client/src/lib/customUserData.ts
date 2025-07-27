@@ -29,6 +29,27 @@ export const userDataQueryOptions = (id: string) => {
     queryKey: ["user", "detail", id],
   });
 };
+export const usersDataQueryOptions = (usersCount: number) => {
+  return queryOptions({
+    queryFn: async () => {
+      const token = localStorage.getItem("token");
+      const res = await client.api.users.$get(
+        {
+          json: { usersCount },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const data = await res.json();
+
+      return data as UserData;
+    },
+    queryKey: ["user", "detail", usersCount],
+  });
+};
 
 const useCustomUserData = (id: string) => useQuery(userDataQueryOptions(id));
 

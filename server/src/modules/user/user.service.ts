@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import db from "../../db.js";
 import { usersTable } from "../../db/schema.js";
 
@@ -8,4 +8,8 @@ export const findUserById = async (props: { id: number }) => {
     .from(usersTable)
     .where(eq(usersTable.id, props.id));
   return res[0];
+};
+export const findUsersByCount = async (props: { usersCount: number }) => {
+  const res = await db.select().from(usersTable).limit(props.usersCount);
+  return res;
 };

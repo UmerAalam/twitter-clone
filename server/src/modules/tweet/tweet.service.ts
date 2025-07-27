@@ -65,7 +65,6 @@ export const createTweetPostgres = async (
 
   return findOneTweet({ id: res[0].id });
 };
-
 export const findOneTweet = async ({ id }: FindOneTweet): Promise<Tweet> => {
   const tweet = await db
     .select({
@@ -84,7 +83,6 @@ export const findOneTweet = async ({ id }: FindOneTweet): Promise<Tweet> => {
     .where(eq(tweetsTable.id, id))
     .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
     .leftJoin(likesTable, eq(likesTable.tweetId, tweetsTable.id));
-
   return mapTweet(tweet[0]);
 };
 
