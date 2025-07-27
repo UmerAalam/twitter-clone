@@ -10,11 +10,10 @@ export const findLikes = async (props: { id: number }) => {
     .where(eq(likesTable.tweetId, props.id));
   return res[0].count;
 };
-export const updateLike = async (props: { tweetId: number; like: boolean }) => {
+export const deleteLike = async (props: { likeId: number }) => {
   return await db
-    .update(likesTable)
-    .set({ like: props.like })
-    .where(eq(likesTable.tweetId, props.tweetId))
+    .delete(likesTable)
+    .where(eq(likesTable.id, props.likeId))
     .returning();
 };
 export const postLike = async ({ like, tweetId, userId }: TweetLike) => {

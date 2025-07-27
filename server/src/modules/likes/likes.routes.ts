@@ -3,11 +3,11 @@ import { authMiddleware } from "../auth/AuthMiddleWare.js";
 import { zValidator } from "@hono/zod-validator";
 import {
   tweetlikeSchema,
-  updateLikeSchema,
+  deleteLikeSchema,
+  type DeleteLike,
   type TweetLike,
-  type UpdateLike,
 } from "./likes.dto.js";
-import { findLikes, postLike, updateLike } from "./likes.service.js";
+import { findLikes, postLike, deleteLike } from "./likes.service.js";
 export const tweetLikesRouter = new Hono()
   .basePath("likes")
   .use(authMiddleware)
@@ -16,9 +16,9 @@ export const tweetLikesRouter = new Hono()
     const post = postLike(body);
     return c.json(post, 201);
   })
-  .patch("/", zValidator("json", updateLikeSchema), async (c) => {
-    const { like, tweetId }: UpdateLike = await c.req.json();
-    const update = await updateLike({ like, tweetId });
+  .delete("/", zValidator("json", deleteLikeSchema), async (c) => {
+    const { likeId }: DeleteLike = await c.req.json();
+    const update = await deleteLike({ likeId });
     return c.json(update, 201);
   })
   .get("/", async (c) => {

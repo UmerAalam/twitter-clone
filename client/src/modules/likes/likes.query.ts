@@ -5,7 +5,10 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { client } from "../../lib/client";
-import type { TweetLike } from "../../../../server/src/modules/likes/likes.dto";
+import type {
+  DeleteLike,
+  TweetLike,
+} from "../../../../server/src/modules/likes/likes.dto";
 
 const listLikesByTweetId = (id: number) => {
   return queryOptions({
@@ -55,18 +58,14 @@ export const useTweetLike = () => {
     },
   });
 };
-interface UpdateLike {
-  tweetId: number;
-  like: boolean;
-}
-export const useUpdateTweetLike = () => {
+export const useDeleteTweetLike = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ like, tweetId }: UpdateLike) => {
+    mutationFn: async ({ likeId }: DeleteLike) => {
       const token = localStorage.getItem("token");
-      const res = await client.api.likes.$patch(
+      const res = await client.api.likes.$delete(
         {
-          json: { tweetId, like },
+          json: { likeId },
         },
         {
           headers: {
@@ -78,8 +77,8 @@ export const useUpdateTweetLike = () => {
         throw new Error("Error while updating like");
       }
     },
-    onSuccess: async (_, { tweetId }) => {
-      await queryClient.invalidateQueries(listLikesByTweetId(Number(tweetId)));
+    onSuccess: async (_, { likeId }) => {
+      await queryClient.invalidateQueries(listLikesByTweetId(Number(likeId)));
     },
   });
 };

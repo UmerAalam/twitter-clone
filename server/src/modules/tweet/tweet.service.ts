@@ -31,6 +31,7 @@ export const findManyTweet = async (
       },
       likesCount: sql<number>`(SELECT COUNT(${likesTable.id}) FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id})`,
       like: likesTable.like,
+      likeId: likesTable.id,
     })
     .from(tweetsTable)
     .orderBy(desc(tweetsTable.createdAt))
