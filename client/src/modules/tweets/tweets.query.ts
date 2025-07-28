@@ -29,7 +29,7 @@ export const tweetListQueryOptions = (params: FindManyTweet = {}) => {
       const data = await res.json();
       return data;
     },
-    queryKey: ["tweets", "list"],
+    queryKey: ["tweets", "list", params.userId],
   });
 };
 

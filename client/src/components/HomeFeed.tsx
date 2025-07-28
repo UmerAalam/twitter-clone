@@ -11,7 +11,7 @@ const HomeFeed = () => {
         </div>
         <hr className="text-gray-200 dark:text-gray-700" />
         <ComposeTweet />
-        <TweetList />
+        <TweetList userId={undefined} />
       </div>
     </>
   );
