@@ -27,7 +27,9 @@ export const findOneTweetSchema = z.object({
   id: z.number(),
 });
 
-export const findManyTweetSchema = z.object({});
+export const findManyTweetSchema = z.object({
+  userId: z.coerce.number().optional(),
+});
 
 export interface BaseTweet extends z.infer<typeof baseTweetSchema> {}
 export interface Tweet extends z.infer<typeof tweetSchema> {

@@ -6,8 +6,10 @@ import {
 import MenuBar from "../components/MenuBar";
 import TrendsBar from "../components/TrendsBar";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import NotFoundPage from "../pages/NotFoundPage";
 export const Route = createRootRoute({
   component: RootComponent,
+  notFoundComponent: NotFoundPage,
 });
 function RootComponent() {
   const { location } = useRouterState();
@@ -22,7 +24,7 @@ function RootComponent() {
       )}
       <div className={`${shouldHide ? "w-full" : "w-1/2"} p-3`}>
         <Outlet />
-        <TanStackRouterDevtools />
+        {/* <TanStackRouterDevtools /> */}
       </div>
       {!shouldHide && (
         <div className="fixed pl-3 w-1/4 top-0 right-0 p-3">

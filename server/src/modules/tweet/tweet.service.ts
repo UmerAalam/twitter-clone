@@ -1,4 +1,4 @@
-import { desc, eq, sql } from "drizzle-orm";
+import { desc, eq, SQL, sql, and } from "drizzle-orm";
 import db from "../../db.js";
 import { likesTable, tweetsTable, usersTable } from "../../db/schema.js";
 import type {
@@ -30,8 +30,15 @@ const mapTweet = (tweet: DbTweet): Tweet => ({
 });
 
 export const findManyTweet = async (
-  _props: FindManyTweet,
+  props: FindManyTweet & { userId?: number },
 ): Promise<Tweet[]> => {
+  const conditions: SQL[] = [];
+  if (props.userId) {
+    conditions.push(eq(tweetsTable.userId, props.userId));
+  }
+
+  const { userId } = props;
+
   const results = await db
     .select({
       id: tweetsTable.id,
@@ -42,13 +49,22 @@ export const findManyTweet = async (
         id: usersTable.id,
         name: usersTable.name,
       },
-      likesCount: sql<number>`(SELECT COUNT(${likesTable.id}) FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id})`,
-      hasLiked: sql<boolean>`(SELECT COUNT(${likesTable.id}) > 0 FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id} AND ${likesTable.userId} = ${usersTable.id})`,
+      likesCount: sql<number>`(
+        SELECT COUNT(${likesTable.id}) 
+        FROM ${likesTable} 
+        WHERE ${likesTable.tweetId} = ${tweetsTable.id}
+      )`,
+      hasLiked: sql<boolean>`(
+        SELECT COUNT(*) > 0 
+        FROM ${likesTable} 
+        WHERE ${likesTable.tweetId} = ${tweetsTable.id}
+          AND ${likesTable.userId} = ${userId}
+      )`,
     })
     .from(tweetsTable)
+    .where(and(...conditions))
     .orderBy(desc(tweetsTable.createdAt))
-    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
-    .leftJoin(likesTable, eq(likesTable.tweetId, tweetsTable.id));
+    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId));
 
   return results.map(mapTweet);
 };

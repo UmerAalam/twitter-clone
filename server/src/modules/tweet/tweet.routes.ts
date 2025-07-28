@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import {
   createTweetSchema,
+  findManyTweetSchema,
   updateTweetSchema,
   type UpdateTweet,
 } from "./tweet.dto.js";
@@ -22,8 +23,9 @@ export const tweetsRouter = new Hono()
     const addedTweet = await createTweetPostgres(body);
     return c.json(addedTweet, 201);
   })
-  .get("/", async (c) => {
-    const tweets = await findManyTweet({});
+  .get("/", zValidator("query", findManyTweetSchema), async (c) => {
+    const { userId } = c.req.valid("query");
+    const tweets = await findManyTweet({ userId });
     return c.json(tweets, 200);
   })
   .get("/:id", async (c) => {

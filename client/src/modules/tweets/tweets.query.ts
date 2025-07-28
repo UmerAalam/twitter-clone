@@ -5,13 +5,21 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { client } from "../../lib/client";
-import { CreateTweet } from "../../../../server/src/modules/tweet/tweet.dto";
-export const tweetListQueryOptions = () => {
+import {
+  CreateTweet,
+  FindManyTweet,
+} from "../../../../server/src/modules/tweet/tweet.dto";
+
+export const tweetListQueryOptions = (params: FindManyTweet = {}) => {
   return queryOptions({
     queryFn: async () => {
       const token = localStorage.getItem("token");
       const res = await client.api.tweets.$get(
-        {},
+        {
+          query: {
+            userId: params.userId ? String(params.userId) : undefined,
+          },
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -25,10 +33,13 @@ export const tweetListQueryOptions = () => {
   });
 };
 
-export const useTweetList = () => {
-  return useQuery(tweetListQueryOptions());
+export const useTweetListByID = (userId: number) => {
+  return useQuery(tweetListQueryOptions({ userId }));
 };
 
+export const useTweetList = (userId?: number) => {
+  return useQuery(tweetListQueryOptions({ userId }));
+};
 export const tweetDetailQueryOptions = (id: number) => {
   const token = localStorage.getItem("token");
 
