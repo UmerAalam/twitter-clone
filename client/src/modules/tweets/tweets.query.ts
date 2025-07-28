@@ -33,10 +33,6 @@ export const tweetListQueryOptions = (params: FindManyTweet = {}) => {
   });
 };
 
-export const useTweetListByID = (userId: number) => {
-  return useQuery(tweetListQueryOptions({ userId }));
-};
-
 export const useTweetList = (userId?: number) => {
   return useQuery(tweetListQueryOptions({ userId }));
 };

@@ -69,11 +69,11 @@ export const useTweetLike = () => {
 export const useDeleteTweetLike = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ tweetId, userId }: DeleteLike) => {
+    mutationFn: async ({ tweetId }: DeleteLike) => {
       const token = localStorage.getItem("token");
       const res = await client.api.likes.$delete(
         {
-          json: { tweetId, userId },
+          json: { tweetId },
         },
         {
           headers: {

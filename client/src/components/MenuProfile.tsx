@@ -2,11 +2,13 @@ import IconButton from "./IconButton";
 import { MdOutlineMoreHoriz } from "react-icons/md";
 import { useNavigate } from "@tanstack/react-router";
 import useCustomUserData from "../lib/customUserData";
+import { useTweetList } from "../modules/tweets/tweets.query";
 const MenuProfile = () => {
   const navigate = useNavigate();
   const id = localStorage.getItem("userId") || "0";
-  const { data } = useCustomUserData(id);
-  if (!data) return;
+  const { data: userTweets } = useTweetList(Number(id));
+  const { data, isLoading } = useCustomUserData(id);
+  if (isLoading) return <div>Loading User Data</div>;
   return (
     <div
       onClick={() => {
