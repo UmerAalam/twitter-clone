@@ -28,7 +28,6 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
 
     if (newLikeState) {
       const tweetLike: TweetLike = {
-        userId: tweet?.userId,
         tweetId: tweet?.id,
         createdAt: new Date().toISOString(),
       };
@@ -40,7 +39,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
       });
     } else {
       deleteLike(
-        { tweetId: tweet?.id, userId: tweet?.userId },
+        { tweetId: tweet?.id },
         {
           onError: (error) => {
             console.error("Failed to delete like:", error);
@@ -50,6 +49,10 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
       );
     }
   }
+  const CopyShareLink = async () => {
+    const copyValue = `http://localhost:3000/tweets/${tweet.id}`;
+    await navigator.clipboard.writeText(copyValue);
+  };
   return (
     <>
       <div className={classname}>
@@ -116,6 +119,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               flex
               row
               icon={<IoShareOutline className="mr-1" size={24} />}
+              onClick={CopyShareLink}
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
             ></IconButton>
           </div>
