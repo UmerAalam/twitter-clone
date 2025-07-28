@@ -28,18 +28,16 @@ const mapTweet = (tweet: DbTweet): Tweet => ({
   likesCount: tweet.likesCount,
   hasLiked: tweet.hasLiked ? tweet.hasLiked : false,
 });
-
 export const findManyTweet = async (
-  props: FindManyTweet & { userId?: number },
+  props: FindManyTweet & { loggedInUserId: number },
 ): Promise<Tweet[]> => {
   const conditions: SQL[] = [];
   if (props.userId) {
     conditions.push(eq(tweetsTable.userId, props.userId));
   }
 
-  const { userId } = props;
-
   const results = await db
+
     .select({
       id: tweetsTable.id,
       text: tweetsTable.text,
@@ -56,9 +54,9 @@ export const findManyTweet = async (
       )`,
       hasLiked: sql<boolean>`(
         SELECT COUNT(*) > 0 
-        FROM ${likesTable} 
+        FROM ${likesTable}
         WHERE ${likesTable.tweetId} = ${tweetsTable.id}
-          AND ${likesTable.userId} = ${userId}
+          AND ${likesTable.userId} = ${props.loggedInUserId}
       )`,
     })
     .from(tweetsTable)

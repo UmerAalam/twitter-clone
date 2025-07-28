@@ -24,6 +24,9 @@ export const deleteLike = async (props: {
     )
     .returning();
 };
-export const postLike = async ({ tweetId, userId }: TweetLike) => {
+export const postLike = async ({
+  tweetId,
+  userId,
+}: TweetLike & { userId: number }) => {
   return await db.insert(likesTable).values({ tweetId, userId }).returning();
 };

@@ -1,9 +1,8 @@
 import ComposedTweet from "./ComposedTweet";
-import { useTweetList, useTweetListByID } from "../modules/tweets/tweets.query";
+import { useTweetList } from "../modules/tweets/tweets.query";
 
 const TweetList = () => {
-  const userId = localStorage.getItem("userId");
-  const { isLoading, data } = useTweetList(Number(userId));
+  const { isLoading, data } = useTweetList();
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
   }

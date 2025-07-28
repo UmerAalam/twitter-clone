@@ -14,8 +14,12 @@ import {
   deleteTweet,
   updateTweet,
 } from "./tweet.service.js";
+import type { Variables } from "../../types.js";
 import { authMiddleware } from "../auth/AuthMiddleWare.js";
-export const tweetsRouter = new Hono()
+
+export const tweetsRouter = new Hono<{
+  Variables: Variables;
+}>()
   .basePath("tweets")
   .use(authMiddleware)
   .post("/", zValidator("json", createTweetSchema), async (c) => {
@@ -25,7 +29,12 @@ export const tweetsRouter = new Hono()
   })
   .get("/", zValidator("query", findManyTweetSchema), async (c) => {
     const { userId } = c.req.valid("query");
-    const tweets = await findManyTweet({ userId });
+    const loggedInUser = c.get("user");
+    const tweets = await findManyTweet({
+      userId,
+      loggedInUserId: loggedInUser.id,
+    });
+
     return c.json(tweets, 200);
   })
   .get("/:id", async (c) => {
