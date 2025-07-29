@@ -1,7 +1,7 @@
 import { SlCalender } from "react-icons/sl";
 import useCustomUserData from "../lib/customUserData";
 import TweetList from "../components/TweetsList";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 const MainProfile = () => {
   const [bio, setBio] = useState(
     "A good Twitter bio should be concise, engaging, and reflect your personality or brand.",
@@ -12,6 +12,23 @@ const MainProfile = () => {
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   if (isLoading) return <div>User Data Loading</div>;
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        textareaRef.current &&
+        !textareaRef.current.contains(event.target as Node)
+      ) {
+        setEditMode(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
@@ -44,7 +61,10 @@ const MainProfile = () => {
       </div>
       {editMode ? (
         <textarea
+          ref={textareaRef}
           maxLength={100}
+          autoFocus
+          inputMode="text"
           onChange={(e) => setBio(e.target.value)}
           className="px-5 mt-2 w-full dark:text-white resize-none outline-2 outline-white rounded-xl"
         >
