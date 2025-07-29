@@ -1,7 +1,12 @@
 import { SlCalender } from "react-icons/sl";
 import useCustomUserData from "../lib/customUserData";
 import TweetList from "../components/TweetsList";
+import { useState } from "react";
 const MainProfile = () => {
+  const [bio, setBio] = useState(
+    "A good Twitter bio should be concise, engaging, and reflect your personality or brand.",
+  );
+  const [editMode, setEditMode] = useState(false);
   const id = localStorage.getItem("userId") || "0";
   const { data, isLoading } = useCustomUserData(id);
   const backgroundImage =
@@ -30,14 +35,24 @@ const MainProfile = () => {
             {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
           </p>
         </h2>
-        <button className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">
-          Edit Profile
+        <button
+          onClick={() => setEditMode(!editMode)}
+          className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
+        >
+          {editMode ? "Save Profile" : "Edit Profile"}
         </button>
       </div>
-      <p className="px-5 mt-2 dark:text-white">
-        A good Twitter bio should be concise, engaging, and reflect your
-        personality or brand.
-      </p>
+      {editMode ? (
+        <textarea
+          maxLength={100}
+          onChange={(e) => setBio(e.target.value)}
+          className="px-5 mt-2 w-full dark:text-white resize-none outline-2 outline-white rounded-xl"
+        >
+          {bio}
+        </textarea>
+      ) : (
+        <p className="px-5 mt-2 w-full dark:text-white resize-none">{bio}</p>
+      )}
       <h2 className="ml-5 mt-1 gap-2 text-gray-400 inline-flex">
         <SlCalender className="mt-0.5" />
         {data?.created_at.slice(0, 10)}
