@@ -19,8 +19,15 @@ export const userWithoutPasswordScheme = z.object({
   email: z.string().email(),
   name: z.string(),
   avatar: z.string().url(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  created_at: z.date(),
+  updated_at: z.date(),
+});
+export const userWithoutEmailScheme = z.object({
+  id: z.number(),
+  name: z.string(),
+  avatar: z.string().url(),
+  created_at: z.date(),
+  updated_at: z.date(),
 });
 export const userSchema = z.object({
   id: z.number(),
@@ -33,6 +40,8 @@ export const userSchema = z.object({
 });
 export interface UserWithoutPassword
   extends z.infer<typeof userWithoutPasswordScheme> {}
+export interface UserWithoutEmail
+  extends z.infer<typeof userWithoutEmailScheme> {}
 export interface UserEmail extends z.infer<typeof userEmailSchema> {}
 export interface SignIn extends z.infer<typeof signInSchema> {}
 export interface SignUp extends z.infer<typeof signUpSchema> {}

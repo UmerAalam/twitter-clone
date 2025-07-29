@@ -18,24 +18,41 @@ interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(tweet.userId.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
-  const [like, setLike] = useState<boolean>(tweet.like);
-  const deleteLike = useDeleteTweetLike();
-  const { mutate } = useTweetLike();
+  const [like, setLike] = useState(tweet.hasLiked || false);
+  const { mutate: deleteLike } = useDeleteTweetLike();
+  const { mutate: addTweetLike } = useTweetLike();
   if (isPending) return <div>Loading...</div>;
   function handleLike() {
-    setLike(!like);
-    const tweetLike: TweetLike = {
-      userId: data?.id || 0,
-      like,
-      tweetId: tweet.id,
-      createdAt: new Date().toISOString(),
-    };
-    if (like) {
-    delete.mutate({ tweet});
+    const newLikeState = !like;
+    setLike(newLikeState);
+
+    if (newLikeState) {
+      const tweetLike: TweetLike = {
+        tweetId: tweet?.id,
+        createdAt: new Date().toISOString(),
+      };
+      addTweetLike(tweetLike, {
+        onError: (error) => {
+          console.error("Failed to add like:", error);
+          setLike(!newLikeState);
+        },
+      });
     } else {
-      mutate(tweetLike);
+      deleteLike(
+        { tweetId: tweet?.id },
+        {
+          onError: (error) => {
+            console.error("Failed to delete like:", error);
+            setLike(!newLikeState);
+          },
+        },
+      );
     }
   }
+  const CopyShareLink = async () => {
+    const copyValue = `http://localhost:3000/tweets/${tweet.id}`;
+    await navigator.clipboard.writeText(copyValue);
+  };
   return (
     <>
       <div className={classname}>
@@ -58,7 +75,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
                 }
               ></IconButton>
               <div className="pl-1 text-sm text-gray-400 font-medium">
-                {"@" + data?.name.toLowerCase() + data?.id}
+                {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
               </div>
               <div className="pl-3 text-sm text-gray-400 font-medium">
                 {tweet.createdAt.slice(11, 19)}
@@ -102,6 +119,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               flex
               row
               icon={<IoShareOutline className="mr-1" size={24} />}
+              onClick={CopyShareLink}
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
             ></IconButton>
           </div>

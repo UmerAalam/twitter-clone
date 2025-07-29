@@ -40,9 +40,11 @@ const SignInPage = () => {
   return (
     <div className="flex bg-white h-screen justify-center p-1 dark:bg-gray-700">
       <div className="rounded-2xl bg-white py-8 my-auto white shadow-gray-200 dark:bg-gray-800 dark:shadow-gray-600/50 inset-shadow-2xs shadow-lg h-[520px] w-[400px] font-black">
-        <h2 className="flex justify-center text-gray-700 dark:text-white text-4xl mt-7">
-          Sign in
-        </h2>
+        <div>
+          <h2 className="flex justify-center text-gray-700 dark:text-white text-4xl mt-7">
+            Sign in
+          </h2>
+        </div>
         <form onSubmit={handleSubmit} id="sign-in">
           <div className="w-[80%] mx-auto">
             <label className="text-gray-800 dark:text-white font-semibold">

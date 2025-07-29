@@ -1,13 +1,12 @@
 import { SlCalender } from "react-icons/sl";
 import useCustomUserData from "../lib/customUserData";
+import TweetList from "../components/TweetsList";
 const MainProfile = () => {
   const id = localStorage.getItem("userId") || "0";
-  const { data } = useCustomUserData(id);
-  if (!data) return;
-  const avatar =
-    "https://cdn.prod.website-files.com/62d84e447b4f9e7263d31e94/6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1.jpeg";
+  const { data, isLoading } = useCustomUserData(id);
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
+  if (isLoading) return <div>User Data Loading</div>;
   return (
     <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
@@ -20,18 +19,18 @@ const MainProfile = () => {
       <div className="flex justify-center overflow-hidden w-24 h-24 ml-7 -mt-12 bg-black outline-3 outline-white rounded-full">
         <img
           className="object-cover"
-          src={data.avatar || avatar}
+          src={data?.avatar}
           alt="profile-page-image"
         />
       </div>
-      <div className="ml-5 flex justify-between">
+      <div className="px-6 pt-1 flex justify-between">
         <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
           {data?.name}
           <p className="text-gray-400 text-sm font-normal">
-            {"@" + data?.name + data?.id}
+            {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
           </p>
         </h2>
-        <button className="cursor-pointer text-sm -mt-9 mr-5 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">
+        <button className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">
           Edit Profile
         </button>
       </div>
@@ -71,6 +70,7 @@ const MainProfile = () => {
           {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
         </h2>
       </div>
+      <TweetList userId={Number(id)} />
     </div>
   );
 };

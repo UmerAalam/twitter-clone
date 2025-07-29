@@ -22,7 +22,7 @@ const TrendingForYou = () => {
         <TrendingTweet />
         <TrendingTweet tag="Gamerz" country="Japan" tweetCount={1245} />
         <TrendingTweet tag="Dramas" country="Pakistan" tweetCount={4801} />
-        <span className="flex text-gray-700 hover:text-gray-400 dark:text-white cursor-pointer pl-3 pb-3 font-bold">
+        <span className="flex text-gray-700 hover:text-gray-400 dark:text-white cursor-pointer pl-3 pb-2 pt-1 font-bold">
           Show more
         </span>
       </div>

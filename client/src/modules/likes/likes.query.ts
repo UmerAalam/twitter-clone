@@ -9,6 +9,10 @@ import type {
   DeleteLike,
   TweetLike,
 } from "../../../../server/src/modules/likes/likes.dto";
+import {
+  tweetDetailQueryOptions,
+  tweetListQueryOptions,
+} from "../tweets/tweets.query";
 
 const listLikesByTweetId = (id: number) => {
   return queryOptions({
@@ -55,17 +59,21 @@ export const useTweetLike = () => {
     },
     onSuccess: async (_, { tweetId }) => {
       await queryClient.invalidateQueries(listLikesByTweetId(Number(tweetId)));
+      await queryClient.invalidateQueries(tweetListQueryOptions());
+      await queryClient.invalidateQueries(
+        tweetDetailQueryOptions(Number(tweetId)),
+      );
     },
   });
 };
 export const useDeleteTweetLike = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ likeId }: DeleteLike) => {
+    mutationFn: async ({ tweetId }: DeleteLike) => {
       const token = localStorage.getItem("token");
       const res = await client.api.likes.$delete(
         {
-          json: { likeId },
+          json: { tweetId },
         },
         {
           headers: {
@@ -77,8 +85,12 @@ export const useDeleteTweetLike = () => {
         throw new Error("Error while updating like");
       }
     },
-    onSuccess: async (_, { likeId }) => {
-      await queryClient.invalidateQueries(listLikesByTweetId(Number(likeId)));
+    onSuccess: async (_, { tweetId }) => {
+      await queryClient.invalidateQueries(listLikesByTweetId(Number(tweetId)));
+      await queryClient.invalidateQueries(tweetListQueryOptions());
+      await queryClient.invalidateQueries(
+        tweetDetailQueryOptions(Number(tweetId)),
+      );
     },
   });
 };

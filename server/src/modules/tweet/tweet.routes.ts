@@ -1,7 +1,9 @@
 import { Hono } from "hono";
 import {
   createTweetSchema,
+  findManyTweetSchema,
   updateTweetSchema,
+  type CreateTweet,
   type UpdateTweet,
 } from "./tweet.dto.js";
 
@@ -13,18 +15,27 @@ import {
   deleteTweet,
   updateTweet,
 } from "./tweet.service.js";
+import type { Variables } from "../../types.js";
 import { authMiddleware } from "../auth/AuthMiddleWare.js";
 
-export const tweetsRouter = new Hono()
+export const tweetsRouter = new Hono<{
+  Variables: Variables;
+}>()
   .basePath("tweets")
   .use(authMiddleware)
   .post("/", zValidator("json", createTweetSchema), async (c) => {
-    const body = await c.req.json();
+    const body: CreateTweet = await c.req.json();
     const addedTweet = await createTweetPostgres(body);
     return c.json(addedTweet, 201);
   })
-  .get("/", async (c) => {
-    const tweets = await findManyTweet({});
+  .get("/", zValidator("query", findManyTweetSchema), async (c) => {
+    const { userId } = c.req.valid("query");
+    const loggedInUser = c.get("user");
+    const tweets = await findManyTweet({
+      userId,
+      loggedInUserId: loggedInUser.id,
+    });
+
     return c.json(tweets, 200);
   })
   .get("/:id", async (c) => {
@@ -38,7 +49,6 @@ export const tweetsRouter = new Hono()
     if (!tweet) {
       return c.json({ message: "Tweet Not Found" }, 404);
     }
-
     return c.json(tweet);
   })
   .patch(

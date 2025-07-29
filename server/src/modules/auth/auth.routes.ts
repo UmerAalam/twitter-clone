@@ -1,5 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
-import { type Context, Hono } from "hono";
+import { Hono } from "hono";
 import {
   signInSchema,
   signUpSchema,

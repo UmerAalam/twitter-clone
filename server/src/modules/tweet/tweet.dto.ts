@@ -2,7 +2,7 @@ import z from "zod";
 
 export const baseTweetSchema = z.object({
   text: z.string(),
-  createdAt: z.string(),
+  createdAt: z.string().optional(),
   userId: z.number(),
 });
 
@@ -26,18 +26,17 @@ export const deleteTweetSchema = z.object({
 export const findOneTweetSchema = z.object({
   id: z.number(),
 });
-
-export const findManyTweetSchema = z.object({});
-
+export const findManyTweetSchema = z.object({
+  userId: z.coerce.number().optional(),
+});
 export interface BaseTweet extends z.infer<typeof baseTweetSchema> {}
 export interface Tweet extends z.infer<typeof tweetSchema> {
-  users: {
+  user: {
     id: number;
     name: string;
-  };
-  likesCount: string;
-  like: boolean;
-  likeId: number;
+  } | null;
+  likesCount: number;
+  hasLiked?: boolean;
 }
 export interface CreateTweet extends z.infer<typeof createTweetSchema> {}
 export interface UpdateTweet extends z.infer<typeof updateTweetSchema> {}

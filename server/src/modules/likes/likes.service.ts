@@ -1,4 +1,4 @@
-import { count, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 import db from "../../db.js";
 import { likesTable } from "../../db/schema.js";
 import type { TweetLike } from "./likes.dto.js";
@@ -10,15 +10,23 @@ export const findLikes = async (props: { id: number }) => {
     .where(eq(likesTable.tweetId, props.id));
   return res[0].count;
 };
-export const deleteLike = async (props: { likeId: number }) => {
+export const deleteLike = async (props: {
+  tweetId: number;
+  userId: number;
+}) => {
   return await db
     .delete(likesTable)
-    .where(eq(likesTable.id, props.likeId))
+    .where(
+      and(
+        eq(likesTable.tweetId, props.tweetId),
+        eq(likesTable.userId, props.userId),
+      ),
+    )
     .returning();
 };
-export const postLike = async ({ like, tweetId, userId }: TweetLike) => {
-  return await db
-    .insert(likesTable)
-    .values({ like, tweetId, userId })
-    .returning();
+export const postLike = async ({
+  tweetId,
+  userId,
+}: TweetLike & { userId: number }) => {
+  return await db.insert(likesTable).values({ tweetId, userId }).returning();
 };
