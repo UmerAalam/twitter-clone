@@ -3,6 +3,7 @@ import {
   createTweetSchema,
   findManyTweetSchema,
   updateTweetSchema,
+  type CreateTweet,
   type UpdateTweet,
 } from "./tweet.dto.js";
 
@@ -23,7 +24,7 @@ export const tweetsRouter = new Hono<{
   .basePath("tweets")
   .use(authMiddleware)
   .post("/", zValidator("json", createTweetSchema), async (c) => {
-    const body = await c.req.json();
+    const body: CreateTweet = await c.req.json();
     const addedTweet = await createTweetPostgres(body);
     return c.json(addedTweet, 201);
   })

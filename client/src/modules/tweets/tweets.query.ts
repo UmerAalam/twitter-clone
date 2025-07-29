@@ -73,7 +73,9 @@ export const useCreateTweet = () => {
       const res = await client.api.tweets.$post(
         {
           json: {
-            ...props,
+            text: props.text,
+            userId: props.userId,
+            createdAt: props.createdAt,
           },
         },
         {

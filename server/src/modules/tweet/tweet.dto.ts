@@ -2,7 +2,7 @@ import z from "zod";
 
 export const baseTweetSchema = z.object({
   text: z.string(),
-  createdAt: z.string(),
+  createdAt: z.string().optional(),
   userId: z.number(),
 });
 

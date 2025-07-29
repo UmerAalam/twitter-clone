@@ -91,7 +91,7 @@ export const findOneTweet = async ({ id }: FindOneTweet): Promise<Tweet> => {
         name: usersTable.name,
       },
       likesCount: sql<number>`(SELECT COUNT(${likesTable.id}) FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id})`,
-      hasLiked: sql<boolean>`SELECT COUNT(${likesTable.id}) > 0 FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id} AND ${tweetsTable.userId} = ${likesTable.userId}`,
+      hasLiked: sql<boolean>`(SELECT COUNT(${likesTable.id}) > 0 FROM ${likesTable} WHERE ${likesTable.tweetId} = ${tweetsTable.id} AND ${likesTable.userId} = ${tweetsTable.userId})`,
     })
     .from(tweetsTable)
     .where(eq(tweetsTable.id, id))
