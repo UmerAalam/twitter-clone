@@ -29,8 +29,6 @@ const SignUpPage = () => {
     if (password == confirmPassword) {
       const newUser: SignUp = {
         name,
-        avatar:
-          "https://i.ibb.co/LBcb2Bt/formula-physics-worksheet-illustration-wallpaper.jpg",
         password,
         email,
       };

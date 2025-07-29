@@ -17,6 +17,7 @@ export const findUsersByCount = async (props: { userCount: number }) => {
       avatar: usersTable.avatar,
       created_at: usersTable.created_at,
       updated_at: usersTable.updated_at,
+      bio: usersTable.bio,
     })
     .from(usersTable)
     .limit(props.userCount);

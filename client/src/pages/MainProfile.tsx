@@ -3,15 +3,13 @@ import useCustomUserData from "../lib/customUserData";
 import TweetList from "../components/TweetsList";
 import { useEffect, useRef, useState } from "react";
 const MainProfile = () => {
-  const [bio, setBio] = useState(
-    "A good Twitter bio should be concise, engaging, and reflect your personality or brand.",
-  );
   const [editMode, setEditMode] = useState(false);
   const id = localStorage.getItem("userId") || "0";
   const { data, isLoading } = useCustomUserData(id);
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   if (isLoading) return <div>User Data Loading</div>;
+  const [bio, setBio] = useState(data?.bio);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
