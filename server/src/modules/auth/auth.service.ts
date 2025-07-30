@@ -1,10 +1,24 @@
-import type { SignIn, SignUp, UserEmail } from "./auth.dto.js";
+import type { SignIn, SignUp, UpdatedUser, UserEmail } from "./auth.dto.js";
 import db from "../../db.js";
 import { usersTable } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
 import { sql } from "drizzle-orm";
 export const createUserPostgres = async (props: SignUp): Promise<SignUp> => {
   const res = await db.insert(usersTable).values(props).returning();
+  return res[0];
+};
+export const updateUserPostgres = async (props: UpdatedUser) => {
+  const { id, name, password, avatar, bio } = props;
+  const updateData: Partial<UpdatedUser> = {};
+  if (name) updateData.name = name;
+  if (password) updateData.password = password;
+  if (avatar) updateData.avatar = avatar;
+  if (bio) updateData.bio = bio;
+  const res = await db
+    .update(usersTable)
+    .set(updateData)
+    .where(eq(usersTable.id, id))
+    .returning();
   return res[0];
 };
 export const findUser = async (props: SignIn) => {

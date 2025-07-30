@@ -2,13 +2,20 @@ import { SlCalender } from "react-icons/sl";
 import useCustomUserData from "../lib/customUserData";
 import TweetList from "../components/TweetsList";
 import { useEffect, useRef, useState } from "react";
+import { useUpdateUserData } from "../modules/auth/auth.query";
+import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
+
 const MainProfile = () => {
   const [editMode, setEditMode] = useState(false);
   const id = localStorage.getItem("userId") || "0";
   const { data, isLoading } = useCustomUserData(id);
+
+  const { mutate: updateUserDataMutation } = useUpdateUserData();
+
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   if (isLoading) return <div>User Data Loading</div>;
+
   const [bio, setBio] = useState(data?.bio);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   useEffect(() => {
@@ -20,13 +27,12 @@ const MainProfile = () => {
         setEditMode(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
@@ -51,7 +57,24 @@ const MainProfile = () => {
           </p>
         </h2>
         <button
-          onClick={() => setEditMode(!editMode)}
+          onClick={() => {
+            if (editMode) {
+              const updatedUser: UpdatedUser = {
+                id: Number(id),
+                bio,
+              };
+              updateUserDataMutation(
+                {
+                  ...updatedUser,
+                },
+                {
+                  onSuccess: () => {
+                    setEditMode(!editMode);
+                  },
+                },
+              );
+            } else return setEditMode(!editMode);
+          }}
           className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
         >
           {editMode ? "Save Profile" : "Edit Profile"}

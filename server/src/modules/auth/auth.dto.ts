@@ -12,8 +12,6 @@ export const signUpSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string().min(8),
-  bio: z.string().max(100).optional(),
-  avatar: z.string().url().optional(),
 });
 export const userWithoutPasswordScheme = z.object({
   id: z.number(),
@@ -37,10 +35,20 @@ export const userSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string(),
-  bio: z.string().max(100),
+  bio: z.string().max(100).optional(),
   avatar: z.string().url().optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
+});
+export const updatedUserSchema = z.object({
+  id: z.number(),
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  password: z.string().optional(),
+  bio: z.string().max(100).optional(),
+  avatar: z.string().url().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
 });
 export interface UserWithoutPassword
   extends z.infer<typeof userWithoutPasswordScheme> {}
@@ -50,3 +58,4 @@ export interface UserEmail extends z.infer<typeof userEmailSchema> {}
 export interface SignIn extends z.infer<typeof signInSchema> {}
 export interface SignUp extends z.infer<typeof signUpSchema> {}
 export interface User extends z.infer<typeof userSchema> {}
+export interface UpdatedUser extends z.infer<typeof updatedUserSchema> {}

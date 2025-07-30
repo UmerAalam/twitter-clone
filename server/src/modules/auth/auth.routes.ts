@@ -5,8 +5,13 @@ import {
   signUpSchema,
   type SignIn,
   type SignUp,
+  type UpdatedUser,
 } from "../auth/auth.dto.js";
-import { createUserPostgres, findUserEmail } from "./auth.service.js";
+import {
+  createUserPostgres,
+  findUserEmail,
+  updateUserPostgres,
+} from "./auth.service.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 const JWT_SECRET = process.env.SECRET_KEY || "";
@@ -29,6 +34,11 @@ export const authRouter = new Hono()
       updated_at: user.updated_at,
     };
     return c.json(userWithoutPassword);
+  })
+  .patch("/me", async (c) => {
+    const body: UpdatedUser = await c.req.json();
+    const updatedUser = updateUserPostgres(body);
+    return c.json(updatedUser, 200);
   })
   .post("/sign-up", zValidator("json", signUpSchema), async (c) => {
     const body: SignUp = await c.req.json();
