@@ -12,6 +12,7 @@ const MainProfile = () => {
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   useEffect(() => {
@@ -23,7 +24,9 @@ const MainProfile = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         textareaRef.current &&
-        !textareaRef.current.contains(event.target as Node)
+        !textareaRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
       ) {
         setEditMode(false);
       }
@@ -33,6 +36,22 @@ const MainProfile = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  const handleSaveProfile = () => {
+    console.log("EditMode", editMode);
+    if (!editMode) {
+      setEditMode(true);
+    } else {
+      const updatedUser: UpdatedUser = {
+        id: Number(id),
+        bio,
+      };
+      updateUserDataMutation(updatedUser, {
+        onSuccess: () => {
+          setEditMode(false);
+        },
+      });
+    }
+  };
   if (isLoading)
     return (
       <div className="text-gray-800 dark:text-white flex justify-center">
@@ -69,28 +88,15 @@ const MainProfile = () => {
           </p>
         </h2>
         <button
-          onClick={() => {
-            if (editMode) {
-              console.log("editMode");
-              const updatedUser: UpdatedUser = {
-                id: Number(id),
-                bio,
-              };
-              updateUserDataMutation(
-                {
-                  ...updatedUser,
-                },
-                {
-                  onSuccess: () => {
-                    setEditMode(!editMode);
-                  },
-                },
-              );
-            } else return setEditMode(!editMode);
-          }}
+          ref={buttonRef}
+          onClick={handleSaveProfile}
           className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
         >
-          {editMode ? "Save Profile" : "Edit Profile"}
+          {editMode
+            ? isPending
+              ? "Saving..."
+              : "Save Profile"
+            : "Edit Profile"}
         </button>
       </div>
       {editMode ? (
