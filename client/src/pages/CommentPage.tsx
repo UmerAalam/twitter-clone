@@ -8,22 +8,29 @@ export interface Comment {
   id: number;
   text: string;
   tweetId: number;
-  createdAt: string;
+  createdAt?: string;
 }
 interface Props {
   tweetId: number;
 }
 
 const CommentPage = ({ tweetId }: Props) => {
-  const { isLoading, data } = useTweetDetail(tweetId);
+  const { data, isLoading } = useTweetDetail(tweetId);
 
-  if (isLoading) return;
+  if (isLoading) return <div>Loading Data</div>;
   if (!data) return;
+  if (!data.user) return <div>Loading User Data</div>;
   const currentTweet: Tweet = {
     id: data.id,
     text: data.text,
     createdAt: data.createdAt,
     userId: data.userId,
+    likesCount: data.likesCount,
+    hasLiked: data.hasLiked,
+    user: {
+      id: data.user.id,
+      name: data.user.name,
+    },
   };
   return (
     <div>

@@ -13,14 +13,21 @@ export const usersRouter = new Hono()
   .use(authMiddleware)
   .get("/:id", async (c) => {
     const paramId = c.req.param("id");
-    const { id, avatar, created_at, name, updated_at }: UserWithoutPassword =
-      await findUserById({ id: Number(paramId) });
+    const {
+      id,
+      bio,
+      avatar,
+      created_at,
+      name,
+      updated_at,
+    }: UserWithoutPassword = await findUserById({ id: Number(paramId) });
 
     const userWithoutPassword = {
       id,
       avatar,
       created_at,
       name,
+      bio,
       updated_at,
     };
 

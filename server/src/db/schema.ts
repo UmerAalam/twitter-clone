@@ -13,7 +13,16 @@ export const usersTable = pgTable("users", {
   name: varchar({ length: 255 }).notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
   password: text().notNull(),
-  avatar: varchar({ length: 255 }).notNull(),
+  bio: text()
+    .notNull()
+    .default(
+      "A good Twitter bio should be concise, engaging, and reflect your personality or brand.",
+    ),
+  avatar: varchar({ length: 255 })
+    .notNull()
+    .default(
+      "https://i.ibb.co/LBcb2Bt/formula-physics-worksheet-illustration-wallpaper.jpg",
+    ),
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
 });

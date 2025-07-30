@@ -24,7 +24,7 @@ const listCommentByTweetId = (id: number) => {
       const data = await res.json();
       return data;
     },
-    queryKey: ["comments", "list", id],
+    queryKey: ["tweets", "list", id],
   });
 };
 

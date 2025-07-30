@@ -4,6 +4,7 @@ interface UserData {
   id: number;
   name: string;
   avatar: string;
+  bio: string;
   created_at: string;
   updated_at: string;
 }

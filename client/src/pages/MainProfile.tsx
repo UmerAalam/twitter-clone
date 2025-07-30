@@ -1,12 +1,38 @@
 import { SlCalender } from "react-icons/sl";
 import useCustomUserData from "../lib/customUserData";
 import TweetList from "../components/TweetsList";
+import { useEffect, useRef, useState } from "react";
+import { useUpdateUserData } from "../modules/auth/auth.query";
+import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
+
 const MainProfile = () => {
+  const [editMode, setEditMode] = useState(false);
   const id = localStorage.getItem("userId") || "0";
   const { data, isLoading } = useCustomUserData(id);
+
+  const { mutate: updateUserDataMutation } = useUpdateUserData();
+
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   if (isLoading) return <div>User Data Loading</div>;
+
+  const [bio, setBio] = useState(data?.bio);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        textareaRef.current &&
+        !textareaRef.current.contains(event.target as Node)
+      ) {
+        setEditMode(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
@@ -30,14 +56,44 @@ const MainProfile = () => {
             {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
           </p>
         </h2>
-        <button className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold">
-          Edit Profile
+        <button
+          onClick={() => {
+            if (editMode) {
+              const updatedUser: UpdatedUser = {
+                id: Number(id),
+                bio,
+              };
+              updateUserDataMutation(
+                {
+                  ...updatedUser,
+                },
+                {
+                  onSuccess: () => {
+                    setEditMode(!editMode);
+                  },
+                },
+              );
+            } else return setEditMode(!editMode);
+          }}
+          className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
+        >
+          {editMode ? "Save Profile" : "Edit Profile"}
         </button>
       </div>
-      <p className="px-5 mt-2 dark:text-white">
-        A good Twitter bio should be concise, engaging, and reflect your
-        personality or brand.
-      </p>
+      {editMode ? (
+        <textarea
+          ref={textareaRef}
+          maxLength={100}
+          autoFocus
+          inputMode="text"
+          onChange={(e) => setBio(e.target.value)}
+          className="px-5 mt-2 w-full dark:text-white resize-none outline-2 outline-white rounded-xl"
+        >
+          {bio}
+        </textarea>
+      ) : (
+        <p className="px-5 mt-2 w-full dark:text-white resize-none">{bio}</p>
+      )}
       <h2 className="ml-5 mt-1 gap-2 text-gray-400 inline-flex">
         <SlCalender className="mt-0.5" />
         {data?.created_at.slice(0, 10)}
