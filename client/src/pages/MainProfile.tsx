@@ -6,18 +6,19 @@ import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 
 const MainProfile = () => {
-  const [editMode, setEditMode] = useState(false);
   const id = localStorage.getItem("userId") || "0";
+  const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
   const { data, isLoading } = useCustomUserData(id);
-
-  const { mutate: updateUserDataMutation } = useUpdateUserData();
-
+  const [bio, setBio] = useState<string>("");
+  const [editMode, setEditMode] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
-  if (isLoading) return <div>User Data Loading</div>;
-
-  const [bio, setBio] = useState(data?.bio);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  useEffect(() => {
+    if (data && data.bio) {
+      setBio(data.bio);
+    }
+  }, [data]);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -32,7 +33,18 @@ const MainProfile = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  if (isLoading)
+    return (
+      <div className="text-gray-800 dark:text-white flex justify-center">
+        Loading User Data
+      </div>
+    );
+  if (isPending)
+    return (
+      <div className="text-gray-800 dark:text-white flex justify-center">
+        Loading UserMutation
+      </div>
+    );
   return (
     <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
@@ -59,6 +71,7 @@ const MainProfile = () => {
         <button
           onClick={() => {
             if (editMode) {
+              console.log("editMode");
               const updatedUser: UpdatedUser = {
                 id: Number(id),
                 bio,
@@ -86,11 +99,10 @@ const MainProfile = () => {
           maxLength={100}
           autoFocus
           inputMode="text"
+          value={bio}
           onChange={(e) => setBio(e.target.value)}
           className="px-5 mt-2 w-full dark:text-white resize-none outline-2 outline-white rounded-xl"
-        >
-          {bio}
-        </textarea>
+        />
       ) : (
         <p className="px-5 mt-2 w-full dark:text-white resize-none">{bio}</p>
       )}
