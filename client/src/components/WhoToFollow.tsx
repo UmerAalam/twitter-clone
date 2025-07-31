@@ -15,7 +15,7 @@ const WhoToFollow = () => {
             key={user.id}
             avatar={user.avatar}
             name={user.name}
-            username={"@" + user.name + user.id}
+            username={"@" + user.name.replace(" ", "").toLowerCase() + user.id}
           />
         );
       })}

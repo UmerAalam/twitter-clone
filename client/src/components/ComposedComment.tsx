@@ -1,18 +1,21 @@
 import { MdVerified } from "react-icons/md";
 import IconButton from "./IconButton";
-import { FaRegComment } from "react-icons/fa";
+import { FaRegCommentDots } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
 import type { Comment } from "../pages/CommentPage";
+import { useState } from "react";
+import { IoMdHeart } from "react-icons/io";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   comment: Comment;
   userId: number;
 }
 const ComposedComment = ({ comment, userId, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(userId.toString());
+  const [like, setLike] = useState(false);
   if (isPending)
     return (
       <div className="text-gray-800 dark:text-white flex justify-center">
@@ -57,24 +60,52 @@ const ComposedComment = ({ comment, userId, ...rest }: Props) => {
               flex
               row
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
-              icon={<FaRegComment className="mr-1" size={22} />}
+              icon={
+                <FaRegCommentDots
+                  className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  size={40}
+                />
+              }
             ></IconButton>
             <IconButton
               flex
               row
-              icon={<BiRepost className="mr-1" size={26} />}
+              icon={
+                <BiRepost
+                  className="dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  size={42}
+                />
+              }
+              className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
+            ></IconButton>
+            <IconButton
+              onClick={() => setLike(!like)}
+              flex
+              row
+              icon={
+                like ? (
+                  <IoMdHeart
+                    className="text-red-400 hover:bg-red-400/25 rounded-full mx-auto my-auto p-2 dark:text-red-400"
+                    size={40}
+                  />
+                ) : (
+                  <IoHeartOutline
+                    className="text-gray-800 hover:bg-black/5 dark:hover:bg-white/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    size={40}
+                  />
+                )
+              }
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
             ></IconButton>
             <IconButton
               flex
               row
-              icon={<IoHeartOutline className="mr-1" size={24} />}
-              className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
-            ></IconButton>
-            <IconButton
-              flex
-              row
-              icon={<IoShareOutline className="mr-1" size={24} />}
+              icon={
+                <IoShareOutline
+                  className="dark:hover:text-blue-500 text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  size={40}
+                />
+              }
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
             ></IconButton>
           </div>
