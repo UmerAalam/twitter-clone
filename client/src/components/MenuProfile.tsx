@@ -9,9 +9,7 @@ const MenuProfile = () => {
   if (isLoading) return <div>Loading User Data</div>;
   return (
     <div
-      onClick={() => {
-        navigate({ to: `/profile/${id}` });
-      }}
+      onClick={() => navigate({ to: `/profile/${id}` })}
       className="cursor-pointer dark:hover:bg-gray-700 px-2 inline-flex gap-2 justify-center rounded-full hover:bg-gray-100 h-12 items-center"
     >
       <img

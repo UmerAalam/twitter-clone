@@ -6,7 +6,7 @@ import { IoMdHeart } from "react-icons/io";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
 import { useState } from "react";
@@ -21,6 +21,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const [like, setLike] = useState(tweet.hasLiked || false);
   const { mutate: deleteLike } = useDeleteTweetLike();
   const { mutate: addTweetLike } = useTweetLike();
+  const navigate = useNavigate();
   if (isPending) return <div>Loading...</div>;
   function handleLike() {
     const newLikeState = !like;
@@ -57,14 +58,18 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
     <>
       <div className={classname}>
         <img
-          className="flex rounded-full w-10 h-10 object-cover mr-2"
+          onClick={() => navigate({ to: `/profile/${tweet.userId}` })}
+          className="flex rounded-full w-10 cursor-pointer h-10 object-cover mr-2"
           width={200}
           src={data?.avatar}
           alt="umer-logo"
         />
         <div className="w-full">
           <div className="cursor-pointer">
-            <h2 className="font-bold text-sm flex dark:text-white">
+            <h2
+              onClick={() => navigate({ to: `/profile/${tweet.userId}` })}
+              className="font-bold text-sm flex dark:text-white"
+            >
               {data?.name}
               <IconButton
                 icon={
