@@ -1,6 +1,6 @@
 import { and, count, eq } from "drizzle-orm";
 import db from "../../db.js";
-import { bookmarksTable, likesTable } from "../../db/schema.js";
+import { bookmarksTable } from "../../db/schema.js";
 import type { TweetBookmark } from "./bookmarks.dto.js";
 
 export const findBookmark = async (props: { id: number }) => {

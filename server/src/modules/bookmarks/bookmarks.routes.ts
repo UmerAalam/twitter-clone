@@ -6,6 +6,7 @@ import {
   deleteBookmarkSchema,
   type TweetBookmark,
   type DeleteBookmark,
+  type ListUserBookmark,
 } from "./bookmarks.dto.js";
 import type { Variables } from "../../types.js";
 import {
@@ -33,6 +34,6 @@ export const tweetBookmarksRouter = new Hono<{
   })
   .get("/", async (c) => {
     const { tweetId }: TweetBookmark = await c.req.json();
-    const likesCount = await findBookmark({ id: tweetId });
-    return c.json(likesCount, 200);
+    const bookmarksCount = await findBookmark({ id: tweetId });
+    return c.json(bookmarksCount, 200);
   });
