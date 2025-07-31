@@ -6,10 +6,12 @@ import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 
 const MainProfile = (props: { id: string }) => {
+  const userId = localStorage.getItem("userId") || "0";
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
   const { data, isLoading } = useCustomUserData(props.id);
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
+  const [owner, setOwner] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const backgroundImage =
@@ -17,6 +19,9 @@ const MainProfile = (props: { id: string }) => {
   useEffect(() => {
     if (data && data.bio) {
       setBio(data.bio);
+    }
+    if (Number(userId) === Number(props.id)) {
+      setOwner(true);
     }
   }, [data]);
   useEffect(() => {
@@ -86,17 +91,19 @@ const MainProfile = (props: { id: string }) => {
             {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
           </p>
         </h2>
-        <button
-          ref={buttonRef}
-          onClick={handleSaveProfile}
-          className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
-        >
-          {editMode
-            ? isPending
-              ? "Saving..."
-              : "Save Profile"
-            : "Edit Profile"}
-        </button>
+        {owner && (
+          <button
+            ref={buttonRef}
+            onClick={handleSaveProfile}
+            className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
+          >
+            {editMode
+              ? isPending
+                ? "Saving..."
+                : "Save Profile"
+              : "Edit Profile"}
+          </button>
+        )}
       </div>
       {editMode ? (
         <textarea
