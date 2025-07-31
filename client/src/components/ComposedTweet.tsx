@@ -23,17 +23,29 @@ interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
-  const { data, isPending } = useCustomUserData(tweet.userId.toString());
+  const { data, isPending: pendingUserData } = useCustomUserData(
+    tweet.userId.toString(),
+  );
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   const [like, setLike] = useState(tweet.hasLiked || false);
   const [bookmark, setBookmark] = useState(tweet.hasBookmarked || false);
-  const { mutate: deleteLike } = useDeleteTweetLike();
-  const { mutate: addTweetLike } = useTweetLike();
-  const { mutate: addBookmark } = useTweetBookmark();
-  const { mutate: deleteBookmark } = useDeleteBookmark();
+  const { mutate: addTweetLike, isPending: pendingAddingLike } = useTweetLike();
+  const { mutate: deleteLike, isPending: pendingDeletingLike } =
+    useDeleteTweetLike();
+  const { mutate: addBookmark, isPending: pendingAddBookmark } =
+    useTweetBookmark();
+  const { mutate: deleteBookmark, isPending: pendingDeletingBookmark } =
+    useDeleteBookmark();
   const navigate = useNavigate();
-  if (isPending) return <div>Loading...</div>;
-  function handleLike() {
+  if (
+    pendingUserData ||
+    pendingAddBookmark ||
+    pendingDeletingLike ||
+    pendingDeletingBookmark ||
+    pendingAddingLike
+  )
+    return <div>Loading...</div>;
+  const handleLike = () => {
     const newLikeState = !like;
     setLike(newLikeState);
 
@@ -59,7 +71,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
         },
       );
     }
-  }
+  };
   const handleBookmark = () => {
     const newBookmarkState = !bookmark;
     if (newBookmarkState) {
