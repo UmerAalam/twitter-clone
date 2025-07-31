@@ -11,7 +11,7 @@ import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { Link, useNavigate } from "@tanstack/react-router";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTweetLike, useDeleteTweetLike } from "../modules/likes/likes.query";
 import type { TweetLike } from "../../../server/src/modules/likes/likes.dto";
 import {
@@ -27,7 +27,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
     tweet.userId.toString(),
   );
   const classname = classNames(rest.className, "flex items-start w-full p-3");
-  const [like, setLike] = useState(tweet.hasLiked || false);
+  const [like, setLike] = useState(false);
   const [bookmark, setBookmark] = useState(tweet.hasBookmarked || false);
   const { mutate: addTweetLike, isPending: pendingAddingLike } = useTweetLike();
   const { mutate: deleteLike, isPending: pendingDeletingLike } =
@@ -37,6 +37,14 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { mutate: deleteBookmark, isPending: pendingDeletingBookmark } =
     useDeleteBookmark();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (tweet.hasBookmarked !== undefined) {
+      setBookmark(tweet.hasBookmarked);
+    }
+    if (tweet.hasLiked !== undefined) {
+      setLike(tweet.hasLiked);
+    }
+  });
   if (
     pendingUserData ||
     pendingAddBookmark ||

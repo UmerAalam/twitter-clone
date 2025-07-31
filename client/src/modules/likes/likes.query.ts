@@ -58,8 +58,8 @@ export const useTweetLike = () => {
       }
     },
     onSuccess: async (_, { tweetId }) => {
-      await queryClient.invalidateQueries(listLikesByTweetId(Number(tweetId)));
       await queryClient.invalidateQueries(tweetListQueryOptions());
+      await queryClient.invalidateQueries(listLikesByTweetId(Number(tweetId)));
       await queryClient.invalidateQueries(
         tweetDetailQueryOptions(Number(tweetId)),
       );
