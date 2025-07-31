@@ -1,4 +1,6 @@
 import { MdVerified } from "react-icons/md";
+import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
 import IconButton from "./IconButton";
 import { FaRegCommentDots } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
@@ -19,6 +21,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(tweet.userId.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   const [like, setLike] = useState(tweet.hasLiked || false);
+  const [bookmark, setBookmark] = useState(false);
   const { mutate: deleteLike } = useDeleteTweetLike();
   const { mutate: addTweetLike } = useTweetLike();
   const navigate = useNavigate();
@@ -109,7 +112,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               row
               icon={
                 <BiRepost
-                  className="dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  className="overflow-visible dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                   size={42}
                 />
               }
@@ -122,13 +125,13 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               icon={
                 like ? (
                   <IoMdHeart
-                    className="text-red-400 hover:bg-red-400/25 rounded-full mx-auto my-auto p-2 dark:text-red-400"
-                    size={40}
+                    className="overflow-visible text-red-400 hover:bg-red-400/25 rounded-full mx-auto my-auto p-2 dark:text-red-400"
+                    size={42}
                   />
                 ) : (
                   <IoHeartOutline
-                    className="text-gray-800 hover:bg-black/5 dark:hover:bg-white/25 rounded-full mx-auto my-auto p-2 dark:text-white"
-                    size={40}
+                    className="overflow-visible text-gray-800 hover:bg-black/5 dark:hover:bg-white/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    size={42}
                   />
                 )
               }
@@ -141,12 +144,30 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               row
               icon={
                 <IoShareOutline
-                  className="dark:hover:text-blue-500 text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
-                  size={40}
+                  className="overflow-visible dark:hover:text-blue-500 text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  size={42}
                 />
               }
               onClick={CopyShareLink}
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
+            ></IconButton>
+            <IconButton
+              onClick={() => setBookmark(!bookmark)}
+              flex
+              row
+              icon={
+                bookmark ? (
+                  <FaBookmark
+                    className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    size={40}
+                  />
+                ) : (
+                  <FaRegBookmark
+                    className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    size={40}
+                  />
+                )
+              }
             ></IconButton>
           </div>
         </div>

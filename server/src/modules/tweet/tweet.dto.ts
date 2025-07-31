@@ -37,6 +37,7 @@ export interface Tweet extends z.infer<typeof tweetSchema> {
   } | null;
   likesCount: number;
   hasLiked?: boolean;
+  hasBookmarked?: boolean;
 }
 export interface CreateTweet extends z.infer<typeof createTweetSchema> {}
 export interface UpdateTweet extends z.infer<typeof updateTweetSchema> {}

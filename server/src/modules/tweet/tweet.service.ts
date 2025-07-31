@@ -1,6 +1,11 @@
 import { desc, eq, SQL, sql, and } from "drizzle-orm";
 import db from "../../db.js";
-import { likesTable, tweetsTable, usersTable } from "../../db/schema.js";
+import {
+  bookmarksTable,
+  likesTable,
+  tweetsTable,
+  usersTable,
+} from "../../db/schema.js";
 import type {
   FindManyTweet,
   FindOneTweet,
@@ -17,6 +22,7 @@ type DbTweet = typeof tweetsTable.$inferSelect & {
   } | null;
   likesCount: number;
   hasLiked?: boolean;
+  hasBookmarked?: boolean;
 };
 
 const mapTweet = (tweet: DbTweet): Tweet => ({
@@ -27,6 +33,7 @@ const mapTweet = (tweet: DbTweet): Tweet => ({
   user: tweet.user,
   likesCount: tweet.likesCount,
   hasLiked: tweet.hasLiked ? tweet.hasLiked : false,
+  hasBookmarked: tweet.hasBookmarked ? tweet.hasBookmarked : false,
 });
 export const findManyTweet = async (
   props: FindManyTweet & { loggedInUserId: number },
@@ -35,9 +42,7 @@ export const findManyTweet = async (
   if (props.userId) {
     conditions.push(eq(tweetsTable.userId, props.userId));
   }
-
   const results = await db
-
     .select({
       id: tweetsTable.id,
       text: tweetsTable.text,
@@ -58,12 +63,17 @@ export const findManyTweet = async (
         WHERE ${likesTable.tweetId} = ${tweetsTable.id}
           AND ${likesTable.userId} = ${props.loggedInUserId}
       )`,
+      hasBookmarked: sql<boolean>`(
+        SELECT COUNT(*) > 0 
+        FROM ${bookmarksTable}
+        WHERE ${bookmarksTable.tweetId} = ${tweetsTable.id}
+          AND ${bookmarksTable.userId} = ${props.loggedInUserId}
+      )`,
     })
     .from(tweetsTable)
     .where(and(...conditions))
     .orderBy(desc(tweetsTable.createdAt))
     .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId));
-
   return results.map(mapTweet);
 };
 export const createTweetPostgres = async (
