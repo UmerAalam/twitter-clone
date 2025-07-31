@@ -5,10 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 
-const MainProfile = () => {
-  const id = localStorage.getItem("userId") || "0";
+const MainProfile = (props: { id: string }) => {
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
-  const { data, isLoading } = useCustomUserData(id);
+  const { data, isLoading } = useCustomUserData(props.id);
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -42,7 +41,7 @@ const MainProfile = () => {
       setEditMode(true);
     } else {
       const updatedUser: UpdatedUser = {
-        id: Number(id),
+        id: Number(props.id),
         bio,
       };
       updateUserDataMutation(updatedUser, {
@@ -144,7 +143,7 @@ const MainProfile = () => {
           {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
         </h2>
       </div>
-      <TweetList userId={Number(id)} />
+      <TweetList userId={Number(props.id)} />
     </div>
   );
 };

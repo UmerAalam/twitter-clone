@@ -15,6 +15,7 @@ import { Route as SignInIndexRouteImport } from './routes/sign-in/index'
 import { Route as ProfileIndexRouteImport } from './routes/profile/index'
 import { Route as ExploreIndexRouteImport } from './routes/explore/index'
 import { Route as TweetsTweetIdRouteImport } from './routes/tweets/$tweetId'
+import { Route as ProfileProfileIDRouteImport } from './routes/profile/$profileID'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,9 +47,15 @@ const TweetsTweetIdRoute = TweetsTweetIdRouteImport.update({
   path: '/tweets/$tweetId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileProfileIDRoute = ProfileProfileIDRouteImport.update({
+  id: '/profile/$profileID',
+  path: '/profile/$profileID',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/profile/$profileID': typeof ProfileProfileIDRoute
   '/tweets/$tweetId': typeof TweetsTweetIdRoute
   '/explore': typeof ExploreIndexRoute
   '/profile': typeof ProfileIndexRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/profile/$profileID': typeof ProfileProfileIDRoute
   '/tweets/$tweetId': typeof TweetsTweetIdRoute
   '/explore': typeof ExploreIndexRoute
   '/profile': typeof ProfileIndexRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/profile/$profileID': typeof ProfileProfileIDRoute
   '/tweets/$tweetId': typeof TweetsTweetIdRoute
   '/explore/': typeof ExploreIndexRoute
   '/profile/': typeof ProfileIndexRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/profile/$profileID'
     | '/tweets/$tweetId'
     | '/explore'
     | '/profile'
@@ -84,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/profile/$profileID'
     | '/tweets/$tweetId'
     | '/explore'
     | '/profile'
@@ -92,6 +103,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/profile/$profileID'
     | '/tweets/$tweetId'
     | '/explore/'
     | '/profile/'
@@ -101,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProfileProfileIDRoute: typeof ProfileProfileIDRoute
   TweetsTweetIdRoute: typeof TweetsTweetIdRoute
   ExploreIndexRoute: typeof ExploreIndexRoute
   ProfileIndexRoute: typeof ProfileIndexRoute
@@ -152,11 +165,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TweetsTweetIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile/$profileID': {
+      id: '/profile/$profileID'
+      path: '/profile/$profileID'
+      fullPath: '/profile/$profileID'
+      preLoaderRoute: typeof ProfileProfileIDRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProfileProfileIDRoute: ProfileProfileIDRoute,
   TweetsTweetIdRoute: TweetsTweetIdRoute,
   ExploreIndexRoute: ExploreIndexRoute,
   ProfileIndexRoute: ProfileIndexRoute,
