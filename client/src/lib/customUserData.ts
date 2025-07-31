@@ -27,6 +27,7 @@ export const userDataQueryOptions = (id: string) => {
       return data as UserData;
     },
     queryKey: ["user", "detail", id],
+    enabled: !!id,
   });
 };
 export const usersDataQueryOptions = (userCount: number) => {

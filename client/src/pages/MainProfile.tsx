@@ -5,24 +5,27 @@ import { useEffect, useRef, useState } from "react";
 import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 
-const MainProfile = () => {
+const MainProfile = (props: { id: string }) => {
+  const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
+  const { data, isLoading } = useCustomUserData(props.id);
+  const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
-  const id = localStorage.getItem("userId") || "0";
-  const { data, isLoading } = useCustomUserData(id);
-
-  const { mutate: updateUserDataMutation } = useUpdateUserData();
-
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
-  if (isLoading) return <div>User Data Loading</div>;
-
-  const [bio, setBio] = useState(data?.bio);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  useEffect(() => {
+    if (data && data.bio) {
+      setBio(data.bio);
+    }
+  }, [data]);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         textareaRef.current &&
-        !textareaRef.current.contains(event.target as Node)
+        !textareaRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
       ) {
         setEditMode(false);
       }
@@ -32,7 +35,34 @@ const MainProfile = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  const handleSaveProfile = () => {
+    console.log("EditMode", editMode);
+    if (!editMode) {
+      setEditMode(true);
+    } else {
+      const updatedUser: UpdatedUser = {
+        id: Number(props.id),
+        bio,
+      };
+      updateUserDataMutation(updatedUser, {
+        onSuccess: () => {
+          setEditMode(false);
+        },
+      });
+    }
+  };
+  if (isLoading)
+    return (
+      <div className="text-gray-800 dark:text-white flex justify-center">
+        Loading User Data
+      </div>
+    );
+  if (isPending)
+    return (
+      <div className="text-gray-800 dark:text-white flex justify-center">
+        Loading UserMutation
+      </div>
+    );
   return (
     <div className=" bg-gray-50 dark:bg-gray-800 rounded-2xl">
       <div className="flex justify-center h-48">
@@ -57,27 +87,15 @@ const MainProfile = () => {
           </p>
         </h2>
         <button
-          onClick={() => {
-            if (editMode) {
-              const updatedUser: UpdatedUser = {
-                id: Number(id),
-                bio,
-              };
-              updateUserDataMutation(
-                {
-                  ...updatedUser,
-                },
-                {
-                  onSuccess: () => {
-                    setEditMode(!editMode);
-                  },
-                },
-              );
-            } else return setEditMode(!editMode);
-          }}
+          ref={buttonRef}
+          onClick={handleSaveProfile}
           className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
         >
-          {editMode ? "Save Profile" : "Edit Profile"}
+          {editMode
+            ? isPending
+              ? "Saving..."
+              : "Save Profile"
+            : "Edit Profile"}
         </button>
       </div>
       {editMode ? (
@@ -86,11 +104,10 @@ const MainProfile = () => {
           maxLength={100}
           autoFocus
           inputMode="text"
+          value={bio}
           onChange={(e) => setBio(e.target.value)}
           className="px-5 mt-2 w-full dark:text-white resize-none outline-2 outline-white rounded-xl"
-        >
-          {bio}
-        </textarea>
+        />
       ) : (
         <p className="px-5 mt-2 w-full dark:text-white resize-none">{bio}</p>
       )}
@@ -126,7 +143,7 @@ const MainProfile = () => {
           {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
         </h2>
       </div>
-      <TweetList userId={Number(id)} />
+      <TweetList userId={Number(props.id)} />
     </div>
   );
 };

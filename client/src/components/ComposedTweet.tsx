@@ -1,6 +1,6 @@
 import { MdVerified } from "react-icons/md";
 import IconButton from "./IconButton";
-import { FaRegComment } from "react-icons/fa";
+import { FaRegCommentDots } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { IoMdHeart } from "react-icons/io";
 import { IoHeartOutline } from "react-icons/io5";
@@ -69,7 +69,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               <IconButton
                 icon={
                   <MdVerified
-                    size={16}
+                    size={17}
                     className="text-blue-400 dark:text-white ml-1"
                   />
                 }
@@ -78,7 +78,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
                 {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
               </div>
               <div className="pl-3 text-sm text-gray-400 font-medium">
-                {tweet.createdAt.slice(11, 19)}
+                {tweet.createdAt?.slice(11, 19)}
               </div>
             </h2>
             <p className="cursor-auto flex font-normal dark:text-white text-base">
@@ -91,13 +91,23 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
                 flex
                 row
                 className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
-                icon={<FaRegComment className="mr-1" size={22} />}
+                icon={
+                  <FaRegCommentDots
+                    className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    size={40}
+                  />
+                }
               ></IconButton>
             </Link>
             <IconButton
               flex
               row
-              icon={<BiRepost className="mr-1" size={26} />}
+              icon={
+                <BiRepost
+                  className="dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  size={42}
+                />
+              }
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
             ></IconButton>
             <IconButton
@@ -106,9 +116,15 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               onClick={handleLike}
               icon={
                 like ? (
-                  <IoMdHeart className="mr-1" size={24} />
+                  <IoMdHeart
+                    className="text-red-400 hover:bg-red-400/25 rounded-full mx-auto my-auto p-2 dark:text-red-400"
+                    size={40}
+                  />
                 ) : (
-                  <IoHeartOutline className="mr-1" size={24} />
+                  <IoHeartOutline
+                    className="text-gray-800 hover:bg-black/5 dark:hover:bg-white/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    size={40}
+                  />
                 )
               }
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
@@ -118,7 +134,12 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
             <IconButton
               flex
               row
-              icon={<IoShareOutline className="mr-1" size={24} />}
+              icon={
+                <IoShareOutline
+                  className="dark:hover:text-blue-500 text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  size={40}
+                />
+              }
               onClick={CopyShareLink}
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
             ></IconButton>

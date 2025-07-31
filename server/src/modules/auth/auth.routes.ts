@@ -29,6 +29,7 @@ export const authRouter = new Hono()
       id: user.id,
       email: user.email,
       name: user.name,
+      bio: user.bio,
       avatar: user.avatar,
       created_at: user.created_at,
       updated_at: user.updated_at,
