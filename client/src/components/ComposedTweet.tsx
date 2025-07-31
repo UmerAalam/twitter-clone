@@ -18,6 +18,7 @@ import {
   useDeleteBookmark,
   useTweetBookmark,
 } from "../modules/bookmarks/bookmark.query";
+import { TweetBookmark } from "../../../server/src/modules/bookmarks/bookmarks.dto";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
@@ -59,6 +60,31 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
       );
     }
   }
+  const handleBookmark = () => {
+    const newBookmarkState = !bookmark;
+    if (newBookmarkState) {
+      const tweetBookmark: TweetBookmark = {
+        tweetId: tweet.id,
+        createdAt: new Date().toISOString(),
+      };
+      addBookmark(tweetBookmark, {
+        onError: (error) => {
+          console.error("Failed to add bookmark:", error);
+          setBookmark(!newBookmarkState);
+        },
+      });
+    } else {
+      deleteBookmark(
+        { tweetId: tweet.id },
+        {
+          onError: (error) => {
+            console.error("Failed to delete like:", error);
+            setLike(!newBookmarkState);
+          },
+        },
+      );
+    }
+  };
   const CopyShareLink = async () => {
     const copyValue = `http://localhost:3000/tweets/${tweet.id}`;
     await navigator.clipboard.writeText(copyValue);
@@ -158,7 +184,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
             ></IconButton>
             <IconButton
-              onClick={() => setBookmark(!bookmark)}
+              onClick={handleBookmark}
               flex
               row
               icon={

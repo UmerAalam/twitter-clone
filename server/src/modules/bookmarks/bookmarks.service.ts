@@ -28,5 +28,8 @@ export const postBookmark = async ({
   tweetId,
   userId,
 }: TweetBookmark & { userId: number }) => {
-  return await db.insert(likesTable).values({ tweetId, userId }).returning();
+  return await db
+    .insert(bookmarksTable)
+    .values({ tweetId, userId })
+    .returning();
 };

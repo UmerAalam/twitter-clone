@@ -7,7 +7,6 @@ import {
   type TweetBookmark,
   type DeleteBookmark,
 } from "./bookmarks.dto.js";
-// import { findLikes, postLike, deleteLike } from "./likes.service.js";
 import type { Variables } from "../../types.js";
 import {
   deleteBookmark,
