@@ -21,7 +21,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const { data, isPending } = useCustomUserData(tweet.userId.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   const [like, setLike] = useState(tweet.hasLiked || false);
-  const [bookmark, setBookmark] = useState(false);
+  const [bookmark, setBookmark] = useState(tweet.hasBookmarked || false);
   const { mutate: deleteLike } = useDeleteTweetLike();
   const { mutate: addTweetLike } = useTweetLike();
   const navigate = useNavigate();

@@ -61,13 +61,13 @@ export const findManyTweet = async (
         SELECT COUNT(*) > 0 
         FROM ${likesTable}
         WHERE ${likesTable.tweetId} = ${tweetsTable.id}
-          AND ${likesTable.userId} = ${props.loggedInUserId}
+        AND ${likesTable.userId} = ${props.loggedInUserId}
       )`,
       hasBookmarked: sql<boolean>`(
         SELECT COUNT(*) > 0 
         FROM ${bookmarksTable}
         WHERE ${bookmarksTable.tweetId} = ${tweetsTable.id}
-          AND ${bookmarksTable.userId} = ${props.loggedInUserId}
+        AND ${bookmarksTable.userId} = ${props.loggedInUserId}
       )`,
     })
     .from(tweetsTable)
