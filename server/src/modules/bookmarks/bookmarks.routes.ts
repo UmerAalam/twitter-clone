@@ -15,7 +15,7 @@ import {
   postBookmark,
 } from "./bookmarks.service.js";
 
-export const tweetLikesRouter = new Hono<{
+export const tweetBookmarksRouter = new Hono<{
   Variables: Variables;
 }>()
   .basePath("bookmarks")

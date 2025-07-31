@@ -14,6 +14,10 @@ import useCustomUserData from "../lib/customUserData";
 import { useState } from "react";
 import { useTweetLike, useDeleteTweetLike } from "../modules/likes/likes.query";
 import type { TweetLike } from "../../../server/src/modules/likes/likes.dto";
+import {
+  useDeleteBookmark,
+  useTweetBookmark,
+} from "../modules/bookmarks/bookmark.query";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
@@ -24,6 +28,8 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
   const [bookmark, setBookmark] = useState(tweet.hasBookmarked || false);
   const { mutate: deleteLike } = useDeleteTweetLike();
   const { mutate: addTweetLike } = useTweetLike();
+  const { mutate: addBookmark } = useTweetBookmark();
+  const { mutate: deleteBookmark } = useDeleteBookmark();
   const navigate = useNavigate();
   if (isPending) return <div>Loading...</div>;
   function handleLike() {
