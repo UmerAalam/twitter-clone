@@ -6,8 +6,7 @@ const BookmarkList = () => {
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
   }
-  data?.map;
-  const renderedTweets = data?.((tweet: Tweet) => {
+  const renderedTweets = data?.map((tweet) => {
     return (
       <div key={tweet.id}>
         <hr className="text-gray-200 dark:text-gray-700" />

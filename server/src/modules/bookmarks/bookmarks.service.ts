@@ -6,10 +6,15 @@ import type { TweetBookmark } from "./bookmarks.dto.js";
 export const findBookmarkedTweetsByUserId = async (props: {
   userId: number;
 }) => {
-  const res = db
-    .select()
+  const res = await db
+    .select({
+      id: tweetsTable.id,
+      text: tweetsTable.text,
+      userId: tweetsTable.userId,
+      createdAt: tweetsTable.createdAt,
+    })
     .from(bookmarksTable)
-    .innerJoin(tweetsTable, eq(tweetsTable.userId, bookmarksTable.userId))
+    .innerJoin(tweetsTable, eq(tweetsTable.id, bookmarksTable.tweetId))
     .where(eq(bookmarksTable.userId, props.userId));
   return res;
 };
