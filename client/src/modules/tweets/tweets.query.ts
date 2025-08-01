@@ -21,7 +21,7 @@ export const tweetListQueryOptions = (
         {
           query: {
             count: String(count),
-            userId: String(userId),
+            userId: userId ? String(userId) : undefined,
             page: String(page),
           },
         },

@@ -7,12 +7,10 @@ const TweetList = (props: {
   count: number;
   page: number;
 }) => {
-  const userId = localStorage.getItem("userId") || "0";
-  console.log(userId);
   const { isLoading, data } = useTweetList({
     count: props.count,
     page: props.page,
-    userId: Number(props.userId),
+    userId: props.userId,
   });
   let isExplore = props.explore || false;
   if (isLoading) {
