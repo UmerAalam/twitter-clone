@@ -1,21 +1,21 @@
 import ComposedTweet from "./ComposedTweet";
-import { useTweetList } from "../modules/tweets/tweets.query";
-
-const BookmarkList = (props: { userId?: number }) => {
-  const { isLoading, data } = useTweetList(props.userId);
+import { useBookmarkList } from "../modules/bookmarks/bookmark.query";
+const BookmarkList = () => {
+  const { isLoading, data: bookmarks } = useBookmarkList();
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
   }
 
-  const renderedTweets = data?.map((tweet) => {
-    if (tweet.hasBookmarked) {
-      return (
-        <div key={tweet?.id}>
-          <hr className="text-gray-200 dark:text-gray-700" />
-          <ComposedTweet className="bg-gray-800 rounded-2xl" tweet={tweet} />
-        </div>
-      );
-    }
+  const renderedTweets = bookmarks?.map((tweet) => {
+    return (
+      <div key={tweet.bookmarks.id}>
+        <hr className="text-gray-200 dark:text-gray-700" />
+        <ComposedTweet
+          className="bg-gray-800 rounded-2xl"
+          tweet={tweet.bookmarks}
+        />
+      </div>
+    );
   });
 
   return <div>{renderedTweets}</div>;

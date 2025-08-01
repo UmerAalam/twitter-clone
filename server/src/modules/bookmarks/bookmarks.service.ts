@@ -1,9 +1,19 @@
 import { and, count, eq } from "drizzle-orm";
 import db from "../../db.js";
-import { bookmarksTable } from "../../db/schema.js";
+import { bookmarksTable, tweetsTable } from "../../db/schema.js";
 import type { TweetBookmark } from "./bookmarks.dto.js";
 
-export const findBookmark = async (props: { id: number }) => {
+export const findBookmarkedTweetsByUserId = async (props: {
+  userId: number;
+}) => {
+  const res = db
+    .select()
+    .from(bookmarksTable)
+    .innerJoin(tweetsTable, eq(tweetsTable.userId, bookmarksTable.userId))
+    .where(eq(bookmarksTable.userId, props.userId));
+  return await res;
+};
+export const findBookmarks = async (props: { id: number }) => {
   const res = await db
     .select({ count: count() })
     .from(bookmarksTable)

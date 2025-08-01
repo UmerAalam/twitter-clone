@@ -19,7 +19,7 @@ export const tweetListQueryOptions = (
       const res = await client.api.tweets.$get(
         {
           query: {
-            userId: userId ? String(userId) : undefined,
+            userId: String(userId),
             count: count ? String(count) : undefined,
             page: page ? String(page) : undefined,
           },

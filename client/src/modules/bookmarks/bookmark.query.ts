@@ -1,75 +1,24 @@
-import {
-  queryOptions,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { client } from "../../lib/client";
-import type {
-  TweetBookmark,
-  DeleteBookmark,
-} from "../../../../server/src/modules/bookmarks/bookmarks.dto.js";
-import {
-  tweetDetailQueryOptions,
-  tweetListQueryOptions,
-} from "../tweets/tweets.query";
 
-export const useTweetBookmark = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (tweetBookmark: TweetBookmark) => {
+export const bookmarkListQueryOptions = () => {
+  return queryOptions({
+    queryFn: async () => {
       const token = localStorage.getItem("token");
-      const res = await client.api.bookmarks.$post(
-        {
-          json: tweetBookmark,
-        },
+      const res = await client.api.bookmarks.$get(
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         },
       );
-      if (!res.ok) {
-        throw new Error("Error creating comment");
-      }
+      const data = await res.json();
+      return data;
     },
-    onSuccess: async (_, { tweetId }) => {
-      // await queryClient.invalidateQueries(
-      //   listTweetBookmarkByUserId({ userId: .userId }),
-      // );
-      await queryClient.invalidateQueries(tweetListQueryOptions());
-      await queryClient.invalidateQueries(
-        tweetDetailQueryOptions(Number(tweetId)),
-      );
-    },
+    queryKey: ["bookmarks", "list"],
   });
 };
-export const useDeleteBookmark = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async ({ tweetId }: DeleteBookmark) => {
-      const token = localStorage.getItem("token");
-      const res = await client.api.bookmarks.$delete(
-        {
-          json: { tweetId },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (!res.ok) {
-        throw new Error("Error while updating like");
-      }
-    },
-    onSuccess: async (_, { tweetId }) => {
-      await queryClient.invalidateQueries(tweetListQueryOptions());
-      // await queryClient.invalidateQueries(
-      //   listTweetBookmarkByTweetId(Number(tweetId)),
-      // );
-      await queryClient.invalidateQueries(
-        tweetDetailQueryOptions(Number(tweetId)),
-      );
-    },
-  });
+export const useBookmarkList = () => {
+  return useQuery(bookmarkListQueryOptions());
 };

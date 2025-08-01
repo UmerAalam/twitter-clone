@@ -6,12 +6,11 @@ import {
   deleteBookmarkSchema,
   type TweetBookmark,
   type DeleteBookmark,
-  type ListUserBookmark,
 } from "./bookmarks.dto.js";
 import type { Variables } from "../../types.js";
 import {
   deleteBookmark,
-  findBookmark,
+  findBookmarkedTweetsByUserId,
   postBookmark,
 } from "./bookmarks.service.js";
 
@@ -33,7 +32,9 @@ export const tweetBookmarksRouter = new Hono<{
     return c.json(update, 201);
   })
   .get("/", async (c) => {
-    const { tweetId }: TweetBookmark = await c.req.json();
-    const bookmarksCount = await findBookmark({ id: tweetId });
-    return c.json(bookmarksCount, 200);
+    const loggedInUser = c.get("user");
+    const bookmarks = await findBookmarkedTweetsByUserId({
+      userId: loggedInUser.id,
+    });
+    return c.json(bookmarks, 200);
   });
