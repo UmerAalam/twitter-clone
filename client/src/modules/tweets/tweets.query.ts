@@ -8,43 +8,7 @@ import { client } from "../../lib/client";
 import {
   CreateTweet,
   FindManyTweet,
-  Tweet,
 } from "../../../../server/src/modules/tweet/tweet.dto";
-
-export const tweetListInfiniteQueryOptions = ({
-  count = 10,
-  userId,
-}: {
-  count?: number;
-  userId?: number;
-}) =>
-  queryOptions({
-    queryKey: ["tweets", "infinite", count, userId],
-    queryFn: async ({ pageParam = 1 }) => {
-      const token = localStorage.getItem("token");
-      const res = await client.api.tweets.$get(
-        {
-          query: {
-            userId: userId ? String(userId) : undefined,
-            count: String(count),
-            page: String(pageParam),
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      const data:Tweet[] = await res.json();
-
-      return {
-        tweets: data,
-        nextPage: data. ? pageParam + 1 : undefined,
-      };
-    },
-    getNextPageParam: (lastPage) => lastPage.nextPage,
-  });
 
 export const tweetListQueryOptions = (
   { count, userId, page }: FindManyTweet = { count: 10, page: 1 },
@@ -69,7 +33,7 @@ export const tweetListQueryOptions = (
       const data = await res.json();
       return data;
     },
-    queryKey: ["tweets", "list", page, count, userId],
+    queryKey: ["tweets", "list", userId],
   });
 };
 
