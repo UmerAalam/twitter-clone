@@ -38,10 +38,15 @@ const mapTweet = (tweet: DbTweet): Tweet => ({
 export const findManyTweet = async (
   props: FindManyTweet & { loggedInUserId: number },
 ): Promise<Tweet[]> => {
+  const tweetsCount = props.count ?? 10;
+  const page = props.page ?? 1;
+  const offset = (page - 1) * tweetsCount;
+
   const conditions: SQL[] = [];
   if (props.userId) {
     conditions.push(eq(tweetsTable.userId, props.userId));
   }
+
   const results = await db
     .select({
       id: tweetsTable.id,
@@ -73,7 +78,10 @@ export const findManyTweet = async (
     .from(tweetsTable)
     .where(and(...conditions))
     .orderBy(desc(tweetsTable.createdAt))
-    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId));
+    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
+    .limit(tweetsCount)
+    .offset(offset);
+
   return results.map(mapTweet);
 };
 export const createTweetPostgres = async (

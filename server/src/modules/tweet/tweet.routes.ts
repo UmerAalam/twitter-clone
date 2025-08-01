@@ -29,10 +29,13 @@ export const tweetsRouter = new Hono<{
     return c.json(addedTweet, 201);
   })
   .get("/", zValidator("query", findManyTweetSchema), async (c) => {
-    const { userId } = c.req.valid("query");
+    const { userId, count, page } = c.req.valid("query");
     const loggedInUser = c.get("user");
+
     const tweets = await findManyTweet({
       userId,
+      count,
+      page,
       loggedInUserId: loggedInUser.id,
     });
 

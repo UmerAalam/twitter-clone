@@ -84,7 +84,7 @@ const MainProfile = (props: { id: string }) => {
           alt="profile-page-image"
         />
       </div>
-      <div className="px-6 pt-1 flex justify-between">
+      <div className="px-5 pt-1 flex justify-between">
         <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
           {data?.name}
           <p className="text-gray-400 text-sm font-normal">
@@ -150,7 +150,7 @@ const MainProfile = (props: { id: string }) => {
           {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
         </h2>
       </div>
-      <TweetList userId={Number(props.id)} />
+      <TweetList userId={Number(props.id)} count={1000} page={1} />
     </div>
   );
 };

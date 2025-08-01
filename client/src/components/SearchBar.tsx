@@ -1,4 +1,3 @@
-import React from "react";
 import { LuSearch } from "react-icons/lu";
 import IconButton from "./IconButton";
 const SearchBar = () => {
