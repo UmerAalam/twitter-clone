@@ -11,7 +11,7 @@ export const findBookmarkedTweetsByUserId = async (props: {
     .from(bookmarksTable)
     .innerJoin(tweetsTable, eq(tweetsTable.userId, bookmarksTable.userId))
     .where(eq(bookmarksTable.userId, props.userId));
-  return await res;
+  return res;
 };
 export const findBookmarks = async (props: { id: number }) => {
   const res = await db

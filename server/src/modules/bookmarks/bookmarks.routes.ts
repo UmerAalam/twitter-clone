@@ -19,6 +19,13 @@ export const tweetBookmarksRouter = new Hono<{
 }>()
   .basePath("bookmarks")
   .use(authMiddleware)
+  .get("/", async (c) => {
+    const loggedInUser = c.get("user");
+    const bookmarks = await findBookmarkedTweetsByUserId({
+      userId: loggedInUser.id,
+    });
+    return c.json(bookmarks, 200);
+  })
   .post("/", zValidator("json", tweetBookmarkSchema), async (c) => {
     const body: TweetBookmark = await c.req.json();
     const userId = c.get("user").id;
@@ -30,11 +37,4 @@ export const tweetBookmarksRouter = new Hono<{
     const userId = c.get("user").id;
     const update = await deleteBookmark({ userId, tweetId });
     return c.json(update, 201);
-  })
-  .get("/", async (c) => {
-    const loggedInUser = c.get("user");
-    const bookmarks = await findBookmarkedTweetsByUserId({
-      userId: loggedInUser.id,
-    });
-    return c.json(bookmarks, 200);
   });
