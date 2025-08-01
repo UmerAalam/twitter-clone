@@ -8,6 +8,7 @@ import { client } from "../../lib/client";
 import {
   CreateTweet,
   FindManyTweet,
+  Tweet,
 } from "../../../../server/src/modules/tweet/tweet.dto";
 
 export const tweetListQueryOptions = (
@@ -19,9 +20,9 @@ export const tweetListQueryOptions = (
       const res = await client.api.tweets.$get(
         {
           query: {
+            count: String(count),
             userId: String(userId),
-            count: count ? String(count) : undefined,
-            page: page ? String(page) : undefined,
+            page: String(page),
           },
         },
         {

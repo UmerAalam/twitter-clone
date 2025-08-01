@@ -13,6 +13,7 @@ import {
   tweetDetailQueryOptions,
   tweetListQueryOptions,
 } from "../tweets/tweets.query";
+import { Tweet } from "../../../../server/src/modules/tweet/tweet.dto.js";
 
 export const bookmarkListQueryOptions = () => {
   return queryOptions({
@@ -27,7 +28,7 @@ export const bookmarkListQueryOptions = () => {
         },
       );
       const data = await res.json();
-      return data;
+      return data as Tweet[];
     },
     queryKey: ["bookmarks", "list"],
   });

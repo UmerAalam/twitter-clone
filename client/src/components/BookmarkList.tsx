@@ -1,12 +1,11 @@
 import ComposedTweet from "./ComposedTweet";
 import { useBookmarkList } from "../modules/bookmarks/bookmark.query";
-import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 const BookmarkList = () => {
-  const { isLoading, data } = useBookmarkList();
+  const { data: bookmarks, isLoading } = useBookmarkList();
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
   }
-  const renderedTweets = data?.map((tweet) => {
+  const renderedTweets = bookmarks?.map((tweet) => {
     return (
       <div key={tweet.id}>
         <hr className="text-gray-200 dark:text-gray-700" />

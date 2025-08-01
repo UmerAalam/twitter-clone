@@ -1,6 +1,5 @@
 import ComposedTweet from "./ComposedTweet";
 import { useTweetList } from "../modules/tweets/tweets.query";
-import { useState } from "react";
 
 const TweetList = (props: {
   userId?: number;
@@ -8,12 +7,14 @@ const TweetList = (props: {
   count: number;
   page: number;
 }) => {
+  const userId = localStorage.getItem("userId") || "0";
+  console.log(userId);
   const { isLoading, data } = useTweetList({
     count: props.count,
     page: props.page,
-    userId: props.userId,
+    userId: Number(props.userId),
   });
-  const [isExplore, setIsExplore] = useState(props.explore || false);
+  let isExplore = props.explore || false;
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
   }

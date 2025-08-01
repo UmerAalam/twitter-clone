@@ -38,11 +38,11 @@ export interface BookmarkByUserId
   extends z.infer<typeof bookmarksByUserIdSchema> {}
 export interface BaseTweet extends z.infer<typeof baseTweetSchema> {}
 export interface Tweet extends z.infer<typeof tweetSchema> {
-  user: {
+  user?: {
     id: number;
     name: string;
   } | null;
-  likesCount: number;
+  likesCount?: number;
   hasLiked?: boolean;
   hasBookmarked?: boolean;
 }
