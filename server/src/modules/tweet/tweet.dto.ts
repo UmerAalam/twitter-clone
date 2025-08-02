@@ -13,6 +13,9 @@ export const tweetSchema = baseTweetSchema.merge(
 );
 
 export const createTweetSchema = baseTweetSchema;
+export const bookmarksByUserIdSchema = z.object({
+  bookmark: z.string().optional(),
+});
 
 export const updateTweetSchema = z.object({
   id: z.number(),
@@ -28,7 +31,11 @@ export const findOneTweetSchema = z.object({
 });
 export const findManyTweetSchema = z.object({
   userId: z.coerce.number().optional(),
+  count: z.coerce.number().optional().default(10),
+  page: z.coerce.number().optional().default(1),
 });
+export interface BookmarkByUserId
+  extends z.infer<typeof bookmarksByUserIdSchema> {}
 export interface BaseTweet extends z.infer<typeof baseTweetSchema> {}
 export interface Tweet extends z.infer<typeof tweetSchema> {
   user: {
@@ -36,7 +43,8 @@ export interface Tweet extends z.infer<typeof tweetSchema> {
     name: string;
   } | null;
   likesCount: number;
-  hasLiked?: boolean;
+  hasLiked: boolean;
+  hasBookmarked: boolean;
 }
 export interface CreateTweet extends z.infer<typeof createTweetSchema> {}
 export interface UpdateTweet extends z.infer<typeof updateTweetSchema> {}

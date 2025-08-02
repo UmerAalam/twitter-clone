@@ -8,16 +8,21 @@ import { client } from "../../lib/client";
 import {
   CreateTweet,
   FindManyTweet,
+  Tweet,
 } from "../../../../server/src/modules/tweet/tweet.dto";
 
-export const tweetListQueryOptions = (params: FindManyTweet = {}) => {
+export const tweetListQueryOptions = (
+  { count, userId, page }: FindManyTweet = { count: 10, page: 1 },
+) => {
   return queryOptions({
     queryFn: async () => {
       const token = localStorage.getItem("token");
       const res = await client.api.tweets.$get(
         {
           query: {
-            userId: params.userId ? String(params.userId) : undefined,
+            count: String(count),
+            userId: userId ? String(userId) : undefined,
+            page: String(page),
           },
         },
         {
@@ -29,12 +34,12 @@ export const tweetListQueryOptions = (params: FindManyTweet = {}) => {
       const data = await res.json();
       return data;
     },
-    queryKey: ["tweets", "list", params.userId],
+    queryKey: ["tweets", "list", userId],
   });
 };
 
-export const useTweetList = (userId?: number) => {
-  return useQuery(tweetListQueryOptions({ userId }));
+export const useTweetList = (props: FindManyTweet) => {
+  return useQuery(tweetListQueryOptions(props));
 };
 export const tweetDetailQueryOptions = (id: number) => {
   const token = localStorage.getItem("token");

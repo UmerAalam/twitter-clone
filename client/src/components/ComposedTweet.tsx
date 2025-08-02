@@ -1,4 +1,6 @@
 import { MdVerified } from "react-icons/md";
+import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
 import IconButton from "./IconButton";
 import { FaRegCommentDots } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
@@ -6,23 +8,52 @@ import { IoMdHeart } from "react-icons/io";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTweetLike, useDeleteTweetLike } from "../modules/likes/likes.query";
 import type { TweetLike } from "../../../server/src/modules/likes/likes.dto";
+import {
+  useDeleteBookmark,
+  useTweetBookmark,
+} from "../modules/bookmarks/bookmark.query";
+import { TweetBookmark } from "../../../server/src/modules/bookmarks/bookmarks.dto";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
-  const { data, isPending } = useCustomUserData(tweet.userId.toString());
+  const { data, isPending: pendingUserData } = useCustomUserData(
+    tweet.userId.toString(),
+  );
   const classname = classNames(rest.className, "flex items-start w-full p-3");
-  const [like, setLike] = useState(tweet.hasLiked || false);
-  const { mutate: deleteLike } = useDeleteTweetLike();
-  const { mutate: addTweetLike } = useTweetLike();
-  if (isPending) return <div>Loading...</div>;
-  function handleLike() {
+  const [like, setLike] = useState(false);
+  const [bookmark, setBookmark] = useState(tweet.hasBookmarked || false);
+  const { mutate: addTweetLike, isPending: pendingAddingLike } = useTweetLike();
+  const { mutate: deleteLike, isPending: pendingDeletingLike } =
+    useDeleteTweetLike();
+  const { mutate: addBookmark, isPending: pendingAddBookmark } =
+    useTweetBookmark();
+  const { mutate: deleteBookmark, isPending: pendingDeletingBookmark } =
+    useDeleteBookmark();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (tweet.hasBookmarked !== undefined) {
+      setBookmark(tweet.hasBookmarked);
+    }
+    if (tweet.hasLiked !== undefined) {
+      setLike(tweet.hasLiked);
+    }
+  });
+  // if (
+  //   pendingUserData ||
+  //   pendingAddBookmark ||
+  //   pendingDeletingLike ||
+  //   pendingDeletingBookmark ||
+  //   pendingAddingLike
+  // )
+  //   return <div>Loading...</div>;
+  const handleLike = () => {
     const newLikeState = !like;
     setLike(newLikeState);
 
@@ -48,7 +79,32 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
         },
       );
     }
-  }
+  };
+  const handleBookmark = () => {
+    const newBookmarkState = !bookmark;
+    if (newBookmarkState) {
+      const tweetBookmark: TweetBookmark = {
+        tweetId: tweet.id,
+        createdAt: new Date().toISOString(),
+      };
+      addBookmark(tweetBookmark, {
+        onError: (error) => {
+          console.error("Failed to add bookmark:", error);
+          setBookmark(!newBookmarkState);
+        },
+      });
+    } else {
+      deleteBookmark(
+        { tweetId: tweet.id },
+        {
+          onError: (error) => {
+            console.error("Failed to delete like:", error);
+            setLike(!newBookmarkState);
+          },
+        },
+      );
+    }
+  };
   const CopyShareLink = async () => {
     const copyValue = `http://localhost:3000/tweets/${tweet.id}`;
     await navigator.clipboard.writeText(copyValue);
@@ -57,14 +113,18 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
     <>
       <div className={classname}>
         <img
-          className="flex rounded-full w-10 h-10 object-cover mr-2"
+          onClick={() => navigate({ to: `/profile/${tweet.userId}` })}
+          className="flex rounded-full w-10 cursor-pointer h-10 object-cover mr-2"
           width={200}
           src={data?.avatar}
           alt="umer-logo"
         />
         <div className="w-full">
           <div className="cursor-pointer">
-            <h2 className="font-bold text-sm flex dark:text-white">
+            <h2
+              onClick={() => navigate({ to: `/profile/${tweet.userId}` })}
+              className="font-bold text-sm flex dark:text-white"
+            >
               {data?.name}
               <IconButton
                 icon={
@@ -104,7 +164,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               row
               icon={
                 <BiRepost
-                  className="dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  className="overflow-visible dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                   size={42}
                 />
               }
@@ -117,13 +177,13 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               icon={
                 like ? (
                   <IoMdHeart
-                    className="text-red-400 hover:bg-red-400/25 rounded-full mx-auto my-auto p-2 dark:text-red-400"
-                    size={40}
+                    className="overflow-visible text-red-400 hover:bg-red-400/25 rounded-full mx-auto my-auto p-2 dark:text-red-400"
+                    size={42}
                   />
                 ) : (
                   <IoHeartOutline
-                    className="text-gray-800 hover:bg-black/5 dark:hover:bg-white/25 rounded-full mx-auto my-auto p-2 dark:text-white"
-                    size={40}
+                    className="overflow-visible text-gray-800 hover:bg-black/5 dark:hover:bg-white/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    size={42}
                   />
                 )
               }
@@ -136,12 +196,30 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               row
               icon={
                 <IoShareOutline
-                  className="dark:hover:text-blue-500 text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
-                  size={40}
+                  className="overflow-visible dark:hover:text-blue-500 text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  size={42}
                 />
               }
               onClick={CopyShareLink}
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
+            ></IconButton>
+            <IconButton
+              onClick={handleBookmark}
+              flex
+              row
+              icon={
+                bookmark ? (
+                  <FaBookmark
+                    className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    size={40}
+                  />
+                ) : (
+                  <FaRegBookmark
+                    className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    size={40}
+                  />
+                )
+              }
             ></IconButton>
           </div>
         </div>

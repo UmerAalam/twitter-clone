@@ -28,16 +28,6 @@ export const tweetsRouter = new Hono<{
     const addedTweet = await createTweetPostgres(body);
     return c.json(addedTweet, 201);
   })
-  .get("/", zValidator("query", findManyTweetSchema), async (c) => {
-    const { userId } = c.req.valid("query");
-    const loggedInUser = c.get("user");
-    const tweets = await findManyTweet({
-      userId,
-      loggedInUserId: loggedInUser.id,
-    });
-
-    return c.json(tweets, 200);
-  })
   .get("/:id", async (c) => {
     const id = parseInt(c.req.param("id"));
     const tweets = await findOneTweet({ id });
@@ -68,4 +58,16 @@ export const tweetsRouter = new Hono<{
       }
       return c.json(tweet);
     },
-  );
+  )
+  .get("/", zValidator("query", findManyTweetSchema), async (c) => {
+    const { userId, count, page } = c.req.valid("query");
+    const loggedInUser = c.get("user");
+    const tweets = await findManyTweet({
+      userId,
+      count,
+      page,
+      loggedInUserId: loggedInUser.id,
+    });
+
+    return c.json(tweets, 200);
+  });

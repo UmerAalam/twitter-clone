@@ -1,6 +1,11 @@
 import { desc, eq, SQL, sql, and } from "drizzle-orm";
 import db from "../../db.js";
-import { likesTable, tweetsTable, usersTable } from "../../db/schema.js";
+import {
+  bookmarksTable,
+  likesTable,
+  tweetsTable,
+  usersTable,
+} from "../../db/schema.js";
 import type {
   FindManyTweet,
   FindOneTweet,
@@ -17,6 +22,7 @@ type DbTweet = typeof tweetsTable.$inferSelect & {
   } | null;
   likesCount: number;
   hasLiked?: boolean;
+  hasBookmarked?: boolean;
 };
 
 const mapTweet = (tweet: DbTweet): Tweet => ({
@@ -27,17 +33,21 @@ const mapTweet = (tweet: DbTweet): Tweet => ({
   user: tweet.user,
   likesCount: tweet.likesCount,
   hasLiked: tweet.hasLiked ? tweet.hasLiked : false,
+  hasBookmarked: tweet.hasBookmarked ? tweet.hasBookmarked : false,
 });
 export const findManyTweet = async (
   props: FindManyTweet & { loggedInUserId: number },
 ): Promise<Tweet[]> => {
+  const tweetsCount = props.count ?? 10;
+  const page = props.page ?? 1;
+  const offset = (page - 1) * tweetsCount;
+
   const conditions: SQL[] = [];
   if (props.userId) {
     conditions.push(eq(tweetsTable.userId, props.userId));
   }
 
   const results = await db
-
     .select({
       id: tweetsTable.id,
       text: tweetsTable.text,
@@ -56,13 +66,21 @@ export const findManyTweet = async (
         SELECT COUNT(*) > 0 
         FROM ${likesTable}
         WHERE ${likesTable.tweetId} = ${tweetsTable.id}
-          AND ${likesTable.userId} = ${props.loggedInUserId}
+        AND ${likesTable.userId} = ${props.loggedInUserId}
+      )`,
+      hasBookmarked: sql<boolean>`(
+        SELECT COUNT(*) > 0 
+        FROM ${bookmarksTable}
+        WHERE ${bookmarksTable.tweetId} = ${tweetsTable.id}
+        AND ${bookmarksTable.userId} = ${props.loggedInUserId}
       )`,
     })
     .from(tweetsTable)
     .where(and(...conditions))
     .orderBy(desc(tweetsTable.createdAt))
-    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId));
+    .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
+    .limit(tweetsCount + 1)
+    .offset(offset);
 
   return results.map(mapTweet);
 };

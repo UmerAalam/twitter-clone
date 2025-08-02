@@ -6,22 +6,21 @@ import {
 } from "@tanstack/react-query";
 import { client } from "../../lib/client";
 import type {
-  DeleteLike,
-  TweetLike,
-} from "../../../../server/src/modules/likes/likes.dto";
+  TweetBookmark,
+  DeleteBookmark,
+} from "../../../../server/src/modules/bookmarks/bookmarks.dto.js";
 import {
   tweetDetailQueryOptions,
   tweetListQueryOptions,
 } from "../tweets/tweets.query";
+import { Tweet } from "../../../../server/src/modules/tweet/tweet.dto.js";
 
-const listLikesByTweetId = (id: number) => {
+export const bookmarkListQueryOptions = () => {
   return queryOptions({
     queryFn: async () => {
       const token = localStorage.getItem("token");
-      const res = await client.api.likes.$get(
-        {
-          param: { tweetId: id },
-        },
+      const res = await client.api.bookmarks.$get(
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -29,23 +28,22 @@ const listLikesByTweetId = (id: number) => {
         },
       );
       const data = await res.json();
-      return data;
+      return data as Tweet[];
     },
-    queryKey: ["likes", "count", id],
+    queryKey: ["bookmarks", "list"],
   });
 };
-
-export const useLikesCountByTweetId = (tweetId: number) =>
-  useQuery(listLikesByTweetId(tweetId));
-
-export const useTweetLike = () => {
+export const useBookmarkList = () => {
+  return useQuery(bookmarkListQueryOptions());
+};
+export const useTweetBookmark = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (tweetLike: TweetLike) => {
+    mutationFn: async (tweetBookmark: TweetBookmark) => {
       const token = localStorage.getItem("token");
-      const res = await client.api.likes.$post(
+      const res = await client.api.bookmarks.$post(
         {
-          json: tweetLike,
+          json: tweetBookmark,
         },
         {
           headers: {
@@ -59,19 +57,18 @@ export const useTweetLike = () => {
     },
     onSuccess: async (_, { tweetId }) => {
       await queryClient.invalidateQueries(tweetListQueryOptions());
-      await queryClient.invalidateQueries(listLikesByTweetId(Number(tweetId)));
       await queryClient.invalidateQueries(
         tweetDetailQueryOptions(Number(tweetId)),
       );
     },
   });
 };
-export const useDeleteTweetLike = () => {
+export const useDeleteBookmark = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ tweetId }: DeleteLike) => {
+    mutationFn: async ({ tweetId }: DeleteBookmark) => {
       const token = localStorage.getItem("token");
-      const res = await client.api.likes.$delete(
+      const res = await client.api.bookmarks.$delete(
         {
           json: { tweetId },
         },
@@ -87,7 +84,6 @@ export const useDeleteTweetLike = () => {
     },
     onSuccess: async (_, { tweetId }) => {
       await queryClient.invalidateQueries(tweetListQueryOptions());
-      await queryClient.invalidateQueries(listLikesByTweetId(Number(tweetId)));
       await queryClient.invalidateQueries(
         tweetDetailQueryOptions(Number(tweetId)),
       );

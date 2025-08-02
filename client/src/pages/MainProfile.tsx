@@ -6,10 +6,12 @@ import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 
 const MainProfile = (props: { id: string }) => {
+  const userId = localStorage.getItem("userId") || "0";
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
   const { data, isLoading } = useCustomUserData(props.id);
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
+  const [owner, setOwner] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const backgroundImage =
@@ -17,6 +19,9 @@ const MainProfile = (props: { id: string }) => {
   useEffect(() => {
     if (data && data.bio) {
       setBio(data.bio);
+    }
+    if (Number(userId) === Number(props.id)) {
+      setOwner(true);
     }
   }, [data]);
   useEffect(() => {
@@ -79,24 +84,26 @@ const MainProfile = (props: { id: string }) => {
           alt="profile-page-image"
         />
       </div>
-      <div className="px-6 pt-1 flex justify-between">
+      <div className="px-5 pt-1 flex justify-between">
         <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
           {data?.name}
           <p className="text-gray-400 text-sm font-normal">
             {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
           </p>
         </h2>
-        <button
-          ref={buttonRef}
-          onClick={handleSaveProfile}
-          className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
-        >
-          {editMode
-            ? isPending
-              ? "Saving..."
-              : "Save Profile"
-            : "Edit Profile"}
-        </button>
+        {owner && (
+          <button
+            ref={buttonRef}
+            onClick={handleSaveProfile}
+            className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
+          >
+            {editMode
+              ? isPending
+                ? "Saving..."
+                : "Save Profile"
+              : "Edit Profile"}
+          </button>
+        )}
       </div>
       {editMode ? (
         <textarea
@@ -143,7 +150,7 @@ const MainProfile = (props: { id: string }) => {
           {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
         </h2>
       </div>
-      <TweetList userId={Number(props.id)} />
+      <TweetList userId={Number(props.id)} count={1000} page={1} />
     </div>
   );
 };

@@ -14,6 +14,7 @@ import { Route as SignUpIndexRouteImport } from './routes/sign-up/index'
 import { Route as SignInIndexRouteImport } from './routes/sign-in/index'
 import { Route as ProfileIndexRouteImport } from './routes/profile/index'
 import { Route as ExploreIndexRouteImport } from './routes/explore/index'
+import { Route as BookmarksIndexRouteImport } from './routes/bookmarks/index'
 import { Route as TweetsTweetIdRouteImport } from './routes/tweets/$tweetId'
 import { Route as ProfileProfileIDRouteImport } from './routes/profile/$profileID'
 
@@ -42,6 +43,11 @@ const ExploreIndexRoute = ExploreIndexRouteImport.update({
   path: '/explore/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BookmarksIndexRoute = BookmarksIndexRouteImport.update({
+  id: '/bookmarks/',
+  path: '/bookmarks/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TweetsTweetIdRoute = TweetsTweetIdRouteImport.update({
   id: '/tweets/$tweetId',
   path: '/tweets/$tweetId',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/profile/$profileID': typeof ProfileProfileIDRoute
   '/tweets/$tweetId': typeof TweetsTweetIdRoute
+  '/bookmarks': typeof BookmarksIndexRoute
   '/explore': typeof ExploreIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/sign-in': typeof SignInIndexRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/profile/$profileID': typeof ProfileProfileIDRoute
   '/tweets/$tweetId': typeof TweetsTweetIdRoute
+  '/bookmarks': typeof BookmarksIndexRoute
   '/explore': typeof ExploreIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/sign-in': typeof SignInIndexRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/profile/$profileID': typeof ProfileProfileIDRoute
   '/tweets/$tweetId': typeof TweetsTweetIdRoute
+  '/bookmarks/': typeof BookmarksIndexRoute
   '/explore/': typeof ExploreIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/sign-in/': typeof SignInIndexRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/profile/$profileID'
     | '/tweets/$tweetId'
+    | '/bookmarks'
     | '/explore'
     | '/profile'
     | '/sign-in'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/profile/$profileID'
     | '/tweets/$tweetId'
+    | '/bookmarks'
     | '/explore'
     | '/profile'
     | '/sign-in'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/profile/$profileID'
     | '/tweets/$tweetId'
+    | '/bookmarks/'
     | '/explore/'
     | '/profile/'
     | '/sign-in/'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProfileProfileIDRoute: typeof ProfileProfileIDRoute
   TweetsTweetIdRoute: typeof TweetsTweetIdRoute
+  BookmarksIndexRoute: typeof BookmarksIndexRoute
   ExploreIndexRoute: typeof ExploreIndexRoute
   ProfileIndexRoute: typeof ProfileIndexRoute
   SignInIndexRoute: typeof SignInIndexRoute
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExploreIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bookmarks/': {
+      id: '/bookmarks/'
+      path: '/bookmarks'
+      fullPath: '/bookmarks'
+      preLoaderRoute: typeof BookmarksIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tweets/$tweetId': {
       id: '/tweets/$tweetId'
       path: '/tweets/$tweetId'
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProfileProfileIDRoute: ProfileProfileIDRoute,
   TweetsTweetIdRoute: TweetsTweetIdRoute,
+  BookmarksIndexRoute: BookmarksIndexRoute,
   ExploreIndexRoute: ExploreIndexRoute,
   ProfileIndexRoute: ProfileIndexRoute,
   SignInIndexRoute: SignInIndexRoute,
