@@ -2,8 +2,13 @@ import TweetList from "../components/TweetsList";
 
 const ExplorePage = () => {
   return (
-    <div className="w-full bg-gray-800 rounded-2xl">
-      <TweetList explore={true} />
+    <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
+      <div className="py-3 px-5 font-bold text-xl dark:text-white text-gray-800">
+        Explore
+      </div>
+      <div className="w-full bg-gray-800 rounded-2xl">
+        <TweetList explore={true} page={1} count={10} />
+      </div>
     </div>
   );
 };
