@@ -16,7 +16,7 @@ const HomeFeed = () => {
   return (
     <>
       <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
-        <div className="font-bold px-5 py-3 text-xl text-gray-700 flex flex-row justify-between">
+        <div className="font-bold px-3 py-3 text-xl text-gray-700 flex flex-row justify-between">
           <span className="dark:text-white text-gray-800">Home</span>
           <DarkModeToggle />
         </div>

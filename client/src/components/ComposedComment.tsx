@@ -45,7 +45,7 @@ const ComposedComment = ({ comment, userId, ...rest }: Props) => {
                 }
               ></IconButton>
               <div className="pl-1 text-sm text-gray-400 font-medium">
-                {"@" + data?.name.toLowerCase() + data?.id}
+                {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
               </div>
               <div className="pl-3 text-sm text-gray-400 font-medium">
                 {comment.createdAt?.slice(11, 19)}
@@ -62,7 +62,7 @@ const ComposedComment = ({ comment, userId, ...rest }: Props) => {
               className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
               icon={
                 <FaRegCommentDots
-                  className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  className="dark:hover:text-blue-500 hover:text-blue-500 hover:bg-blue-500/10 overflow-visible text-gray-800 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                   size={40}
                 />
               }
@@ -72,7 +72,7 @@ const ComposedComment = ({ comment, userId, ...rest }: Props) => {
               row
               icon={
                 <BiRepost
-                  className="dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  className="hover:text-emerald-500 overflow-visible dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                   size={42}
                 />
               }
@@ -85,12 +85,12 @@ const ComposedComment = ({ comment, userId, ...rest }: Props) => {
               icon={
                 like ? (
                   <IoMdHeart
-                    className="text-red-400 hover:bg-red-400/25 rounded-full mx-auto my-auto p-2 dark:text-red-400"
+                    className="overflow-visible text-red-400 hover:bg-red-400/25 rounded-full mx-auto my-auto p-2 dark:text-red-400"
                     size={40}
                   />
                 ) : (
                   <IoHeartOutline
-                    className="text-gray-800 hover:bg-black/5 dark:hover:bg-white/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    className="overflow-visible text-gray-800 hover:bg-black/5 dark:hover:bg-white/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                     size={40}
                   />
                 )
@@ -102,7 +102,7 @@ const ComposedComment = ({ comment, userId, ...rest }: Props) => {
               row
               icon={
                 <IoShareOutline
-                  className="dark:hover:text-blue-500 text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  className="hover:text-blue-500 hover:bg-blue-500/10 overflow-visible dark:hover:text-blue-500 text-gray-800 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                   size={40}
                 />
               }

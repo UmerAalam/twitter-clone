@@ -53,7 +53,7 @@ const ReplyTweet = ({ tweet }: ReplyTweetProps) => {
           </p>
           <button
             type="submit"
-            className="text-gray-800 cursor-pointer hover:bg-blue-300 bg-blue-400 dark:bg-white dark:hover:bg-gray-100 font-bold rounded-full h-9 w-24 size-fit"
+            className="dark:text-gray-800 text-white cursor-pointer hover:bg-blue-300 bg-blue-400 dark:bg-white dark:hover:bg-gray-100 font-bold rounded-full h-9 w-24 size-fit"
           >
             Reply
           </button>
