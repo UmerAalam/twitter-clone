@@ -7,7 +7,7 @@ const BookmarkList = () => {
   }
   const renderedTweets = bookmarks?.map((tweet) => {
     return (
-      <div key={tweet.id}>
+      <div key={tweet.id * Math.random() * 100}>
         <hr className="text-gray-200 dark:text-gray-700" />
         <ComposedTweet className="bg-gray-800 rounded-2xl" tweet={tweet} />
       </div>

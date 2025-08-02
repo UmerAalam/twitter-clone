@@ -1,4 +1,4 @@
-import { and, count, eq } from "drizzle-orm";
+import { and, count, eq, sql } from "drizzle-orm";
 import db from "../../db.js";
 import { bookmarksTable, tweetsTable } from "../../db/schema.js";
 import type { TweetBookmark } from "./bookmarks.dto.js";
@@ -12,6 +12,12 @@ export const findBookmarkedTweetsByUserId = async (props: {
       text: tweetsTable.text,
       userId: tweetsTable.userId,
       createdAt: tweetsTable.createdAt,
+      hasBookmarked: sql<boolean>`(
+        SELECT COUNT(*) > 0 
+        FROM ${bookmarksTable}
+        WHERE ${bookmarksTable.tweetId} = ${tweetsTable.id}
+        AND ${bookmarksTable.userId} = ${props.userId}
+      )`,
     })
     .from(bookmarksTable)
     .innerJoin(tweetsTable, eq(tweetsTable.id, bookmarksTable.tweetId))
