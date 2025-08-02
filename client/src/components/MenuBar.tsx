@@ -3,6 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import { CgMoreO } from "react-icons/cg";
 import { RiFileList2Line } from "react-icons/ri";
 import { HiOutlineMail } from "react-icons/hi";
+import { GoHome } from "react-icons/go";
 import { GoHomeFill } from "react-icons/go";
 import IconButton from "./IconButton";
 import MenuProfile from "./MenuProfile";
