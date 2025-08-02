@@ -79,7 +79,7 @@ export const findManyTweet = async (
     .where(and(...conditions))
     .orderBy(desc(tweetsTable.createdAt))
     .leftJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
-    .limit(tweetsCount + 1)
+    .limit(tweetsCount)
     .offset(offset);
 
   return results.map(mapTweet);

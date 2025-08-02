@@ -13,6 +13,7 @@ import {
   tweetDetailQueryOptions,
   tweetListQueryOptions,
 } from "../tweets/tweets.query";
+import { bookmarkListQueryOptions } from "../bookmarks/bookmark.query";
 
 const listLikesByTweetId = (id: number) => {
   return queryOptions({
@@ -63,6 +64,7 @@ export const useTweetLike = () => {
       await queryClient.invalidateQueries(
         tweetDetailQueryOptions(Number(tweetId)),
       );
+      await queryClient.invalidateQueries(bookmarkListQueryOptions());
     },
   });
 };
@@ -91,6 +93,7 @@ export const useDeleteTweetLike = () => {
       await queryClient.invalidateQueries(
         tweetDetailQueryOptions(Number(tweetId)),
       );
+      await queryClient.invalidateQueries(bookmarkListQueryOptions());
     },
   });
 };

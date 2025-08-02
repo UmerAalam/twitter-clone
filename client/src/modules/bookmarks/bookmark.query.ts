@@ -30,7 +30,7 @@ export const bookmarkListQueryOptions = () => {
       const data = await res.json();
       return data as Tweet[];
     },
-    queryKey: ["bookmarks", "list"],
+    queryKey: ["tweets", "bookmarks", "likes", "count", "list"],
   });
 };
 export const useBookmarkList = () => {
@@ -60,6 +60,7 @@ export const useTweetBookmark = () => {
       await queryClient.invalidateQueries(
         tweetDetailQueryOptions(Number(tweetId)),
       );
+      await queryClient.invalidateQueries(bookmarkListQueryOptions());
     },
   });
 };
@@ -87,6 +88,7 @@ export const useDeleteBookmark = () => {
       await queryClient.invalidateQueries(
         tweetDetailQueryOptions(Number(tweetId)),
       );
+      await queryClient.invalidateQueries(bookmarkListQueryOptions());
     },
   });
 };
