@@ -153,7 +153,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
                 className="font-normal dark:text-white text-sm my-auto text-gray-800 cursor-pointer"
                 icon={
                   <FaRegCommentDots
-                    className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    className="dark:hover:text-blue-500 hover:text-blue-500 hover:bg-blue-500/10 overflow-visible text-gray-800 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                     size={40}
                   />
                 }
@@ -164,7 +164,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               row
               icon={
                 <BiRepost
-                  className="overflow-visible dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  className="hover:text-emerald-500 overflow-visible dark:hover:text-emerald-400 text-gray-800 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                   size={42}
                 />
               }
@@ -196,7 +196,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               row
               icon={
                 <IoShareOutline
-                  className="overflow-visible dark:hover:text-blue-500 text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                  className="hover:text-blue-500 hover:bg-blue-500/10 overflow-visible dark:hover:text-blue-500 text-gray-800 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                   size={42}
                 />
               }
@@ -210,12 +210,12 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
               icon={
                 bookmark ? (
                   <FaBookmark
-                    className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    className="hover:text-blue-500 dark:hover:text-blue-500 overflow-visible text-blue-500 hover:bg-blue-500/10 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                     size={40}
                   />
                 ) : (
                   <FaRegBookmark
-                    className="dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/5 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
+                    className="hover:text-blue-500 dark:hover:text-blue-500 overflow-visible text-gray-800 hover:bg-blue-500/10 dark:hover:bg-blue-500/25 rounded-full mx-auto my-auto p-2 dark:text-white"
                     size={40}
                   />
                 )
