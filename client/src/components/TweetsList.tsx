@@ -1,16 +1,22 @@
 import ComposedTweet from "./ComposedTweet";
-import { useTweetList } from "../modules/tweets/tweets.query";
-
+import {
+  useInfiniteTweetsQuery,
+  useTweetList,
+} from "../modules/tweets/tweets.query";
 const TweetList = (props: {
   userId?: number;
   explore?: boolean;
   count: number;
   page: number;
 }) => {
-  const { isLoading, data } = useTweetList({
+  // const { isLoading, data } = useTweetList({
+  //   count: props.count,
+  //   page: props.page,
+  //   userId: props.userId,
+  // });
+  const { isLoading, data, hasNextPage } = useInfiniteTweetsQuery({
     count: props.count,
-    page: props.page,
-    userId: props.userId,
+    userId: props.userId ? String(props.userId) : undefined,
   });
   let isExplore = props.explore || false;
   if (isLoading) {
@@ -18,26 +24,19 @@ const TweetList = (props: {
   }
   let renderedTweets;
   if (isExplore) {
-    const randomTweets = data?.sort(() => Math.random() - 0.5);
-    renderedTweets = randomTweets?.map((tweet) => {
-      return (
-        <div key={tweet?.id}>
-          <hr className="text-gray-200 dark:text-gray-700" />
-          <ComposedTweet tweet={tweet} />
-        </div>
-      );
+    const randomTweets = data?.pages.sort(() => Math.random() - 0.5);
+    renderedTweets = randomTweets?.map((tweets) => {
+      return tweets.map((tweet) => {
+        return <ComposedTweet key={tweet.id} tweet={tweet} />;
+      });
     });
   } else {
-    renderedTweets = data?.map((tweet) => {
-      return (
-        <div key={tweet?.id}>
-          <hr className="text-gray-200 dark:text-gray-700" />
-          <ComposedTweet tweet={tweet} />
-        </div>
-      );
+    renderedTweets = data?.pages.map((tweets) => {
+      return tweets.map((tweet) => {
+        return <ComposedTweet key={tweet.id} tweet={tweet} />;
+      });
     });
   }
-
   return <div>{renderedTweets}</div>;
 };
 export default TweetList;

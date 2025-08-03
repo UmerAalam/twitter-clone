@@ -19,10 +19,12 @@ import {
   useTweetBookmark,
 } from "../modules/bookmarks/bookmark.query";
 import { TweetBookmark } from "../../../server/src/modules/bookmarks/bookmarks.dto";
+import { QueryClient } from "@tanstack/react-query";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
+  const queryClient = new QueryClient();
   const { data, isPending: pendingUserData } = useCustomUserData(
     tweet.userId.toString(),
   );
