@@ -9,8 +9,7 @@ const HomeFeed = () => {
   let count = 10;
   useEffect(() => {
     if (inView) {
-      page += 1;
-      count += 10;
+      //
     }
   });
   return (

@@ -1,5 +1,6 @@
 import {
   queryOptions,
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -10,7 +11,48 @@ import {
   FindManyTweet,
   Tweet,
 } from "../../../../server/src/modules/tweet/tweet.dto";
+export const useInfiniteTweetsQuery = ({
+  userId,
+  count = 10,
+}: {
+  userId?: string;
+  count?: number;
+}) => {
+  return useInfiniteQuery({
+    queryKey: ["tweets", userId],
+    queryFn: async ({ pageParam = 1 }) => {
+      const token = localStorage.getItem("token");
 
+      const res = await client.api.tweets.$get(
+        {
+          query: {
+            count: String(count),
+            userId: userId ? String(userId) : undefined,
+            page: String(pageParam),
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      const data = await res.json();
+      return data;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (!lastPage || lastPage.length < count) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
+    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+      return firstPageParam > 1 ? firstPageParam - 1 : undefined;
+    },
+  });
+};
 export const tweetListQueryOptions = (
   { count, userId, page }: FindManyTweet = { count: 10, page: 1 },
 ) => {
