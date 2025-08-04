@@ -12,12 +12,15 @@ function CommentList({ tweet }: Props) {
     <div>
       {data?.map((comment) => {
         return (
-          <ComposedComment
-            key={comment.id}
-            className="bg-gray-50 dark:bg-gray-800 rounded-2xl mt-3"
-            comment={comment}
-            userId={tweet.userId}
-          />
+          <>
+            <hr className="dark:text-gray-700 text-gray-200" />
+            <ComposedComment
+              key={comment.id}
+              className="bg-gray-50 dark:bg-gray-800 rounded-2xl mt-3"
+              comment={comment}
+              userId={tweet.userId}
+            />
+          </>
         );
       })}
     </div>
