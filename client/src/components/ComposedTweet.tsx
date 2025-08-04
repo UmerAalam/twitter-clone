@@ -45,14 +45,6 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
       setLike(tweet.hasLiked);
     }
   });
-  // if (
-  //   pendingUserData ||
-  //   pendingAddBookmark ||
-  //   pendingDeletingLike ||
-  //   pendingDeletingBookmark ||
-  //   pendingAddingLike
-  // )
-  //   return <div>Loading...</div>;
   const handleLike = async () => {
     const newLikeState = !like;
     setLike(newLikeState);

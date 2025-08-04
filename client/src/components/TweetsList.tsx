@@ -24,13 +24,23 @@ const TweetList = (props: { userId?: number; explore?: boolean }) => {
     const randomTweets = data?.pages.sort(() => Math.random() - 0.5);
     renderedTweets = randomTweets?.map((tweets) => {
       return tweets.map((tweet, index) => {
-        return <ComposedTweet key={tweet.id + index} tweet={tweet} />;
+        return (
+          <div>
+            <hr className="dark:text-gray-700 text-gray-200" />
+            <ComposedTweet key={tweet.id} tweet={tweet} />;
+          </div>
+        );
       });
     });
   } else {
     renderedTweets = data?.pages.map((tweets) => {
       return tweets.map((tweet) => {
-        return <ComposedTweet key={tweet.id} tweet={tweet} />;
+        return (
+          <div>
+            <hr className="dark:text-gray-700 text-gray-200" />
+            <ComposedTweet key={tweet.id} tweet={tweet} />
+          </div>
+        );
       });
     });
   }
@@ -41,7 +51,7 @@ const TweetList = (props: { userId?: number; explore?: boolean }) => {
         ref={ref}
         className="dark:text-white text-gray-800 flex justify-center"
       >
-        Loading...
+        {isLoading && "Loading..."}
       </div>
     </>
   );
