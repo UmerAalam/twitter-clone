@@ -19,13 +19,10 @@ import {
   useTweetBookmark,
 } from "../modules/bookmarks/bookmark.query";
 import { TweetBookmark } from "../../../server/src/modules/bookmarks/bookmarks.dto";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import { tweetListQueryOptions } from "../modules/tweets/tweets.query";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
-  const queryClient = useQueryClient();
   const { data, isPending: pendingUserData } = useCustomUserData(
     tweet.userId.toString(),
   );
@@ -82,12 +79,6 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
         },
       );
     }
-    await queryClient.invalidateQueries({
-      queryKey: ["tweets", "list", "details"],
-    });
-    await queryClient.invalidateQueries({
-      queryKey: ["likes", "bookmarks", "count"],
-    });
   };
   const handleBookmark = async () => {
     const newBookmarkState = !bookmark;
@@ -113,9 +104,6 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
         },
       );
     }
-    await queryClient.invalidateQueries({
-      queryKey: ["tweets", "list", "details", "likes", "bookmarks", "count"],
-    });
   };
   const CopyShareLink = async () => {
     const copyValue = `http://localhost:3000/tweets/${tweet.id}`;
