@@ -1,7 +1,12 @@
+import { useNavigate } from "@tanstack/react-router";
 import { useUserCountData } from "../lib/customUserData";
 import FollowAccount from "./FollowAccount";
 const WhoToFollow = () => {
   const { data } = useUserCountData(3);
+  const navigate = useNavigate();
+  const handleClick = (userId: number) => {
+    navigate({ to: `/profile/${userId}` });
+  };
   return (
     <div className="w-full rounded-2xl bg-gray-100 dark:bg-gray-700">
       <div className="flex justify-between">
@@ -12,6 +17,7 @@ const WhoToFollow = () => {
       {data?.map((user) => {
         return (
           <FollowAccount
+            onClick={() => handleClick(user.id)}
             key={user.id}
             avatar={user.avatar}
             name={user.name}

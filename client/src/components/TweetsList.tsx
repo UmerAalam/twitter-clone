@@ -14,7 +14,6 @@ const TweetList = (props: { userId?: number; explore?: boolean }) => {
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
-      console.log("Fetching Next Page");
     }
   });
   if (isLoading) {
