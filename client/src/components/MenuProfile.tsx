@@ -19,7 +19,7 @@ const MenuProfile = () => {
         alt="profile-image"
       />
       <div className="font-bold size-fit">
-        <h2 className="text-sm dark:text-white">{data?.name}</h2>
+        <h2 className="text-sm text-gray-800 dark:text-white">{data?.name}</h2>
         <h3 className="text-gray-400 text-[12px]">
           {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
         </h3>

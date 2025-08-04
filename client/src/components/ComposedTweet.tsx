@@ -115,7 +115,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
           <div className="cursor-pointer">
             <h2
               onClick={() => navigate({ to: `/profile/${tweet.userId}` })}
-              className="font-bold text-sm flex dark:text-white"
+              className="font-bold text-sm flex dark:text-white text-gray-800"
             >
               {data?.name}
               <IconButton
@@ -133,7 +133,7 @@ const ComposedTweet = ({ tweet, ...rest }: Props) => {
                 {tweet.createdAt?.slice(11, 19)}
               </div>
             </h2>
-            <p className="cursor-auto flex font-normal dark:text-white text-base">
+            <p className="cursor-auto flex font-normal dark:text-white text-gray-800 text-base">
               {tweet.text}
             </p>
           </div>

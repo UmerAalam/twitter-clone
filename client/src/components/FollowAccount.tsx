@@ -25,7 +25,7 @@ const FollowAccount = ({
           alt="account-to-follow"
         />
         <div className="font-bold">
-          <h2 className="text-sm inline-flex dark:text-white">
+          <h2 className="text-sm text-gray-800 inline-flex dark:text-white">
             {name}
             <IconButton
               icon={
