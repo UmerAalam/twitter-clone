@@ -33,7 +33,12 @@ const TweetList = (props: {
   } else {
     renderedTweets = data?.pages.map((tweets) => {
       return tweets.map((tweet) => {
-        return <ComposedTweet key={tweet.id} tweet={tweet} />;
+        return (
+          <>
+            <hr className="dark:text-gray-700 text-gray-200" />
+            <ComposedTweet key={tweet.id} tweet={tweet} />
+          </>
+        );
       });
     });
   }

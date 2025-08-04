@@ -19,7 +19,7 @@ export const useInfiniteTweetsQuery = ({
   count?: number;
 }) => {
   return useInfiniteQuery({
-    queryKey: ["tweets", "list", "details", userId],
+    queryKey: ["tweets", "list", "details", "count", "likes", "bookmarks"],
     queryFn: async ({ pageParam = 1 }) => {
       const token = localStorage.getItem("token");
 
