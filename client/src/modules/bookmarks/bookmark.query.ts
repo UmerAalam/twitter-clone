@@ -34,6 +34,25 @@ export const useTweetBookmark = () => {
         throw new Error("Error creating comment");
       }
     },
+    onMutate: async (newTweetBookmark: TweetBookmark) => {
+      await queryClient.cancelQueries({
+        queryKey: ["tweets", "list"],
+      });
+
+      const previousTweets = queryClient.getQueryData(["tweets", "list"]);
+
+      queryClient.setQueryData(
+        ["tweets", "list", newTweetBookmark.tweetId, "likes"],
+        newTweetBookmark,
+      );
+
+      return { previousTweets };
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tweets", "list"],
+      });
+    },
   });
 };
 export const useDeleteBookmark = () => {
