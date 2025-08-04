@@ -150,7 +150,7 @@ const MainProfile = (props: { id: string }) => {
           {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
         </h2>
       </div>
-      <TweetList userId={Number(props.id)} count={1000} page={1} />
+      <TweetList userId={Number(props.id)} />
     </div>
   );
 };

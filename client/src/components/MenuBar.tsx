@@ -8,6 +8,7 @@ import { GoHomeFill } from "react-icons/go";
 import IconButton from "./IconButton";
 import MenuProfile from "./MenuProfile";
 import { useNavigate } from "@tanstack/react-router";
+const userId = localStorage.getItem("userId") || "0";
 const iconButtons = [
   {
     icon: <GoHomeFill size={26} />,
@@ -42,7 +43,7 @@ const iconButtons = [
   {
     icon: <CgProfile size={26} />,
     iconText: "Profile",
-    path: "/profile",
+    path: `/profile/${userId}`,
   },
   {
     icon: <CgMoreO size={26} />,
