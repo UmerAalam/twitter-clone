@@ -47,7 +47,7 @@ const SignUpPage = () => {
             className="mx-auto dark:text-white focus:outline-blue-400 flex justify-center w-[80%] h-12 font-medium border border-gray-300 rounded-md p-3"
             placeholder="Full Name"
             type="text"
-            maxLength={10}
+            maxLength={20}
             onChange={(e) => setName(e.target.value)}
             required
           />

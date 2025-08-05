@@ -6,6 +6,7 @@ import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { client } from "../lib/client";
+import { uploadImageToS3 } from "../modules/upload/upload.query";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
@@ -61,34 +62,16 @@ const MainProfile = (props: { id: string }) => {
       });
     }
   };
-  // const uploadImageToS3 = async (file: File) => {
-  //   // const res = await client;
-  //   // const { uploadUrl, fileUrl } = await res.json();
-  //
-  //   const uploadRes = await fetch(uploadUrl, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": file.type,
-  //     },
-  //     body: file,
-  //   });
-  //
-  //   if (!uploadRes.ok) {
-  //     throw new Error("Upload failed");
-  //   }
-  //
-  //   return fileUrl;
-  // };
-  // const handleImageChange = async (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  // ) => {
-  //   event.preventDefault();
-  //   const file = event.target.files?.[0];
-  //   if (!file) return;
-  //
-  //   const url = await uploadImageToS3(file);
-  //   console.log("Image uploaded to:", url);
-  // };
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    event.preventDefault();
+    const file = event.target.files?.[0];
+    if (!file) return;
+    console.log(file);
+    const url = await uploadImageToS3(file);
+    console.log("Image uploaded to:", url);
+  };
   if (isLoading)
     return (
       <div className="text-gray-800 dark:text-white flex justify-center">
