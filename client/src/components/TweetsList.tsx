@@ -26,7 +26,7 @@ const TweetList = (props: { userId?: number; explore?: boolean }) => {
     renderedTweets = randomTweets?.map((tweets) => {
       return tweets.map((tweet: Tweet) => {
         return (
-          <div key={tweet.userId}>
+          <div key={tweet.id}>
             <hr className="dark:text-gray-700 text-gray-200" />
             <ComposedTweet tweet={tweet} />;
           </div>
@@ -38,8 +38,11 @@ const TweetList = (props: { userId?: number; explore?: boolean }) => {
       return tweets.map((tweet: Tweet) => {
         return (
           <div key={tweet.id}>
-            <hr className="dark:text-gray-700 text-gray-200" />
-            <ComposedTweet tweet={tweet} />
+            <hr
+              key={tweet.userId}
+              className="dark:text-gray-700 text-gray-200"
+            />
+            <ComposedTweet key={tweet.createdAt} tweet={tweet} />
           </div>
         );
       });
