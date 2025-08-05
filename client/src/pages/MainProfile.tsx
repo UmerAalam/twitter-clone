@@ -157,21 +157,23 @@ const MainProfile = (props: { id: string }) => {
           inputMode="text"
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          className="px-5 mt-2 w-full dark:text-white resize-none outline-2 outline-white rounded-xl"
+          className="text-gray-800 px-5 mt-2 w-full dark:text-white resize-none outline-2 outline-white rounded-xl"
         />
       ) : (
-        <p className="px-5 mt-2 w-full dark:text-white resize-none">{bio}</p>
+        <p className="text-gray-800 px-5 mt-2 w-full dark:text-white resize-none">
+          {bio}
+        </p>
       )}
       <h2 className="ml-5 mt-1 gap-2 text-gray-400 inline-flex">
         <SlCalender className="mt-0.5" />
         {data?.created_at.slice(0, 10)}
       </h2>
       <div className="px-5">
-        <h2 className="inline-flex gap-1 font-light dark:text-white">
+        <h2 className="text-gray-800 inline-flex gap-1 font-medium dark:text-white">
           <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
           Following
         </h2>
-        <h2 className="inline-flex ml-3 gap-1 font-light dark:text-white">
+        <h2 className="text-gray-800 inline-flex ml-3 gap-1 font-medium dark:text-white">
           <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
           Followers
         </h2>
@@ -179,7 +181,11 @@ const MainProfile = (props: { id: string }) => {
       <div className="mt-3 text-lg font-bold flex justify-evenly">
         <h2
           onClick={() => handleProfileCount(1)}
-          className="text-gray-500 cursor-pointer inline-flex flex-col dark:text-white"
+          className={
+            profileTabCount === 1
+              ? "dark:text-white text-gray-800 cursor-pointer inline-flex flex-col"
+              : "text-gray-500 cursor-pointer inline-flex flex-col"
+          }
         >
           Tweets
           {profileTabCount === 1 && (
@@ -188,7 +194,11 @@ const MainProfile = (props: { id: string }) => {
         </h2>
         <h2
           onClick={() => handleProfileCount(2)}
-          className="text-gray-500 cursor-pointer inline-flex flex-col"
+          className={
+            profileTabCount === 2
+              ? "dark:text-white text-gray-800 cursor-pointer inline-flex flex-col"
+              : "text-gray-500 cursor-pointer inline-flex flex-col"
+          }
         >
           Tweets & replies
           {profileTabCount === 2 && (
@@ -197,7 +207,11 @@ const MainProfile = (props: { id: string }) => {
         </h2>
         <h2
           onClick={() => handleProfileCount(3)}
-          className="text-gray-500 cursor-pointer inline-flex flex-col"
+          className={
+            profileTabCount === 3
+              ? "dark:text-white text-gray-800 cursor-pointer inline-flex flex-col"
+              : "text-gray-500 cursor-pointer inline-flex flex-col"
+          }
         >
           Media
           {profileTabCount === 3 && (
@@ -206,7 +220,11 @@ const MainProfile = (props: { id: string }) => {
         </h2>
         <h2
           onClick={() => handleProfileCount(4)}
-          className="text-gray-500 cursor-pointer inline-flex flex-col"
+          className={
+            profileTabCount === 4
+              ? "dark:text-white text-gray-800 cursor-pointer inline-flex flex-col"
+              : "text-gray-500 cursor-pointer inline-flex flex-col"
+          }
         >
           Likes
           {profileTabCount === 4 && (
