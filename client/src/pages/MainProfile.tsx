@@ -70,6 +70,15 @@ const MainProfile = (props: { id: string }) => {
     if (!file) return;
     console.log(file);
     const url = await uploadImageToS3(file);
+    const updatedUser: UpdatedUser = {
+      id: Number(props.id),
+      bio: url,
+    };
+    updateUserDataMutation(updatedUser, {
+      onSuccess: () => {
+        setEditMode(false);
+      },
+    });
     console.log("Image uploaded to:", url);
   };
   if (isLoading)

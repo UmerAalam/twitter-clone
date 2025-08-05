@@ -46,10 +46,10 @@ export const awsRouter = new Hono()
       });
 
       const signedUrl = await getSignedUrl(s3, command, { expiresIn: 60 });
-      const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
+      const fileUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 
       return c.json({ uploadUrl: signedUrl, fileUrl });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Upload error:", error);
       return c.json({ error: error.message }, 500);
     }
