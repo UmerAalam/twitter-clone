@@ -14,7 +14,6 @@ const MainProfile = (props: { id: string }) => {
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
   const [owner, setOwner] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -72,7 +71,7 @@ const MainProfile = (props: { id: string }) => {
     const url = await uploadImageToS3(file);
     const updatedUser: UpdatedUser = {
       id: Number(props.id),
-      bio: url,
+      avatar: url,
     };
     updateUserDataMutation(updatedUser, {
       onSuccess: () => {
