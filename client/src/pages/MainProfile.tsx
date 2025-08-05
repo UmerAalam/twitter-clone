@@ -4,7 +4,8 @@ import TweetList from "../components/TweetsList";
 import { useEffect, useRef, useState } from "react";
 import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
-
+import { MdOutlineCameraAlt } from "react-icons/md";
+import { client } from "../lib/client";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
@@ -12,8 +13,10 @@ const MainProfile = (props: { id: string }) => {
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
   const [owner, setOwner] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const profileBtnRef = useRef<HTMLButtonElement | null>(null);
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   useEffect(() => {
@@ -30,7 +33,9 @@ const MainProfile = (props: { id: string }) => {
         textareaRef.current &&
         !textareaRef.current.contains(event.target as Node) &&
         buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
+        !buttonRef.current.contains(event.target as Node) &&
+        profileBtnRef.current &&
+        !profileBtnRef.current.contains(event.target as Node)
       ) {
         setEditMode(false);
       }
@@ -56,6 +61,34 @@ const MainProfile = (props: { id: string }) => {
       });
     }
   };
+  // const uploadImageToS3 = async (file: File) => {
+  //   // const res = await client;
+  //   // const { uploadUrl, fileUrl } = await res.json();
+  //
+  //   const uploadRes = await fetch(uploadUrl, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": file.type,
+  //     },
+  //     body: file,
+  //   });
+  //
+  //   if (!uploadRes.ok) {
+  //     throw new Error("Upload failed");
+  //   }
+  //
+  //   return fileUrl;
+  // };
+  // const handleImageChange = async (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  // ) => {
+  //   event.preventDefault();
+  //   const file = event.target.files?.[0];
+  //   if (!file) return;
+  //
+  //   const url = await uploadImageToS3(file);
+  //   console.log("Image uploaded to:", url);
+  // };
   if (isLoading)
     return (
       <div className="text-gray-800 dark:text-white flex justify-center">
@@ -77,13 +110,29 @@ const MainProfile = (props: { id: string }) => {
           alt="profile-background-image"
         />
       </div>
-      <div className="flex justify-center overflow-hidden w-24 h-24 ml-7 -mt-12 bg-black outline-3 outline-white rounded-full">
-        <img
-          className="object-cover"
-          src={data?.avatar}
-          alt="profile-page-image"
-        />
-      </div>
+      <form
+        encType="multipart/form-data"
+        className="flex justify-center items-center w-24 h-24 ml-7 -mt-12 bg-black rounded-full overflow-hidden"
+      >
+        {editMode ? (
+          <label className="relative flex justify-center items-center w-full h-full cursor-pointer">
+            <MdOutlineCameraAlt className="text-white" size={40} />
+            <input
+              type="file"
+              accept="image/*"
+              className="absolute opacity-0 w-full h-full cursor-pointer"
+              onChange={(e) => handleImageChange(e)}
+              aria-label="Upload profile image"
+            />
+          </label>
+        ) : (
+          <img
+            className="w-full h-full object-cover"
+            src={data?.avatar}
+            alt="Profile image"
+          />
+        )}
+      </form>
       <div className="px-5 pt-1 flex justify-between">
         <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
           {data?.name}
@@ -150,7 +199,7 @@ const MainProfile = (props: { id: string }) => {
           {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
         </h2>
       </div>
-      <TweetList userId={Number(props.id)} count={1000} page={1} />
+      <TweetList userId={Number(props.id)} />
     </div>
   );
 };

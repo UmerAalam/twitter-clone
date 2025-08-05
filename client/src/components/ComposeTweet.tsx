@@ -36,7 +36,7 @@ const ComposeTweet = () => {
           name="compose-tweet"
           id="compose-tweet"
           placeholder="What's happening?"
-          className="px-3 pt-2 w-full text-lg min-h-34 resize-none rounded-2xl dark:text-white dark:bg-gray-800"
+          className="focus:outline-blue-500 dark:focus:outline-white focus:outline-2 px-3 pt-2 w-full text-lg min-h-34 resize-none rounded-2xl dark:text-white dark:bg-gray-800"
           maxLength={240}
           value={text}
           onChange={(e) => setText(e.target.value)}

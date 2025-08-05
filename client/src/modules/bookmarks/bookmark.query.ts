@@ -9,33 +9,8 @@ import type {
   TweetBookmark,
   DeleteBookmark,
 } from "../../../../server/src/modules/bookmarks/bookmarks.dto.js";
-import {
-  tweetDetailQueryOptions,
-  tweetListQueryOptions,
-} from "../tweets/tweets.query";
 import { Tweet } from "../../../../server/src/modules/tweet/tweet.dto.js";
 
-export const bookmarkListQueryOptions = () => {
-  return queryOptions({
-    queryFn: async () => {
-      const token = localStorage.getItem("token");
-      const res = await client.api.bookmarks.$get(
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      const data = await res.json();
-      return data as Tweet[];
-    },
-    queryKey: ["bookmarks", "list"],
-  });
-};
-export const useBookmarkList = () => {
-  return useQuery(bookmarkListQueryOptions());
-};
 export const useTweetBookmark = () => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -55,11 +30,24 @@ export const useTweetBookmark = () => {
         throw new Error("Error creating comment");
       }
     },
-    onSuccess: async (_, { tweetId }) => {
-      await queryClient.invalidateQueries(tweetListQueryOptions());
-      await queryClient.invalidateQueries(
-        tweetDetailQueryOptions(Number(tweetId)),
+    onMutate: async (newTweetBookmark: TweetBookmark) => {
+      await queryClient.cancelQueries({
+        queryKey: ["tweets", "list"],
+      });
+
+      const previousTweets = queryClient.getQueryData(["tweets", "list"]);
+
+      queryClient.setQueryData(
+        ["tweets", "list", newTweetBookmark.tweetId, "likes"],
+        newTweetBookmark,
       );
+
+      return { previousTweets };
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tweets", "list"],
+      });
     },
   });
 };
@@ -82,11 +70,42 @@ export const useDeleteBookmark = () => {
         throw new Error("Error while updating like");
       }
     },
-    onSuccess: async (_, { tweetId }) => {
-      await queryClient.invalidateQueries(tweetListQueryOptions());
-      await queryClient.invalidateQueries(
-        tweetDetailQueryOptions(Number(tweetId)),
-      );
+    onMutate: async ({ tweetId }) => {
+      await queryClient.cancelQueries({
+        queryKey: ["tweets", "list"],
+      });
+
+      const previousTweets = queryClient.getQueryData(["tweets", "list"]);
+
+      queryClient.setQueryData(["tweets", "list", tweetId, "likes"], tweetId);
+
+      return { previousTweets };
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["tweets", "list"],
+      });
     },
   });
+};
+export const bookmarkListQueryOptions = () => {
+  return queryOptions({
+    queryFn: async () => {
+      const token = localStorage.getItem("token");
+      const res = await client.api.bookmarks.$get(
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const data = await res.json();
+      return data as Tweet[];
+    },
+    queryKey: ["tweets", "bookmarks", "likes", "count", "list"],
+  });
+};
+export const useBookmarkList = () => {
+  return useQuery(bookmarkListQueryOptions());
 };

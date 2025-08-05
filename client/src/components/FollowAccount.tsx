@@ -1,13 +1,22 @@
 import { MdVerified } from "react-icons/md";
 import IconButton from "./IconButton";
-interface FollowAccountProps {
+interface FollowAccountProps
+  extends React.ButtonHTMLAttributes<HTMLDivElement> {
   avatar: string;
   name: string;
   username: string;
 }
-const FollowAccount = ({ avatar, name, username }: FollowAccountProps) => {
+const FollowAccount = ({
+  avatar,
+  name,
+  username,
+  ...rest
+}: FollowAccountProps) => {
   return (
-    <div className="cursor-pointer flex justify-between py-2 px-3 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-2xl">
+    <div
+      {...rest}
+      className="cursor-pointer flex justify-between py-2 px-3 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-2xl"
+    >
       <div className="inline-flex gap-2 justify-center rounded-full h-12 items-center">
         <img
           className="rounded-full w-10 h-10 object-cover my-auto"
@@ -16,7 +25,7 @@ const FollowAccount = ({ avatar, name, username }: FollowAccountProps) => {
           alt="account-to-follow"
         />
         <div className="font-bold">
-          <h2 className="text-sm inline-flex dark:text-white">
+          <h2 className="text-sm text-gray-800 inline-flex dark:text-white">
             {name}
             <IconButton
               icon={

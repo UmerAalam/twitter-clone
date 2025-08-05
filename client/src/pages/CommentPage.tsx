@@ -26,22 +26,26 @@ const CommentPage = ({ tweetId }: Props) => {
     createdAt: data.createdAt,
     userId: data.userId,
     likesCount: data.likesCount,
-    hasLiked: data.hasLiked,
     user: {
       id: data.user.id,
       name: data.user.name,
     },
+    hasLiked: data.hasLiked,
+    hasBookmarked: data.hasBookmarked,
   };
   return (
-    <div>
+    <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
+      <div className="py-3 px-3 font-bold text-xl dark:text-white text-gray-800">
+        Comment
+      </div>
       <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
         {isLoading ? (
           <div className="dark:text-gray-800">Loading Tweet Data</div>
         ) : (
-          <ComposedTweet
-            className="pt-7 dark:text-white"
-            tweet={currentTweet}
-          />
+          <>
+            <hr className="dark:text-gray-700 text-gray-200" />
+            <ComposedTweet className="dark:text-white" tweet={currentTweet} />
+          </>
         )}
       </div>
       <ReplyTweet tweet={currentTweet} />

@@ -41,7 +41,7 @@ const ReplyTweet = ({ tweet }: ReplyTweetProps) => {
           name="compose-tweet"
           id="compose-tweet"
           placeholder="Post your reply"
-          className="px-3 pt-2 w-full text-lg h-38 resize-none rounded-2xl dark:text-white dark:bg-gray-800"
+          className="focus:outline-blue-500 focus:outline-2 dark:focus:outline-white px-3 pt-2 w-full text-lg h-38 resize-none rounded-2xl dark:text-white dark:bg-gray-800"
           maxLength={240}
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -53,7 +53,7 @@ const ReplyTweet = ({ tweet }: ReplyTweetProps) => {
           </p>
           <button
             type="submit"
-            className="text-gray-800 cursor-pointer hover:bg-blue-300 bg-blue-400 dark:bg-white dark:hover:bg-gray-100 font-bold rounded-full h-9 w-24 size-fit"
+            className="dark:text-gray-800 text-white cursor-pointer hover:bg-blue-300 bg-blue-400 dark:bg-white dark:hover:bg-gray-100 font-bold rounded-full h-9 w-24 size-fit"
           >
             Reply
           </button>
