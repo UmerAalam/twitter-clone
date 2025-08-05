@@ -26,8 +26,8 @@ const app = new Hono()
   .route("/api", tweetLikesRouter)
   .route("/api", tweetBookmarksRouter)
   .route("/api", awsRouter);
-export type AppType = typeof app;
 
+export type AppType = typeof app;
 serve(
   {
     fetch: app.fetch,

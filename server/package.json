@@ -7,12 +7,15 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@hono/node-server": "^1.15.0",
+    "@aws-sdk/client-s3": "^3.859.0",
+    "@aws-sdk/s3-request-presigner": "^3.859.0",
+    "@hono/node-server": "^1.18.1",
     "@hono/zod-validator": "^0.7.0",
     "bcryptjs": "^3.0.2",
-    "dotenv": "^17.2.0",
+    "dotenv": "^17.2.1",
+    "dotfiles": "^0.0.0",
     "drizzle-orm": "^0.44.2",
-    "hono": "^4.8.4",
+    "hono": "^4.8.12",
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.2",
     "npm": "^11.4.2",
@@ -26,7 +29,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20.11.17",
     "@types/pg": "^8.15.4",
-    "drizzle-kit": "^0.31.4",
+    "drizzle-kit": "^0.18.1",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   }

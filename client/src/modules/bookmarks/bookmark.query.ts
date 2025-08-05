@@ -9,10 +9,6 @@ import type {
   TweetBookmark,
   DeleteBookmark,
 } from "../../../../server/src/modules/bookmarks/bookmarks.dto.js";
-import {
-  tweetDetailQueryOptions,
-  tweetListQueryOptions,
-} from "../tweets/tweets.query";
 import { Tweet } from "../../../../server/src/modules/tweet/tweet.dto.js";
 
 export const useTweetBookmark = () => {
