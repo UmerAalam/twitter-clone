@@ -17,6 +17,7 @@ const MainProfile = (props: { id: string }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
+  const [profileTabCount, setProfileTabCount] = useState(1);
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   useEffect(() => {
@@ -45,6 +46,9 @@ const MainProfile = (props: { id: string }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  const handleProfileCount = (index: number) => {
+    setProfileTabCount(index);
+  };
   const handleSaveProfile = () => {
     console.log("EditMode", editMode);
     if (!editMode) {
@@ -111,21 +115,21 @@ const MainProfile = (props: { id: string }) => {
             <input
               type="file"
               accept="image/*"
-              className="absolute opacity-0 w-full h-full cursor-pointer"
+              className="absolute opacity-0 w-full h-full cursor-pointer dark:border-white border-blue-500 border-3 rounded-full"
               onChange={(e) => handleImageChange(e)}
               aria-label="Upload profile image"
             />
           </label>
         ) : (
           <img
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover dark:border-white border-blue-500 border-3 rounded-full"
             src={data?.avatar}
             alt="Profile image"
           />
         )}
       </form>
       <div className="px-5 pt-1 flex justify-between">
-        <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
+        <h2 className="text-xl text-gray-800 font-bold inline-flex flex-col dark:text-white">
           {data?.name}
           <p className="text-gray-400 text-sm font-normal">
             {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
@@ -172,25 +176,45 @@ const MainProfile = (props: { id: string }) => {
           Followers
         </h2>
       </div>
-      <div className="mt-3 text-lg font-bold text-gray-600 flex justify-evenly">
-        <h2 className="cursor-pointer inline-flex flex-col dark:text-white">
+      <div className="mt-3 text-lg font-bold flex justify-evenly">
+        <h2
+          onClick={() => handleProfileCount(1)}
+          className="text-gray-500 cursor-pointer inline-flex flex-col dark:text-white"
+        >
           Tweets
-          <span className="rounded-full bg-blue-400 h-1 mb-1 w-full "></span>
+          {profileTabCount === 1 && (
+            <span className="rounded-full bg-blue-400 h-1 mb-1 w-full"></span>
+          )}
         </h2>
-        <h2 className="cursor-pointer inline-flex flex-col">
+        <h2
+          onClick={() => handleProfileCount(2)}
+          className="text-gray-500 cursor-pointer inline-flex flex-col"
+        >
           Tweets & replies
-          {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
+          {profileTabCount === 2 && (
+            <span className="rounded-full bg-blue-400 h-1 mb-1 w-full"></span>
+          )}
         </h2>
-        <h2 className="cursor-pointer inline-flex flex-col">
+        <h2
+          onClick={() => handleProfileCount(3)}
+          className="text-gray-500 cursor-pointer inline-flex flex-col"
+        >
           Media
-          {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
+          {profileTabCount === 3 && (
+            <span className="rounded-full bg-blue-400 h-1 mb-1 w-full"></span>
+          )}
         </h2>
-        <h2 className="cursor-pointer inline-flex flex-col">
+        <h2
+          onClick={() => handleProfileCount(4)}
+          className="text-gray-500 cursor-pointer inline-flex flex-col"
+        >
           Likes
-          {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
+          {profileTabCount === 4 && (
+            <span className="rounded-full bg-blue-400 h-1 mb-1 w-full"></span>
+          )}
         </h2>
       </div>
-      <TweetList userId={Number(props.id)} />
+      {profileTabCount === 1 && <TweetList userId={Number(props.id)} />}
     </div>
   );
 };
