@@ -26,13 +26,8 @@ export const awsRouter = new Hono()
   .use(authMiddleware)
   .get("/", async (c) => {
     try {
-      console.log("Reached upload endpoint");
-
       const fileName = c.req.query("fileName");
       const contentType = c.req.query("contentType") || "image/*";
-
-      console.log("fileName:", fileName);
-
       if (!fileName) return c.text("Missing fileName", 400);
 
       if (!process.env.AWS_S3_BUCKET) {

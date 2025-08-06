@@ -50,7 +50,6 @@ const MainProfile = (props: { id: string }) => {
     setProfileTabCount(index);
   };
   const handleSaveProfile = () => {
-    console.log("EditMode", editMode);
     if (!editMode) {
       setEditMode(true);
     } else {
@@ -71,7 +70,6 @@ const MainProfile = (props: { id: string }) => {
     event.preventDefault();
     const file = event.target.files?.[0];
     if (!file) return;
-    console.log(file);
     const url = await uploadImageToS3(file);
     const updatedUser: UpdatedUser = {
       id: Number(props.id),
@@ -82,7 +80,6 @@ const MainProfile = (props: { id: string }) => {
         setEditMode(false);
       },
     });
-    console.log("Image uploaded to:", url);
   };
   if (isLoading)
     return (
