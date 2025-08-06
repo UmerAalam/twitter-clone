@@ -1,4 +1,4 @@
-import { and, count, eq, sql } from "drizzle-orm";
+import { and, asc, count, eq, sql } from "drizzle-orm";
 import db from "../../db.js";
 import {
   bookmarksTable,
@@ -10,13 +10,22 @@ import type { TweetBookmark } from "./bookmarks.dto.js";
 
 export const findBookmarkedTweetsByUserId = async (props: {
   userId: number;
+  count?: number;
+  page: number;
 }) => {
+  const tweetsCount = props.count ?? 10;
+  const page = props.page ?? 1;
+  const offset = (page - 1) * tweetsCount;
   const res = await db
     .select({
       id: tweetsTable.id,
       text: tweetsTable.text,
       userId: tweetsTable.userId,
       createdAt: tweetsTable.createdAt,
+      user: {
+        id: usersTable.id,
+        name: usersTable.name,
+      },
       likesCount: sql<number>`(
         SELECT COUNT(${likesTable.id}) 
         FROM ${likesTable} 
@@ -37,7 +46,10 @@ export const findBookmarkedTweetsByUserId = async (props: {
     })
     .from(bookmarksTable)
     .innerJoin(tweetsTable, eq(tweetsTable.id, bookmarksTable.tweetId))
-    .where(eq(bookmarksTable.userId, props.userId));
+    .where(eq(bookmarksTable.userId, props.userId))
+    .orderBy(asc(tweetsTable.createdAt))
+    .limit(tweetsCount)
+    .offset(offset);
   return res;
 };
 export const findBookmarks = async (props: { id: number }) => {

@@ -13,6 +13,7 @@ import {
   findBookmarkedTweetsByUserId,
   postBookmark,
 } from "./bookmarks.service.js";
+import { count } from "console";
 
 export const tweetBookmarksRouter = new Hono<{
   Variables: Variables;
@@ -20,9 +21,11 @@ export const tweetBookmarksRouter = new Hono<{
   .basePath("bookmarks")
   .use(authMiddleware)
   .get("/", async (c) => {
+    const page = c.req.query("page");
     const loggedInUser = c.get("user");
     const bookmarks = await findBookmarkedTweetsByUserId({
       userId: loggedInUser.id,
+      page: Number(page),
     });
     return c.json(bookmarks, 200);
   })
