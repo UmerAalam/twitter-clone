@@ -48,6 +48,7 @@ const CommentPage = ({ tweetId }: Props) => {
           </>
         )}
       </div>
+      <hr className="dark:text-gray-700 text-gray-200" />
       <ReplyTweet tweet={currentTweet} />
       <CommentList tweet={currentTweet} />
     </div>
