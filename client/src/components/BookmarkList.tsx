@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useInfiniteBookmarksQuery } from "../modules/bookmarks/bookmark.query";
 import ComposedTweet from "./ComposedTweet";
 import { useInView } from "react-intersection-observer";
+
 const BookmarkList = () => {
   const {
     data: bookmarks,
@@ -15,6 +16,7 @@ const BookmarkList = () => {
       fetchNextPage();
     }
   });
+
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
   }
