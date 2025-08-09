@@ -20,34 +20,16 @@ const TweetList = (props: { userId?: number; explore?: boolean }) => {
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
   }
-  let renderedTweets;
-  if (isExplore) {
-    const randomTweets = data?.pages.sort(() => Math.random() - 0.5);
-    renderedTweets = randomTweets?.map((tweets) => {
-      return tweets.map((tweet: Tweet) => {
-        return (
-          <div key={tweet.id}>
-            <hr className="dark:text-gray-700 text-gray-200" />
-            <ComposedTweet tweet={tweet} />;
-          </div>
-        );
-      });
+  const renderedTweets = data?.pages.map((tweets) => {
+    return tweets.map((tweet: Tweet) => {
+      return (
+        <div key={tweet.id}>
+          <hr key={tweet.userId} className="dark:text-gray-700 text-gray-200" />
+          <ComposedTweet key={tweet.createdAt} tweet={tweet} />
+        </div>
+      );
     });
-  } else {
-    renderedTweets = data?.pages.map((tweets) => {
-      return tweets.map((tweet: Tweet) => {
-        return (
-          <div key={tweet.id}>
-            <hr
-              key={tweet.userId}
-              className="dark:text-gray-700 text-gray-200"
-            />
-            <ComposedTweet key={tweet.createdAt} tweet={tweet} />
-          </div>
-        );
-      });
-    });
-  }
+  });
   return (
     <>
       <div>{renderedTweets}</div>

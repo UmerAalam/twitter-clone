@@ -12,7 +12,7 @@ const MainProfile = (props: { id: string }) => {
   const { data, isLoading } = useCustomUserData(props.id);
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
-  const [owner, setOwner] = useState(false);
+  const [owner, setOwner] = useState<boolean | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -44,7 +44,7 @@ const MainProfile = (props: { id: string }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [userId, props.id]);
   const handleProfileCount = (index: number) => {
     setProfileTabCount(index);
   };
