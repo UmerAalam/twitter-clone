@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
-import { client } from "../lib/client";
+import { uploadImageToS3 } from "../modules/upload/upload.query";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
@@ -13,10 +13,10 @@ const MainProfile = (props: { id: string }) => {
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
   const [owner, setOwner] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
+  const [profileTabCount, setProfileTabCount] = useState(1);
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   useEffect(() => {
@@ -25,9 +25,9 @@ const MainProfile = (props: { id: string }) => {
     }
     if (Number(userId) === Number(props.id)) {
       setOwner(true);
+    } else {
+      setOwner(false);
     }
-  }, [data]);
-  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         textareaRef.current &&
@@ -45,8 +45,10 @@ const MainProfile = (props: { id: string }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  const handleProfileCount = (index: number) => {
+    setProfileTabCount(index);
+  };
   const handleSaveProfile = () => {
-    console.log("EditMode", editMode);
     if (!editMode) {
       setEditMode(true);
     } else {
@@ -61,34 +63,23 @@ const MainProfile = (props: { id: string }) => {
       });
     }
   };
-  // const uploadImageToS3 = async (file: File) => {
-  //   // const res = await client;
-  //   // const { uploadUrl, fileUrl } = await res.json();
-  //
-  //   const uploadRes = await fetch(uploadUrl, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": file.type,
-  //     },
-  //     body: file,
-  //   });
-  //
-  //   if (!uploadRes.ok) {
-  //     throw new Error("Upload failed");
-  //   }
-  //
-  //   return fileUrl;
-  // };
-  // const handleImageChange = async (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  // ) => {
-  //   event.preventDefault();
-  //   const file = event.target.files?.[0];
-  //   if (!file) return;
-  //
-  //   const url = await uploadImageToS3(file);
-  //   console.log("Image uploaded to:", url);
-  // };
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    event.preventDefault();
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const url = await uploadImageToS3(file);
+    const updatedUser: UpdatedUser = {
+      id: Number(props.id),
+      avatar: url,
+    };
+    updateUserDataMutation(updatedUser, {
+      onSuccess: () => {
+        setEditMode(false);
+      },
+    });
+  };
   if (isLoading)
     return (
       <div className="text-gray-800 dark:text-white flex justify-center">
@@ -120,37 +111,41 @@ const MainProfile = (props: { id: string }) => {
             <input
               type="file"
               accept="image/*"
-              className="absolute opacity-0 w-full h-full cursor-pointer"
+              className="absolute opacity-0 w-full h-full cursor-pointer dark:border-white border-blue-500 border-3 rounded-full"
               onChange={(e) => handleImageChange(e)}
               aria-label="Upload profile image"
             />
           </label>
         ) : (
           <img
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover dark:border-white border-blue-500 border-3 rounded-full"
             src={data?.avatar}
             alt="Profile image"
           />
         )}
       </form>
       <div className="px-5 pt-1 flex justify-between">
-        <h2 className="text-xl font-bold inline-flex flex-col dark:text-white">
+        <h2 className="text-xl text-gray-800 font-bold inline-flex flex-col dark:text-white">
           {data?.name}
           <p className="text-gray-400 text-sm font-normal">
             {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
           </p>
         </h2>
-        {owner && (
+        {owner ? (
           <button
             ref={buttonRef}
             onClick={handleSaveProfile}
-            className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
+            className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-9 hover:bg-blue-300 bg-blue-400 dark:hover:bg-gray-300 dark:bg-white dark:text-gray-800 text-white font-bold"
           >
             {editMode
               ? isPending
                 ? "Saving..."
                 : "Save Profile"
               : "Edit Profile"}
+          </button>
+        ) : (
+          <button className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-9 hover:bg-blue-300 bg-blue-400 dark:hover:bg-gray-300 dark:bg-white dark:text-gray-800 text-white font-bold">
+            Follow
           </button>
         )}
       </div>
@@ -162,44 +157,82 @@ const MainProfile = (props: { id: string }) => {
           inputMode="text"
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          className="px-5 mt-2 w-full dark:text-white resize-none outline-2 outline-white rounded-xl"
+          className="text-gray-800 px-5 mt-2 w-full dark:text-white resize-none outline-2 outline-white rounded-xl"
         />
       ) : (
-        <p className="px-5 mt-2 w-full dark:text-white resize-none">{bio}</p>
+        <p className="text-gray-800 px-5 mt-2 w-full dark:text-white resize-none">
+          {bio}
+        </p>
       )}
       <h2 className="ml-5 mt-1 gap-2 text-gray-400 inline-flex">
         <SlCalender className="mt-0.5" />
         {data?.created_at.slice(0, 10)}
       </h2>
       <div className="px-5">
-        <h2 className="inline-flex gap-1 font-light dark:text-white">
+        <h2 className="text-gray-800 inline-flex gap-1 font-medium dark:text-white">
           <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
           Following
         </h2>
-        <h2 className="inline-flex ml-3 gap-1 font-light dark:text-white">
+        <h2 className="text-gray-800 inline-flex ml-3 gap-1 font-medium dark:text-white">
           <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
           Followers
         </h2>
       </div>
-      <div className="mt-3 text-lg font-bold text-gray-600 flex justify-evenly">
-        <h2 className="cursor-pointer inline-flex flex-col dark:text-white">
+      <div className="mt-3 text-lg font-bold flex justify-evenly">
+        <h2
+          onClick={() => handleProfileCount(1)}
+          className={
+            profileTabCount === 1
+              ? "dark:text-white text-gray-800 cursor-pointer inline-flex flex-col"
+              : "text-gray-500 cursor-pointer inline-flex flex-col"
+          }
+        >
           Tweets
-          <span className="rounded-full bg-blue-400 h-1 mb-1 w-full "></span>
+          {profileTabCount === 1 && (
+            <span className="rounded-full bg-blue-400 h-1 mb-1 w-full"></span>
+          )}
         </h2>
-        <h2 className="cursor-pointer inline-flex flex-col">
+        <h2
+          onClick={() => handleProfileCount(2)}
+          className={
+            profileTabCount === 2
+              ? "dark:text-white text-gray-800 cursor-pointer inline-flex flex-col"
+              : "text-gray-500 cursor-pointer inline-flex flex-col"
+          }
+        >
           Tweets & replies
-          {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
+          {profileTabCount === 2 && (
+            <span className="rounded-full bg-blue-400 h-1 mb-1 w-full"></span>
+          )}
         </h2>
-        <h2 className="cursor-pointer inline-flex flex-col">
+        <h2
+          onClick={() => handleProfileCount(3)}
+          className={
+            profileTabCount === 3
+              ? "dark:text-white text-gray-800 cursor-pointer inline-flex flex-col"
+              : "text-gray-500 cursor-pointer inline-flex flex-col"
+          }
+        >
           Media
-          {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
+          {profileTabCount === 3 && (
+            <span className="rounded-full bg-blue-400 h-1 mb-1 w-full"></span>
+          )}
         </h2>
-        <h2 className="cursor-pointer inline-flex flex-col">
+        <h2
+          onClick={() => handleProfileCount(4)}
+          className={
+            profileTabCount === 4
+              ? "dark:text-white text-gray-800 cursor-pointer inline-flex flex-col"
+              : "text-gray-500 cursor-pointer inline-flex flex-col"
+          }
+        >
           Likes
-          {/* <span className="rounded-full bg-blue-400 h-1 w-full"></span> */}
+          {profileTabCount === 4 && (
+            <span className="rounded-full bg-blue-400 h-1 mb-1 w-full"></span>
+          )}
         </h2>
       </div>
-      <TweetList userId={Number(props.id)} />
+      {profileTabCount === 1 && <TweetList userId={Number(props.id)} />}
     </div>
   );
 };

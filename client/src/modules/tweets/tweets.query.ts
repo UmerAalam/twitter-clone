@@ -9,7 +9,6 @@ import { client } from "../../lib/client";
 import {
   CreateTweet,
   FindManyTweet,
-  Tweet,
 } from "../../../../server/src/modules/tweet/tweet.dto";
 export const useInfiniteTweetsQuery = ({
   userId,
@@ -19,7 +18,15 @@ export const useInfiniteTweetsQuery = ({
   count?: number;
 }) => {
   return useInfiniteQuery({
-    queryKey: ["tweets", "list", "details", "count", "likes", "bookmarks"],
+    queryKey: [
+      "tweets",
+      "list",
+      "details",
+      "page",
+      "count",
+      "likes",
+      "bookmarks",
+    ],
     queryFn: async ({ pageParam = 1 }) => {
       const token = localStorage.getItem("token");
 
@@ -76,7 +83,7 @@ export const tweetListQueryOptions = (
       const data = await res.json();
       return data;
     },
-    queryKey: ["tweets", "list", userId],
+    queryKey: ["tweets", "list", page, count, userId],
   });
 };
 
@@ -103,7 +110,7 @@ export const tweetDetailQueryOptions = (id: number) => {
       const data = await res.json();
       return data;
     },
-    queryKey: ["tweets", "details", { id }],
+    queryKey: ["tweets", "details", "list", { id }],
     enabled: !!id,
   });
 };
@@ -136,6 +143,17 @@ export const useCreateTweet = () => {
       }
       const parsedRes = await res.json();
       await queryClient.invalidateQueries(tweetListQueryOptions());
+      await queryClient.invalidateQueries({
+        queryKey: [
+          "tweets",
+          "list",
+          "details",
+          "page",
+          "count",
+          "likes",
+          "bookmarks",
+        ],
+      });
       await queryClient.invalidateQueries(
         tweetDetailQueryOptions(Number(parsedRes.id)),
       );

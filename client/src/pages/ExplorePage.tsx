@@ -7,7 +7,7 @@ const ExplorePage = () => {
         Explore
       </div>
       <div className="w-full bg-gray-800 rounded-2xl">
-        <TweetList explore={true} page={1} count={10} />
+        <TweetList explore={true} />
       </div>
     </div>
   );

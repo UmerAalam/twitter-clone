@@ -1,5 +1,6 @@
 import {
   queryOptions,
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -11,6 +12,44 @@ import type {
 } from "../../../../server/src/modules/bookmarks/bookmarks.dto.js";
 import { Tweet } from "../../../../server/src/modules/tweet/tweet.dto.js";
 
+export const useInfiniteBookmarksQuery = () => {
+  return useInfiniteQuery({
+    queryKey: [
+      "tweets",
+      "list",
+      "details",
+      "page",
+      "count",
+      "likes",
+      "bookmarks",
+    ],
+    queryFn: async ({ pageParam = 1 }) => {
+      const token = localStorage.getItem("token");
+      const res = await client.api.bookmarks.$get(
+        {
+          query: { page: pageParam },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const data = await res.json();
+      return data;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (!lastPage || lastPage.length < 10) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
+    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+      return firstPageParam > 1 ? firstPageParam - 1 : undefined;
+    },
+  });
+};
 export const useTweetBookmark = () => {
   const queryClient = useQueryClient();
   return useMutation({
