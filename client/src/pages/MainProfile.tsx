@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
-import { client } from "../lib/client";
 import { uploadImageToS3 } from "../modules/upload/upload.query";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
@@ -26,9 +25,9 @@ const MainProfile = (props: { id: string }) => {
     }
     if (Number(userId) === Number(props.id)) {
       setOwner(true);
+    } else {
+      setOwner(false);
     }
-  }, [data]);
-  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         textareaRef.current &&
@@ -132,17 +131,21 @@ const MainProfile = (props: { id: string }) => {
             {"@" + data?.name.replace(" ", "").toLowerCase() + data?.id}
           </p>
         </h2>
-        {owner && (
+        {owner ? (
           <button
             ref={buttonRef}
             onClick={handleSaveProfile}
-            className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-8 hover:bg-blue-300 bg-blue-400 text-white font-bold"
+            className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-9 hover:bg-blue-300 bg-blue-400 dark:hover:bg-gray-300 dark:bg-white dark:text-gray-800 text-white font-bold"
           >
             {editMode
               ? isPending
                 ? "Saving..."
                 : "Save Profile"
               : "Edit Profile"}
+          </button>
+        ) : (
+          <button className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-9 hover:bg-blue-300 bg-blue-400 dark:hover:bg-gray-300 dark:bg-white dark:text-gray-800 text-white font-bold">
+            Follow
           </button>
         )}
       </div>

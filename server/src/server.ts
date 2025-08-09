@@ -9,6 +9,7 @@ import { commentsRouter } from "./modules/comments/comment.routes.js";
 import { tweetLikesRouter } from "./modules/likes/likes.routes.js";
 import { tweetBookmarksRouter } from "./modules/bookmarks/bookmarks.routes.js";
 import { awsRouter } from "./modules/upload/upload.routes.js";
+
 const app = new Hono()
   .use(logger())
   .use(

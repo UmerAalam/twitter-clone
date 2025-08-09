@@ -1,3 +1,4 @@
+import { primaryKey } from "drizzle-orm/gel-core";
 import {
   boolean,
   integer,
@@ -42,6 +43,21 @@ export const commentsTable = pgTable("comments", {
     .references(() => tweetsTable.id),
   createdAt: timestamp().notNull().defaultNow(),
 });
+export const followTable = pgTable(
+  "follow",
+  {
+    followerId: integer("follower_id")
+      .notNull()
+      .references(() => usersTable.id),
+    followingId: integer("following_id")
+      .notNull()
+      .references(() => usersTable.id),
+    createdAt: timestamp().notNull().defaultNow(),
+  },
+  (table) => ({
+    pk: unique().on(table.followerId, table.followingId),
+  }),
+);
 export const bookmarksTable = pgTable("bookmarks", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   userId: integer("user_id").references(() => usersTable.id),
