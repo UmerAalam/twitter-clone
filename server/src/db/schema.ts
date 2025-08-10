@@ -21,9 +21,7 @@ export const usersTable = pgTable("users", {
     ),
   avatar: varchar({ length: 255 })
     .notNull()
-    .default(
-      "https://i.ibb.co/LBcb2Bt/formula-physics-worksheet-illustration-wallpaper.jpg",
-    ),
+    .default("https://i.ibb.co/gb1CvMwP/Profile-Logo.jpg"),
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
 });

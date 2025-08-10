@@ -12,13 +12,14 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async (user: SignUp) => {
       const res = await client.api.auth["sign-up"].$post({ json: user });
       if (!res.ok) {
         throw new Error("Unable to sign-up");
       }
-      return res.json();
+      const data = await res.json();
+      return data;
     },
     onSuccess: () => {
       navigate({ to: "/sign-in" });
