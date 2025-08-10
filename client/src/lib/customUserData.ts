@@ -1,5 +1,9 @@
 import { client } from "./client";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useInfiniteQuery,
+  useQuery,
+} from "@tanstack/react-query";
 interface UserData {
   id: number;
   name: string;
@@ -28,6 +32,40 @@ export const userDataQueryOptions = (id: string) => {
     },
     queryKey: ["user", "detail", id],
     enabled: !!id,
+  });
+};
+
+export const useInfiniteUsersQuery = () => {
+  return useInfiniteQuery({
+    queryKey: ["users", "list"],
+    queryFn: async ({ pageParam = 1 }) => {
+      const token = localStorage.getItem("token");
+      const res = await client.api.users.$get(
+        {
+          query: { page: pageParam.toString() },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      return data as UserData[];
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (!lastPage || lastPage.length < 10) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
+    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+      return firstPageParam > 1 ? firstPageParam - 1 : undefined;
+    },
   });
 };
 export const usersDataQueryOptions = (userCount: number) => {

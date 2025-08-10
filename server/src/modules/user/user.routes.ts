@@ -34,7 +34,10 @@ export const usersRouter = new Hono()
     return c.json(userWithoutPassword);
   })
   .get("/", zValidator("query", userCountScheme), async (c) => {
-    const { userCount } = c.req.valid("query");
-    const users: UserWithoutEmail[] = await findUsersByCount({ userCount });
+    const { userCount, page } = c.req.valid("query");
+    const users: UserWithoutEmail[] = await findUsersByCount({
+      userCount,
+      page,
+    });
     return c.json(users, 200);
   });

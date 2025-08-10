@@ -9,7 +9,13 @@ export const findUserById = async (props: { id: number }) => {
     .where(eq(usersTable.id, props.id));
   return res[0];
 };
-export const findUsersByCount = async (props: { userCount: number }) => {
+export const findUsersByCount = async (props: {
+  userCount?: number;
+  page?: number;
+}) => {
+  const tweetsCount = props.userCount ?? 10;
+  const page = props.page ?? 1;
+  const offset = (page - 1) * tweetsCount;
   const res = await db
     .select({
       id: usersTable.id,
@@ -20,6 +26,7 @@ export const findUsersByCount = async (props: { userCount: number }) => {
       bio: usersTable.bio,
     })
     .from(usersTable)
-    .limit(props.userCount);
+    .limit(tweetsCount)
+    .offset(offset);
   return res;
 };
