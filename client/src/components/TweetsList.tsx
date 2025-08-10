@@ -3,7 +3,7 @@ import { useInfiniteTweetsQuery } from "../modules/tweets/tweets.query";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
-const TweetList = (props: { userId?: number; explore?: boolean }) => {
+const TweetList = (props: { userId?: number }) => {
   const { ref, inView } = useInView();
   let count = 10;
   const { isLoading, data, hasNextPage, fetchNextPage } =
@@ -11,7 +11,6 @@ const TweetList = (props: { userId?: number; explore?: boolean }) => {
       count,
       userId: props.userId ? String(props.userId) : undefined,
     });
-  let isExplore = props.explore || false;
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
