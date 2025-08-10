@@ -25,7 +25,10 @@ const WhoToFollow = () => {
           />
         );
       })}
-      <span className="flex text-gray-700 dark:text-white hover:text-gray-400 cursor-pointer pl-4 pb-2 pt-1 font-bold">
+      <span
+        onClick={() => navigate({ to: "/whotofollow" })}
+        className="flex text-gray-700 dark:text-white hover:text-gray-400 cursor-pointer pl-4 pb-2 pt-1 font-bold"
+      >
         Show more
       </span>
     </div>

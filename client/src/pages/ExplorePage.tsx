@@ -7,9 +7,10 @@ const ExplorePage = () => {
         Explore
       </div>
       <div className="w-full bg-gray-800 rounded-2xl">
-        <TweetList explore={true} />
+        <TweetList />
       </div>
     </div>
   );
 };
+
 export default ExplorePage;
