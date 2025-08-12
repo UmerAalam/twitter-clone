@@ -11,9 +11,17 @@ export const followsRouter = new Hono()
     const post = await postFollow({ followerId, followingId, createdAt });
     return c.json(post);
   })
-  .get("/", zValidator("query", followSchema), async (c) => {
-    const { followerId, createdAt, followingId }: Follow =
-      c.req.query("follow");
-    const followers = await findFollowers({ followerid });
-    return c.json(followers);
+  .get("/", async (c) => {
+    const followerId = c.req.query("followerId");
+    const followingId = c.req.query("followingId");
+    if (followerId === undefined) {
+      return c.text("Follower Id is undefined");
+    } else if (followingId === undefined) {
+      return c.text("Following Id is undefined");
+    }
+    const followers = await findFollowers({
+      followerId: Number(followerId),
+      followingId: Number(followingId),
+    });
+    return c.json(followers, 200);
   });
