@@ -9,9 +9,11 @@ const WhoToFollow = () => {
   const navigate = useNavigate();
   const handleClick = (followerId: number) => {
     navigate({ to: `/profile/${followerId}` });
+    console.log(`let's follow a person with ${followerId}`);
     const follow: Follow = {
       followerId,
     };
+    mutate(follow);
   };
   return (
     <div className="w-full rounded-2xl bg-gray-100 dark:bg-gray-700">

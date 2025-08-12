@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, SQL } from "drizzle-orm";
 import db from "../../db.js";
 import type { Follow } from "./follow.dto.js";
 import { followTable } from "../../db/schema.js";
@@ -17,12 +17,15 @@ export const findFollowers = async (props: {
     );
   return res;
 };
-export const postFollow = async ({ followerId, followingId }: Follow) => {
+export const postFollow = async (props: {
+  followerId: number;
+  followingId: number;
+}) => {
   return await db
     .insert(followTable)
     .values({
-      followerId,
-      followingId,
+      followerId: props.followerId,
+      followingId: props.followingId,
     })
     .returning();
 };

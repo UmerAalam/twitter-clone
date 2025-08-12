@@ -18,11 +18,10 @@ export const followRouter = new Hono<{
   .post("/", zValidator("json", followSchema), async (c) => {
     const loggedInUser = c.get("user");
     console.log(loggedInUser);
-    const { followerId, createdAt }: Follow = await c.req.json();
+    const { followerId }: Follow = await c.req.json();
     const post = await postFollow({
-      followerId,
+      followerId: Number(followerId),
       followingId: loggedInUser.id,
-      createdAt,
     });
     return c.json(post, 201);
   })
