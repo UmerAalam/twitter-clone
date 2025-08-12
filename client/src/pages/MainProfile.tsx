@@ -6,6 +6,9 @@ import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { uploadImageToS3 } from "../modules/upload/upload.query";
+import { useNavigate, useParams } from "@tanstack/react-router";
+import { useFollow } from "../modules/follow/follow.query";
+import { Follow } from "../../../server/src/modules/follow/follow.dto";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
@@ -17,6 +20,8 @@ const MainProfile = (props: { id: string }) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
   const [profileTabCount, setProfileTabCount] = useState(1);
+  const navigate = useNavigate();
+  const { mutate: followMutation } = useFollow();
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   useEffect(() => {
@@ -62,6 +67,13 @@ const MainProfile = (props: { id: string }) => {
         },
       });
     }
+  };
+  const handleFollow = () => {
+    const followerId = Number(useParams({ from: "/profile/$profileID" }));
+    const follow: Follow = {
+      followerId,
+    };
+    followMutation(follow);
   };
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -144,7 +156,10 @@ const MainProfile = (props: { id: string }) => {
               : "Edit Profile"}
           </button>
         ) : (
-          <button className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-9 hover:bg-blue-300 bg-blue-400 dark:hover:bg-gray-300 dark:bg-white dark:text-gray-800 text-white font-bold">
+          <button
+            onClick={() => handleFollow()}
+            className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-9 hover:bg-blue-300 bg-blue-400 dark:hover:bg-gray-300 dark:bg-white dark:text-gray-800 text-white font-bold"
+          >
             Follow
           </button>
         )}

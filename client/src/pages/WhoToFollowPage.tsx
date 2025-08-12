@@ -3,9 +3,12 @@ import { useInfiniteUsersQuery } from "../lib/customUserData";
 import FollowAccount from "../components/FollowAccount";
 import { useNavigate } from "@tanstack/react-router";
 import { useInView } from "react-intersection-observer";
+import { useFollow } from "../modules/follow/follow.query";
+import { Follow } from "../../../server/src/modules/follow/follow.dto";
 
 const WhoToFollowPage = () => {
   const { data: users, hasNextPage, fetchNextPage } = useInfiniteUsersQuery();
+  const { mutate } = useFollow();
   const navigate = useNavigate();
   const { ref, inView } = useInView();
   useEffect(() => {
@@ -13,8 +16,12 @@ const WhoToFollowPage = () => {
       fetchNextPage();
     }
   });
-  const handleClick = (accountId: number) => {
-    navigate({ to: `/profile/${accountId}` });
+  const handleClick = (followerId: number) => {
+    navigate({ to: `/profile/${followerId}` });
+    const follow: Follow = {
+      followerId,
+    };
+    mutate(follow);
   };
   return (
     <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
