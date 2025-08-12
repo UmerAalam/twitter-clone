@@ -9,6 +9,7 @@ import { commentsRouter } from "./modules/comments/comment.routes.js";
 import { tweetLikesRouter } from "./modules/likes/likes.routes.js";
 import { tweetBookmarksRouter } from "./modules/bookmarks/bookmarks.routes.js";
 import { awsRouter } from "./modules/upload/upload.routes.js";
+import { followsRouter } from "./modules/follow/follow.routes.js";
 
 const app = new Hono()
   .use(logger())
@@ -26,7 +27,8 @@ const app = new Hono()
   .route("/api", usersRouter)
   .route("/api", tweetLikesRouter)
   .route("/api", tweetBookmarksRouter)
-  .route("/api", awsRouter);
+  .route("/api", awsRouter)
+  .route("/api", followsRouter);
 
 export type AppType = typeof app;
 serve(

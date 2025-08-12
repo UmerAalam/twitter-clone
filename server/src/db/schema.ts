@@ -1,6 +1,4 @@
-import { primaryKey } from "drizzle-orm/gel-core";
 import {
-  boolean,
   integer,
   pgTable,
   text,
