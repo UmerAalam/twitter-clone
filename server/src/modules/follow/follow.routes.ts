@@ -1,8 +1,13 @@
 import { Hono } from "hono";
 import { authMiddleware } from "../auth/AuthMiddleWare.js";
 import { zValidator } from "@hono/zod-validator";
-import { followSchema, type Follow } from "./follow.dto.js";
-import { findFollowers, postFollow } from "./follow.service.js";
+import {
+  findfollowersSchema,
+  findfollowingsSchema,
+  followSchema,
+  type Follow,
+} from "./follow.dto.js";
+import { findFollowers, findFollowings, postFollow } from "./follow.service.js";
 
 interface MyVariables {
   user: {
@@ -25,17 +30,13 @@ export const followRouter = new Hono<{
     });
     return c.json(post, 201);
   })
-  .get("/", async (c) => {
-    const followerId = c.req.query("followerId");
-    const followingId = c.req.query("followingId");
-    if (followerId === undefined) {
-      return c.text("Follower Id is undefined");
-    } else if (followingId === undefined) {
-      return c.text("Following Id is undefined");
-    }
-    const followers = await findFollowers({
-      followerId: Number(followerId),
-      followingId: Number(followingId),
-    });
+  .get("/", zValidator("query", findfollowersSchema), async (c) => {
+    const userId = c.req.query("userId");
+    const followers = await findFollowers(Number(userId));
+    return c.json(followers, 200);
+  })
+  .get("/", zValidator("query", findfollowingsSchema), async (c) => {
+    const userId = c.req.query("userId");
+    const followers = await findFollowings(Number(userId));
     return c.json(followers, 200);
   });

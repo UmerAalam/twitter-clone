@@ -1,22 +1,22 @@
-import { and, eq, SQL } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import db from "../../db.js";
-import type { Follow } from "./follow.dto.js";
 import { followTable } from "../../db/schema.js";
-export const findFollowers = async (props: {
-  followerId: number;
-  followingId: number;
-}) => {
-  const res = await db
+
+// Get all followers of a user
+export const findFollowers = async (userId: number) => {
+  return await db
     .select()
     .from(followTable)
-    .where(
-      and(
-        eq(followTable.followerId, props.followerId),
-        eq(followTable.followingId, props.followingId),
-      ),
-    );
-  return res;
+    .where(eq(followTable.followingId, userId));
 };
+// Get all people a user follows
+export const findFollowings = async (userId: number) => {
+  return await db
+    .select()
+    .from(followTable)
+    .where(eq(followTable.followerId, userId));
+};
+
 export const postFollow = async (props: {
   followerId: number;
   followingId: number;
