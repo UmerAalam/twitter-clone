@@ -13,7 +13,6 @@ import {
   findBookmarkedTweetsByUserId,
   postBookmark,
 } from "./bookmarks.service.js";
-import { count } from "console";
 
 export const tweetBookmarksRouter = new Hono<{
   Variables: Variables;

@@ -4,6 +4,6 @@ export const userIdScheme = z.object({
 });
 export const userCountScheme = z.object({
   userCount: z.coerce.number().optional(),
-  page: z.number().optional(),
+  page: z.coerce.number().optional(),
 });
 export interface UserID extends z.infer<typeof userIdScheme> {}

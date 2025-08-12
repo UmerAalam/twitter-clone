@@ -42,7 +42,9 @@ export const useInfiniteUsersQuery = () => {
       const token = localStorage.getItem("token");
       const res = await client.api.users.$get(
         {
-          query: { page: pageParam.toString() },
+          query: {
+            page: pageParam.toString(),
+          },
         },
         {
           headers: {
