@@ -3,13 +3,28 @@ import { authMiddleware } from "../auth/AuthMiddleWare.js";
 import { zValidator } from "@hono/zod-validator";
 import { followSchema, type Follow } from "./follow.dto.js";
 import { findFollowers, postFollow } from "./follow.service.js";
-export const followsRouter = new Hono()
+
+interface MyVariables {
+  user: {
+    id: number;
+  };
+}
+
+export const followRouter = new Hono<{
+  Variables: MyVariables;
+}>()
   .basePath("follows")
   .use(authMiddleware)
   .post("/", zValidator("json", followSchema), async (c) => {
-    const { followerId, followingId, createdAt }: Follow = await c.req.json();
-    const post = await postFollow({ followerId, followingId, createdAt });
-    return c.json(post);
+    const loggedInUser = c.get("user");
+    console.log(loggedInUser);
+    const { followerId, createdAt }: Follow = await c.req.json();
+    const post = await postFollow({
+      followerId,
+      followingId: loggedInUser.id,
+      createdAt,
+    });
+    return c.json(post, 201);
   })
   .get("/", async (c) => {
     const followerId = c.req.query("followerId");
