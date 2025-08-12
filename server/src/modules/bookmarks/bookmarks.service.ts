@@ -46,6 +46,7 @@ export const findBookmarkedTweetsByUserId = async (props: {
     })
     .from(bookmarksTable)
     .innerJoin(tweetsTable, eq(tweetsTable.id, bookmarksTable.tweetId))
+    .innerJoin(usersTable, eq(usersTable.id, tweetsTable.userId))
     .where(eq(bookmarksTable.userId, props.userId))
     .orderBy(asc(tweetsTable.createdAt))
     .limit(tweetsCount)

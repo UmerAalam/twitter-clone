@@ -3,7 +3,7 @@ import { useInfiniteTweetsQuery } from "../modules/tweets/tweets.query";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
-const TweetList = (props: { userId?: number; explore?: boolean }) => {
+const TweetList = (props: { userId?: number }) => {
   const { ref, inView } = useInView();
   let count = 10;
   const { isLoading, data, hasNextPage, fetchNextPage } =
@@ -11,7 +11,6 @@ const TweetList = (props: { userId?: number; explore?: boolean }) => {
       count,
       userId: props.userId ? String(props.userId) : undefined,
     });
-  let isExplore = props.explore || false;
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -20,34 +19,16 @@ const TweetList = (props: { userId?: number; explore?: boolean }) => {
   if (isLoading) {
     return <div className="flex justify-center">Loading data...</div>;
   }
-  let renderedTweets;
-  if (isExplore) {
-    const randomTweets = data?.pages.sort(() => Math.random() - 0.5);
-    renderedTweets = randomTweets?.map((tweets) => {
-      return tweets.map((tweet: Tweet) => {
-        return (
-          <div key={tweet.id}>
-            <hr className="dark:text-gray-700 text-gray-200" />
-            <ComposedTweet tweet={tweet} />;
-          </div>
-        );
-      });
+  const renderedTweets = data?.pages.map((tweets) => {
+    return tweets.map((tweet: Tweet) => {
+      return (
+        <div key={tweet.id}>
+          <hr key={tweet.userId} className="dark:text-gray-700 text-gray-200" />
+          <ComposedTweet key={tweet.createdAt} tweet={tweet} />
+        </div>
+      );
     });
-  } else {
-    renderedTweets = data?.pages.map((tweets) => {
-      return tweets.map((tweet: Tweet) => {
-        return (
-          <div key={tweet.id}>
-            <hr
-              key={tweet.userId}
-              className="dark:text-gray-700 text-gray-200"
-            />
-            <ComposedTweet key={tweet.createdAt} tweet={tweet} />
-          </div>
-        );
-      });
-    });
-  }
+  });
   return (
     <>
       <div>{renderedTweets}</div>

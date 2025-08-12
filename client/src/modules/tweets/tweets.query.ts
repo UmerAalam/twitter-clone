@@ -26,6 +26,7 @@ export const useInfiniteTweetsQuery = ({
       "count",
       "likes",
       "bookmarks",
+      userId,
     ],
     queryFn: async ({ pageParam = 1 }) => {
       const token = localStorage.getItem("token");
