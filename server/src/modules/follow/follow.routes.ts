@@ -4,10 +4,11 @@ import { zValidator } from "@hono/zod-validator";
 import {
   findfollowersSchema,
   findfollowingsSchema,
+  followersFollowingCountScheme,
   followSchema,
   type Follow,
 } from "./follow.dto.js";
-import { findFollowers, findFollowings, postFollow } from "./follow.service.js";
+import { findFollows, postFollow } from "./follow.service.js";
 
 interface MyVariables {
   user: {
@@ -30,13 +31,18 @@ export const followRouter = new Hono<{
     });
     return c.json(post, 201);
   })
-  .get("/", zValidator("query", findfollowersSchema), async (c) => {
+  .get("/", zValidator("query", followersFollowingCountScheme), async (c) => {
     const userId = c.req.query("userId");
-    const followers = await findFollowers(Number(userId));
-    return c.json(followers, 200);
-  })
-  .get("/", zValidator("query", findfollowingsSchema), async (c) => {
-    const userId = c.req.query("userId");
-    const followers = await findFollowings(Number(userId));
+    const followers = await findFollows(Number(userId));
     return c.json(followers, 200);
   });
+// .get("/", zValidator("query", findfollowersSchema), async (c) => {
+//   const userId = c.req.query("userId");
+//   const followers = await findFollowers(Number(userId));
+//   return c.json(followers, 200);
+// })
+// .get("/", zValidator("query", findfollowingsSchema), async (c) => {
+//   const userId = c.req.query("userId");
+//   const followers = await findFollowings(Number(userId));
+//   return c.json(followers, 200);
+// });

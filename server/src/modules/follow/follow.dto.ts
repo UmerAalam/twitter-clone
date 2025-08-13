@@ -9,6 +9,9 @@ export const findfollowersSchema = z.object({
   userId: z.coerce.number(),
 });
 
+export const followersFollowingCountScheme = z.object({
+  userId: z.coerce.number(),
+});
 export const findfollowingsSchema = z.object({
   userId: z.coerce.number(),
 });

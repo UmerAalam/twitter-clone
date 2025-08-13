@@ -1,22 +1,34 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import db from "../../db.js";
 import { followTable } from "../../db/schema.js";
 
 // Get all followers of a user
-export const findFollowers = async (userId: number) => {
+const findFollowersCount = async (userId: number) => {
   return await db
-    .select()
+    .select({
+      followersCount: sql<number>`count(*)`,
+    })
     .from(followTable)
     .where(eq(followTable.followingId, userId));
 };
 // Get all people a user follows
-export const findFollowings = async (userId: number) => {
+const findFollowingsCount = async (userId: number) => {
   return await db
-    .select()
+    .select({
+      followingCount: sql<number>`count(*)`,
+    })
     .from(followTable)
     .where(eq(followTable.followerId, userId));
 };
-
+// Get all followers and followings
+export const findFollows = async (userId: number) => {
+  const getFollowersCount = await findFollowersCount(userId);
+  const getFollowingsCount = await findFollowingsCount(userId);
+  return {
+    getFollowersCount,
+    getFollowingsCount,
+  };
+};
 export const postFollow = async (props: {
   followerId: number;
   followingId: number;
