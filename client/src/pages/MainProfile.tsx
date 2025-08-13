@@ -16,6 +16,9 @@ const MainProfile = (props: { id: string }) => {
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
   const [owner, setOwner] = useState<boolean | null>(null);
+  const [isFollowing, setIsFollowing] = useState<boolean | undefined>(
+    data?.isFollowing || undefined,
+  );
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -27,6 +30,9 @@ const MainProfile = (props: { id: string }) => {
   useEffect(() => {
     if (data && data.bio) {
       setBio(data.bio);
+    }
+    if (data && data.isFollowing !== undefined) {
+      setIsFollowing(data.isFollowing);
     }
     if (Number(userId) === Number(props.id)) {
       setOwner(true);
@@ -49,7 +55,7 @@ const MainProfile = (props: { id: string }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [userId, props.id]);
+  }, [data, userId, props.id]);
   const handleProfileCount = (index: number) => {
     setProfileTabCount(index);
   };
@@ -69,10 +75,14 @@ const MainProfile = (props: { id: string }) => {
     }
   };
   const handleFollow = () => {
-    const follow: Follow = {
-      followerId: Number(followerId),
-    };
-    followMutation(follow);
+    if (isFollowing) {
+      console.log("need to setup removing follower service");
+    } else {
+      const follow: Follow = {
+        followerId: Number(followerId),
+      };
+      followMutation(follow);
+    }
   };
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -159,7 +169,7 @@ const MainProfile = (props: { id: string }) => {
             onClick={() => handleFollow()}
             className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-9 hover:bg-blue-300 bg-blue-400 dark:hover:bg-gray-300 dark:bg-white dark:text-gray-800 text-white font-bold"
           >
-            Follow
+            {isFollowing ? "Following" : "Follow"}
           </button>
         )}
       </div>

@@ -13,6 +13,7 @@ interface UserData {
   updated_at: string;
   followersCount: number;
   followingsCount: number;
+  isFollowing: boolean;
 }
 export const userDataQueryOptions = (id: string) => {
   return queryOptions({

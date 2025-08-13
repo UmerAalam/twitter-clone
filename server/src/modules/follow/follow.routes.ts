@@ -32,7 +32,8 @@ export const followRouter = new Hono<{
   })
   .get("/", zValidator("query", followersFollowingCountScheme), async (c) => {
     const userId = c.req.query("userId");
-    const followers = await findFollows(Number(userId));
+    const loggedInUser = c.get("user").id;
+    const followers = await findFollows(loggedInUser, Number(userId));
     return c.json(followers, 200);
   });
 // .get("/", zValidator("query", findfollowersSchema), async (c) => {
