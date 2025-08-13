@@ -42,10 +42,10 @@ export const commentsTable = pgTable("comments", {
 export const followTable = pgTable(
   "follow",
   {
-    currentUser: integer("current_user")
+    currentUser: integer("follower_id")
       .notNull()
       .references(() => usersTable.id),
-    targetUser: integer("target_user")
+    targetUser: integer("following_id")
       .notNull()
       .references(() => usersTable.id),
     createdAt: timestamp().notNull().defaultNow(),
