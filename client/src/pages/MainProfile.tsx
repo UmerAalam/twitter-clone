@@ -6,7 +6,7 @@ import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { uploadImageToS3 } from "../modules/upload/upload.query";
-import { useNavigate, useParams } from "@tanstack/react-router";
+import { useParams } from "@tanstack/react-router";
 import { useFollowPost } from "../modules/follow/follow.query";
 import { Follow } from "../../../server/src/modules/follow/follow.dto";
 const MainProfile = (props: { id: string }) => {
@@ -20,8 +20,8 @@ const MainProfile = (props: { id: string }) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
   const [profileTabCount, setProfileTabCount] = useState(1);
-  const navigate = useNavigate();
   const { mutate: followMutation } = useFollowPost();
+  const followerId = useParams({ from: "/profile/$profileID" });
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   useEffect(() => {
@@ -69,9 +69,8 @@ const MainProfile = (props: { id: string }) => {
     }
   };
   const handleFollow = () => {
-    const followerId = Number(useParams({ from: "/profile/$profileID" }));
     const follow: Follow = {
-      followerId,
+      followerId: Number(followerId),
     };
     followMutation(follow);
   };
@@ -185,11 +184,11 @@ const MainProfile = (props: { id: string }) => {
       </h2>
       <div className="px-5">
         <h2 className="text-gray-800 inline-flex gap-1 font-medium dark:text-white">
-          <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
+          <span className="font-bold">{data?.followingsCount}</span>
           Following
         </h2>
         <h2 className="text-gray-800 inline-flex ml-3 gap-1 font-medium dark:text-white">
-          <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
+          <span className="font-bold">{data?.followersCount}</span>
           Followers
         </h2>
       </div>

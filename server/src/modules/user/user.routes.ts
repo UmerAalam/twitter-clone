@@ -7,12 +7,14 @@ import {
   type UserWithoutPassword,
 } from "../auth/auth.dto.js";
 import { userCountScheme } from "./user.dto.js";
+import { findFollows } from "../follow/follow.service.js";
 
 export const usersRouter = new Hono()
   .basePath("users")
   .use(authMiddleware)
   .get("/:id", async (c) => {
     const paramId = c.req.param("id");
+    const getFollows = findFollows(Number(paramId));
     const {
       id,
       bio,
@@ -29,6 +31,8 @@ export const usersRouter = new Hono()
       name,
       bio,
       updated_at,
+      followersCount: (await getFollows).getFollowersCount,
+      followingsCount: (await getFollows).getFollowingsCount,
     };
 
     return c.json(userWithoutPassword);
