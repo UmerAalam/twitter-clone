@@ -37,18 +37,30 @@ const findFollowingsCount = async (userId: number) => {
   return count.followingCount;
 };
 // Get all followers and followings
-export const findFollows = async (loggindInUser: number, userId: number) => {
-  if (loggindInUser === userId) {
-    return new Error("You can't follow yourself");
-  }
+export const findFollows = async (loggedInUser: number, userId: number) => {
+  // if (loggedInUser === userId) {
+  //   return new Error("You can't follow yourself");
+  // }
   const getFollowersCount = await findFollowersCount(userId);
   const getFollowingsCount = await findFollowingsCount(userId);
-  const isFollowing = await checkFollowing(loggindInUser, userId);
+  const isFollowing = await checkFollowing(loggedInUser, userId);
   return {
     getFollowersCount,
     getFollowingsCount,
     isFollowing,
   };
+};
+export const deleteFollow = async (props: {
+  loggedInUserId: number;
+  followerId: number;
+}) => {
+  return await db
+    .insert(followTable)
+    .values({
+      followerId: props.followerId,
+      followingId: props.loggedInUserId,
+    })
+    .returning();
 };
 export const postFollow = async (props: {
   followerId: number;
