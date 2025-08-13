@@ -24,7 +24,7 @@ const MainProfile = (props: { id: string }) => {
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
   const [profileTabCount, setProfileTabCount] = useState(1);
   const { mutate: followMutation } = useFollowPost();
-  const followingId = useParams({ from: "/profile/$profileID" });
+  const targetUser = useParams({ from: "/profile/$profileID" });
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   useEffect(() => {
@@ -79,7 +79,7 @@ const MainProfile = (props: { id: string }) => {
       console.log("need to setup removing follower service");
     } else {
       const follow: Follow = {
-        followingId: Number(followingId.profileID),
+        targetUser: Number(targetUser.profileID),
       };
       followMutation(follow);
     }

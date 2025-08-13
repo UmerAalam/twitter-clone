@@ -31,7 +31,7 @@ export const useFollowPost = () => {
       const previousFollows = queryClient.getQueryData(["follows", "list"]);
 
       queryClient.setQueryData(
-        ["follows", "list", newFollow.followerId, newFollow.followingId],
+        ["follows", "list", newFollow.targetUser],
         newFollow,
       );
 
@@ -52,7 +52,7 @@ export const useFollowDelete = () => {
       const token = localStorage.getItem("token");
       const res = await client.api.follows.$delete(
         {
-          query: { userId: follow.followerId?.toString() },
+          query: { targetUser: follow.targetUser.toString() },
         },
         {
           headers: {
@@ -73,7 +73,7 @@ export const useFollowDelete = () => {
       const previousFollows = queryClient.getQueryData(["follows", "list"]);
 
       queryClient.setQueryData(
-        ["follows", "list", newFollow.followerId, newFollow.followingId],
+        ["follows", "list", newFollow.targetUser, newFollow.targetUser],
         newFollow,
       );
 

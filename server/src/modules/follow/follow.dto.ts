@@ -1,7 +1,7 @@
 import z from "zod";
 export const followSchema = z.object({
-  currentUser: z.coerce.number().optional(), // The person who will be follow
-  targetUser: z.coerce.number(), //The person who is following
+  currentUser: z.coerce.number().optional(),
+  targetUser: z.coerce.number(),
   createdAt: z.string().optional(),
 });
 
