@@ -1,10 +1,10 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useUserCountData } from "../lib/customUserData";
 import FollowAccount from "./FollowAccount";
-import { useFollow } from "../modules/follow/follow.query";
+import { useFollowPost } from "../modules/follow/follow.query";
 import { Follow } from "../../../server/src/modules/follow/follow.dto";
 const WhoToFollow = () => {
-  const { mutate } = useFollow();
+  const { mutate } = useFollowPost();
   const { data: users } = useUserCountData(3);
   const navigate = useNavigate();
   const handleClick = (followerId: number) => {

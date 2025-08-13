@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Follow } from "../../../../server/src/modules/follow/follow.dto";
 import { client } from "../../lib/client";
 
-export const useFollow = () => {
+export const useFollowPost = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (follow: Follow) => {

@@ -3,12 +3,12 @@ import { useInfiniteUsersQuery } from "../lib/customUserData";
 import FollowAccount from "../components/FollowAccount";
 import { useNavigate } from "@tanstack/react-router";
 import { useInView } from "react-intersection-observer";
-import { useFollow } from "../modules/follow/follow.query";
+import { useFollowPost } from "../modules/follow/follow.query";
 import { Follow } from "../../../server/src/modules/follow/follow.dto";
 
 const WhoToFollowPage = () => {
   const { data: users, hasNextPage, fetchNextPage } = useInfiniteUsersQuery();
-  const { mutate } = useFollow();
+  const { mutate } = useFollowPost();
   const navigate = useNavigate();
   const { ref, inView } = useInView();
   useEffect(() => {

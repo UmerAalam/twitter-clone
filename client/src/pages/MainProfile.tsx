@@ -7,7 +7,7 @@ import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { uploadImageToS3 } from "../modules/upload/upload.query";
 import { useNavigate, useParams } from "@tanstack/react-router";
-import { useFollow } from "../modules/follow/follow.query";
+import { useFollowPost } from "../modules/follow/follow.query";
 import { Follow } from "../../../server/src/modules/follow/follow.dto";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
@@ -21,7 +21,7 @@ const MainProfile = (props: { id: string }) => {
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
   const [profileTabCount, setProfileTabCount] = useState(1);
   const navigate = useNavigate();
-  const { mutate: followMutation } = useFollow();
+  const { mutate: followMutation } = useFollowPost();
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   useEffect(() => {
