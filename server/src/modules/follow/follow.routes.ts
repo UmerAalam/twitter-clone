@@ -26,8 +26,8 @@ export const followRouter = new Hono<{
     const loggedInUser = c.get("user");
     const { targetUser }: Follow = await c.req.json();
     const post = await postFollow({
-      followingId: Number(targetUser),
-      followerId: loggedInUser.id,
+      targetUserId: Number(targetUser),
+      loggedInUserId: loggedInUser.id,
     });
     return c.json(post, 201);
   })

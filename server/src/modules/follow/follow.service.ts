@@ -8,8 +8,8 @@ const checkFollowing = async (currentUserId: number, targetUserId: number) => {
     .from(followTable)
     .where(
       and(
-        eq(followTable.followingId, currentUserId),
-        eq(followTable.followerId, targetUserId),
+        eq(followTable.currentUser, currentUserId),
+        eq(followTable.targetUser, targetUserId),
       ),
     )
     .limit(1);
@@ -23,54 +23,59 @@ const findFollowersCount = async (userId: number) => {
       followersCount: sql<number>`count(*)`,
     })
     .from(followTable)
-    .where(eq(followTable.followerId, userId));
+    .where(eq(followTable.targetUser, userId));
   return count.followersCount;
 };
 // Get all people a user follows
-const findFollowingsCount = async (userId: number) => {
+const findFollowingsCount = async (loggedInUserId: number) => {
   const [count] = await db
     .select({
       followingCount: sql<number>`count(*)`,
     })
     .from(followTable)
-    .where(eq(followTable.followingId, userId));
+    .where(eq(followTable.currentUser, loggedInUserId));
   return count.followingCount;
 };
 // Get all followers and followings
-export const findFollows = async (loggedInUser: number, userId: number) => {
+export const findFollows = async (
+  loggedInUser: number,
+  targetUserId: number,
+) => {
   // if (loggedInUser === userId) {
   //   return new Error("You can't follow yourself");
   // }
-  const getFollowersCount = await findFollowersCount(userId);
-  const getFollowingsCount = await findFollowingsCount(userId);
-  const isFollowing = await checkFollowing(loggedInUser, userId);
+  const getFollowersCount = await findFollowersCount(targetUserId);
+  const getFollowingsCount = await findFollowingsCount(targetUserId);
+  const isFollowing = await checkFollowing(loggedInUser, targetUserId);
   return {
     getFollowersCount,
     getFollowingsCount,
     isFollowing,
   };
 };
-export const deleteFollow = async (props: {
+export const postFollow = async (props: {
   loggedInUserId: number;
-  followerId: number;
+  targetUserId: number;
 }) => {
   return await db
     .insert(followTable)
     .values({
-      followerId: props.followerId,
-      followingId: props.loggedInUserId,
+      currentUser: props.loggedInUserId,
+      targetUser: props.targetUserId,
     })
     .returning();
 };
-export const postFollow = async (props: {
-  followerId: number;
-  followingId: number;
+export const deleteFollow = async (props: {
+  currentUserId: number;
+  targetUserId: number;
 }) => {
   return await db
-    .insert(followTable)
-    .values({
-      followerId: props.followerId,
-      followingId: props.followingId,
-    })
+    .delete(followTable)
+    .where(
+      and(
+        eq(followTable.currentUser, props.currentUserId),
+        eq(followTable.targetUser, props.targetUserId),
+      ),
+    )
     .returning();
 };
