@@ -6,6 +6,7 @@ export const useFollowPost = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (follow: Follow) => {
+      console.log(follow);
       const token = localStorage.getItem("token");
       const res = await client.api.follows.$post(
         {
