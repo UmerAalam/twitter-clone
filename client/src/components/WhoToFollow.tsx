@@ -9,7 +9,8 @@ const WhoToFollow = () => {
   const navigate = useNavigate();
   const handleClick = (followerId: number) => {
     navigate({ to: `/profile/${followerId}` });
-    console.log(`let's follow a person with ${followerId}`);
+  };
+  const followAccountByID = (followerId: number) => {
     const follow: Follow = {
       followerId,
     };
@@ -29,6 +30,7 @@ const WhoToFollow = () => {
             key={user.id}
             avatar={user.avatar}
             name={user.name}
+            followAccount={() => followAccountByID(user.id)}
             username={"@" + user.name.replace(" ", "").toLowerCase() + user.id}
           />
         );

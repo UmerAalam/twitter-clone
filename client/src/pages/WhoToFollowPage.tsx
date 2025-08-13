@@ -18,6 +18,8 @@ const WhoToFollowPage = () => {
   });
   const handleClick = (followerId: number) => {
     navigate({ to: `/profile/${followerId}` });
+  };
+  const followAccountByID = (followerId: number) => {
     const follow: Follow = {
       followerId,
     };
@@ -40,6 +42,7 @@ const WhoToFollowPage = () => {
                 username={
                   "@" + account.name.replace(" ", "").toLowerCase() + account.id
                 }
+                followAccount={() => followAccountByID(account.id)}
               />
             );
           });
