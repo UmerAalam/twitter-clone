@@ -16,12 +16,12 @@ const WhoToFollowPage = () => {
       fetchNextPage();
     }
   });
-  const handleClick = (followerId: number) => {
-    navigate({ to: `/profile/${followerId}` });
+  const handleClick = (targetUser: number) => {
+    navigate({ to: `/profile/${targetUser}` });
   };
-  const followAccountByID = (followerId: number) => {
+  const followAccountByID = (targetUser: number) => {
     const follow: Follow = {
-      followerId,
+      targetUser,
     };
     mutate(follow);
   };
@@ -43,6 +43,7 @@ const WhoToFollowPage = () => {
                   "@" + account.name.replace(" ", "").toLowerCase() + account.id
                 }
                 followAccount={() => followAccountByID(account.id)}
+                isFollowing={account.isFollowing}
               />
             );
           });

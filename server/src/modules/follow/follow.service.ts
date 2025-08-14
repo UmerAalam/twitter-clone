@@ -41,9 +41,6 @@ export const findFollows = async (
   loggedInUser: number,
   targetUserId: number,
 ) => {
-  // if (loggedInUser === userId) {
-  //   return new Error("You can't follow yourself");
-  // }
   const getFollowersCount = await findFollowersCount(targetUserId);
   const getFollowingsCount = await findFollowingsCount(targetUserId);
   const isFollowing = await checkFollowing(loggedInUser, targetUserId);

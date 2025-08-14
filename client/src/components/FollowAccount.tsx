@@ -6,12 +6,14 @@ interface FollowAccountProps
   name: string;
   username: string;
   followAccount: () => void;
+  isFollowing: boolean;
 }
 const FollowAccount = ({
   avatar,
   name,
   username,
   followAccount,
+  isFollowing,
   ...rest
 }: FollowAccountProps) => {
   return (
@@ -45,9 +47,9 @@ const FollowAccount = ({
       </div>
       <button
         onClick={() => followAccount}
-        className="hover:bg-blue-300 my-auto bg-blue-400 dark:text-gray-700 dark:bg-white dark:hover:bg-gray-400 font-bold text-white rounded-full h-8 w-20"
+        className={`text-sm hover:bg-blue-300 my-auto bg-blue-400 dark:text-gray-700 dark:bg-white dark:hover:bg-gray-400 font-bold text-white rounded-full h-8 w-20`}
       >
-        Follow
+        {isFollowing ? "Following" : "Follow"}
       </button>
     </div>
   );

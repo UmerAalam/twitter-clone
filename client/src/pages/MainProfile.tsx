@@ -112,7 +112,7 @@ const MainProfile = (props: { id: string }) => {
   if (isPending)
     return (
       <div className="text-gray-800 dark:text-white flex justify-center">
-        Loading UserMutation
+        Loading User Data
       </div>
     );
   return (
