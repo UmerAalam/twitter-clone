@@ -14,6 +14,7 @@ interface MyVariables {
     id: number;
   };
 }
+
 export const usersRouter = new Hono<{ Variables: MyVariables }>()
   .basePath("users")
   .use(authMiddleware)

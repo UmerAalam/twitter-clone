@@ -38,9 +38,10 @@ export const followRouter = new Hono<{
     return c.json(followers, 200);
   })
   .delete("/", zValidator("query", deleteFollowSchema), async (c) => {
-    const userId = c.req.query("userId");
+    const targetUser = c.req.query("targetUser");
     const loggedInUser = c.get("user").id;
-    const followers = await findFollows(loggedInUser, Number(userId));
+    console.log(loggedInUser, targetUser);
+    const followers = await findFollows(loggedInUser, Number(targetUser));
     return c.json(followers, 200);
   });
 // .get("/", zValidator("query", findfollowersSchema), async (c) => {

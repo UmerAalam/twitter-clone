@@ -7,7 +7,7 @@ import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { uploadImageToS3 } from "../modules/upload/upload.query";
 import { useParams } from "@tanstack/react-router";
-import { useFollowPost } from "../modules/follow/follow.query";
+import { useFollowDelete, useFollowPost } from "../modules/follow/follow.query";
 import { Follow } from "../../../server/src/modules/follow/follow.dto";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
@@ -24,6 +24,7 @@ const MainProfile = (props: { id: string }) => {
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
   const [profileTabCount, setProfileTabCount] = useState(1);
   const { mutate: followMutation } = useFollowPost();
+  const { mutate: deleteFollowMutation } = useFollowDelete();
   const targetUser = useParams({ from: "/profile/$profileID" });
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
@@ -32,6 +33,7 @@ const MainProfile = (props: { id: string }) => {
       setBio(data.bio);
     }
     if (data && data.isFollowing !== undefined) {
+      console.log("isFollowing", data.isFollowing);
       setIsFollowing(data.isFollowing);
     }
     if (Number(userId) === Number(props.id)) {
@@ -76,12 +78,14 @@ const MainProfile = (props: { id: string }) => {
   };
   const handleFollow = () => {
     if (isFollowing) {
-      console.log("need to setup removing follower service");
+      deleteFollowMutation({ targetUser: Number(targetUser.profileID) });
+      setIsFollowing(false);
     } else {
       const follow: Follow = {
         targetUser: Number(targetUser.profileID),
       };
       followMutation(follow);
+      setIsFollowing(true);
     }
   };
   const handleImageChange = async (

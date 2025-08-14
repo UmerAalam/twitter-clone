@@ -23,19 +23,14 @@ interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }
 const ComposedTweet = ({ tweet, ...rest }: Props) => {
-  const { data, isPending: pendingUserData } = useCustomUserData(
-    tweet.userId.toString(),
-  );
+  const { data } = useCustomUserData(tweet.userId.toString());
   const classname = classNames(rest.className, "flex items-start w-full p-3");
   const [like, setLike] = useState(false);
   const [bookmark, setBookmark] = useState(tweet.hasBookmarked || false);
-  const { mutate: addTweetLike, isPending: pendingAddingLike } = useTweetLike();
-  const { mutate: deleteLike, isPending: pendingDeletingLike } =
-    useDeleteTweetLike();
-  const { mutate: addBookmark, isPending: pendingAddBookmark } =
-    useTweetBookmark();
-  const { mutate: deleteBookmark, isPending: pendingDeletingBookmark } =
-    useDeleteBookmark();
+  const { mutate: addTweetLike } = useTweetLike();
+  const { mutate: deleteLike } = useDeleteTweetLike();
+  const { mutate: addBookmark } = useTweetBookmark();
+  const { mutate: deleteBookmark } = useDeleteBookmark();
   const navigate = useNavigate();
   useEffect(() => {
     if (tweet.hasBookmarked !== undefined) {
