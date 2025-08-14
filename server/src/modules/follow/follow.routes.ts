@@ -23,6 +23,9 @@ export const followRouter = new Hono<{
   .post("/", zValidator("json", followSchema), async (c) => {
     const loggedInUser = c.get("user");
     const { targetUser }: Follow = await c.req.json();
+    if (loggedInUser.id === Number(targetUser)) {
+      return c.json("You can't follow yourself", 400);
+    }
     const post = await postFollow({
       targetUserId: Number(targetUser),
       loggedInUserId: loggedInUser.id,

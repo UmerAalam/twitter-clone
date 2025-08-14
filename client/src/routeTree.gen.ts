@@ -14,10 +14,14 @@ import { Route as WhotofollowIndexRouteImport } from './routes/whotofollow/index
 import { Route as SignUpIndexRouteImport } from './routes/sign-up/index'
 import { Route as SignInIndexRouteImport } from './routes/sign-in/index'
 import { Route as ProfileIndexRouteImport } from './routes/profile/index'
+import { Route as FollowingIndexRouteImport } from './routes/following/index'
+import { Route as FollowersIndexRouteImport } from './routes/followers/index'
 import { Route as ExploreIndexRouteImport } from './routes/explore/index'
 import { Route as BookmarksIndexRouteImport } from './routes/bookmarks/index'
 import { Route as TweetsTweetIdRouteImport } from './routes/tweets/$tweetId'
 import { Route as ProfileProfileIDRouteImport } from './routes/profile/$profileID'
+import { Route as FollowingProfileIDRouteImport } from './routes/following/$profileID'
+import { Route as FollowersProfileIDRouteImport } from './routes/followers/$profileID'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -44,6 +48,16 @@ const ProfileIndexRoute = ProfileIndexRouteImport.update({
   path: '/profile/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FollowingIndexRoute = FollowingIndexRouteImport.update({
+  id: '/following/',
+  path: '/following/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FollowersIndexRoute = FollowersIndexRouteImport.update({
+  id: '/followers/',
+  path: '/followers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExploreIndexRoute = ExploreIndexRouteImport.update({
   id: '/explore/',
   path: '/explore/',
@@ -64,13 +78,27 @@ const ProfileProfileIDRoute = ProfileProfileIDRouteImport.update({
   path: '/profile/$profileID',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FollowingProfileIDRoute = FollowingProfileIDRouteImport.update({
+  id: '/following/$profileID',
+  path: '/following/$profileID',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FollowersProfileIDRoute = FollowersProfileIDRouteImport.update({
+  id: '/followers/$profileID',
+  path: '/followers/$profileID',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/followers/$profileID': typeof FollowersProfileIDRoute
+  '/following/$profileID': typeof FollowingProfileIDRoute
   '/profile/$profileID': typeof ProfileProfileIDRoute
   '/tweets/$tweetId': typeof TweetsTweetIdRoute
   '/bookmarks': typeof BookmarksIndexRoute
   '/explore': typeof ExploreIndexRoute
+  '/followers': typeof FollowersIndexRoute
+  '/following': typeof FollowingIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/sign-in': typeof SignInIndexRoute
   '/sign-up': typeof SignUpIndexRoute
@@ -78,10 +106,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/followers/$profileID': typeof FollowersProfileIDRoute
+  '/following/$profileID': typeof FollowingProfileIDRoute
   '/profile/$profileID': typeof ProfileProfileIDRoute
   '/tweets/$tweetId': typeof TweetsTweetIdRoute
   '/bookmarks': typeof BookmarksIndexRoute
   '/explore': typeof ExploreIndexRoute
+  '/followers': typeof FollowersIndexRoute
+  '/following': typeof FollowingIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/sign-in': typeof SignInIndexRoute
   '/sign-up': typeof SignUpIndexRoute
@@ -90,10 +122,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/followers/$profileID': typeof FollowersProfileIDRoute
+  '/following/$profileID': typeof FollowingProfileIDRoute
   '/profile/$profileID': typeof ProfileProfileIDRoute
   '/tweets/$tweetId': typeof TweetsTweetIdRoute
   '/bookmarks/': typeof BookmarksIndexRoute
   '/explore/': typeof ExploreIndexRoute
+  '/followers/': typeof FollowersIndexRoute
+  '/following/': typeof FollowingIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/sign-in/': typeof SignInIndexRoute
   '/sign-up/': typeof SignUpIndexRoute
@@ -103,10 +139,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/followers/$profileID'
+    | '/following/$profileID'
     | '/profile/$profileID'
     | '/tweets/$tweetId'
     | '/bookmarks'
     | '/explore'
+    | '/followers'
+    | '/following'
     | '/profile'
     | '/sign-in'
     | '/sign-up'
@@ -114,10 +154,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/followers/$profileID'
+    | '/following/$profileID'
     | '/profile/$profileID'
     | '/tweets/$tweetId'
     | '/bookmarks'
     | '/explore'
+    | '/followers'
+    | '/following'
     | '/profile'
     | '/sign-in'
     | '/sign-up'
@@ -125,10 +169,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/followers/$profileID'
+    | '/following/$profileID'
     | '/profile/$profileID'
     | '/tweets/$tweetId'
     | '/bookmarks/'
     | '/explore/'
+    | '/followers/'
+    | '/following/'
     | '/profile/'
     | '/sign-in/'
     | '/sign-up/'
@@ -137,10 +185,14 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FollowersProfileIDRoute: typeof FollowersProfileIDRoute
+  FollowingProfileIDRoute: typeof FollowingProfileIDRoute
   ProfileProfileIDRoute: typeof ProfileProfileIDRoute
   TweetsTweetIdRoute: typeof TweetsTweetIdRoute
   BookmarksIndexRoute: typeof BookmarksIndexRoute
   ExploreIndexRoute: typeof ExploreIndexRoute
+  FollowersIndexRoute: typeof FollowersIndexRoute
+  FollowingIndexRoute: typeof FollowingIndexRoute
   ProfileIndexRoute: typeof ProfileIndexRoute
   SignInIndexRoute: typeof SignInIndexRoute
   SignUpIndexRoute: typeof SignUpIndexRoute
@@ -184,6 +236,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/following/': {
+      id: '/following/'
+      path: '/following'
+      fullPath: '/following'
+      preLoaderRoute: typeof FollowingIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/followers/': {
+      id: '/followers/'
+      path: '/followers'
+      fullPath: '/followers'
+      preLoaderRoute: typeof FollowersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/explore/': {
       id: '/explore/'
       path: '/explore'
@@ -212,15 +278,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileProfileIDRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/following/$profileID': {
+      id: '/following/$profileID'
+      path: '/following/$profileID'
+      fullPath: '/following/$profileID'
+      preLoaderRoute: typeof FollowingProfileIDRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/followers/$profileID': {
+      id: '/followers/$profileID'
+      path: '/followers/$profileID'
+      fullPath: '/followers/$profileID'
+      preLoaderRoute: typeof FollowersProfileIDRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FollowersProfileIDRoute: FollowersProfileIDRoute,
+  FollowingProfileIDRoute: FollowingProfileIDRoute,
   ProfileProfileIDRoute: ProfileProfileIDRoute,
   TweetsTweetIdRoute: TweetsTweetIdRoute,
   BookmarksIndexRoute: BookmarksIndexRoute,
   ExploreIndexRoute: ExploreIndexRoute,
+  FollowersIndexRoute: FollowersIndexRoute,
+  FollowingIndexRoute: FollowingIndexRoute,
   ProfileIndexRoute: ProfileIndexRoute,
   SignInIndexRoute: SignInIndexRoute,
   SignUpIndexRoute: SignUpIndexRoute,
