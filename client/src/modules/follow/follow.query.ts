@@ -39,7 +39,7 @@ export const useFollowPost = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: ["follows", "list"],
+        queryKey: ["follows", "list", "user", "detail"],
       });
     },
   });

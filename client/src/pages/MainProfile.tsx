@@ -79,13 +79,11 @@ const MainProfile = (props: { id: string }) => {
   const handleFollow = () => {
     if (isFollowing) {
       deleteFollowMutation({ targetUser: Number(targetUser.profileID) });
-      setIsFollowing(false);
     } else {
       const follow: Follow = {
         targetUser: Number(targetUser.profileID),
       };
       followMutation(follow);
-      setIsFollowing(true);
     }
   };
   const handleImageChange = async (
