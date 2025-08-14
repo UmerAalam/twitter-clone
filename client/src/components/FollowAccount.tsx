@@ -46,7 +46,7 @@ const FollowAccount = ({
         </div>
       </div>
       <button
-        onClick={() => followAccount}
+        onClick={followAccount}
         className={`text-sm hover:bg-blue-300 my-auto bg-blue-400 dark:text-gray-700 dark:bg-white dark:hover:bg-gray-400 font-bold text-white rounded-full h-8 w-20`}
       >
         {isFollowing ? "Following" : "Follow"}

@@ -12,7 +12,7 @@ const WhoToFollow = () => {
   };
   const followAccountByID = (followerId: number) => {
     const follow: Follow = {
-      followerId,
+      targetUser: followerId,
     };
     mutate(follow);
   };
@@ -32,6 +32,7 @@ const WhoToFollow = () => {
             name={user.name}
             followAccount={() => followAccountByID(user.id)}
             username={"@" + user.name.replace(" ", "").toLowerCase() + user.id}
+            isFollowing={user.isFollowing}
           />
         );
       })}
