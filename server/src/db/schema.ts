@@ -42,16 +42,16 @@ export const commentsTable = pgTable("comments", {
 export const followTable = pgTable(
   "follow",
   {
-    followerId: integer("follower_id")
+    currentUser: integer("follower_id")
       .notNull()
       .references(() => usersTable.id),
-    followingId: integer("following_id")
+    targetUser: integer("following_id")
       .notNull()
       .references(() => usersTable.id),
     createdAt: timestamp().notNull().defaultNow(),
   },
   (table) => ({
-    pk: unique().on(table.followerId, table.followingId),
+    pk: unique().on(table.currentUser, table.targetUser),
   }),
 );
 export const bookmarksTable = pgTable("bookmarks", {

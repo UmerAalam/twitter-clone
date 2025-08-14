@@ -1,19 +1,56 @@
 import { Hono } from "hono";
 import { authMiddleware } from "../auth/AuthMiddleWare.js";
 import { zValidator } from "@hono/zod-validator";
-import { followSchema, type Follow } from "./follow.dto.js";
-import { findFollowers, postFollow } from "./follow.service.js";
-export const followsRouter = new Hono()
+import {
+  deleteFollowSchema,
+  followersFollowingCountScheme,
+  followSchema,
+  type Follow,
+} from "./follow.dto.js";
+import { deleteFollow, findFollows, postFollow } from "./follow.service.js";
+
+interface MyVariables {
+  user: {
+    id: number;
+  };
+}
+
+export const followRouter = new Hono<{
+  Variables: MyVariables;
+}>()
   .basePath("follows")
   .use(authMiddleware)
   .post("/", zValidator("json", followSchema), async (c) => {
-    const { followerId, followingId, createdAt }: Follow = await c.req.json();
-    const post = await postFollow({ followerId, followingId, createdAt });
-    return c.json(post);
+    const loggedInUser = c.get("user");
+    const { targetUser }: Follow = await c.req.json();
+    const post = await postFollow({
+      targetUserId: Number(targetUser),
+      loggedInUserId: loggedInUser.id,
+    });
+    return c.json(post, 201);
   })
-  .get("/", zValidator("query", followSchema), async (c) => {
-    const { followerId, createdAt, followingId }: Follow =
-      c.req.query("follow");
-    const followers = await findFollowers({ followerid });
-    return c.json(followers);
+  .get("/", zValidator("query", followersFollowingCountScheme), async (c) => {
+    const userId = c.req.query("userId");
+    const loggedInUser = c.get("user").id;
+    const followers = await findFollows(loggedInUser, Number(userId));
+    return c.json(followers, 200);
+  })
+  .delete("/", zValidator("query", deleteFollowSchema), async (c) => {
+    const targetUser = c.req.query("targetUser");
+    const loggedInUser = c.get("user").id;
+    const followers = await deleteFollow({
+      currentUserId: loggedInUser,
+      targetUserId: Number(targetUser),
+    });
+    return c.json(followers, 200);
   });
+// .get("/", zValidator("query", findfollowersSchema), async (c) => {
+//   const userId = c.req.query("userId");
+//   const followers = await findFollowers(Number(userId));
+//   return c.json(followers, 200);
+// })
+// .get("/", zValidator("query", findfollowingsSchema), async (c) => {
+//   const userId = c.req.query("userId");
+//   const followers = await findFollowings(Number(userId));
+//   return c.json(followers, 200);
+// });

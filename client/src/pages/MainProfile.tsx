@@ -6,6 +6,9 @@ import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { uploadImageToS3 } from "../modules/upload/upload.query";
+import { useParams } from "@tanstack/react-router";
+import { useFollowDelete, useFollowPost } from "../modules/follow/follow.query";
+import { Follow } from "../../../server/src/modules/follow/follow.dto";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
@@ -13,15 +16,25 @@ const MainProfile = (props: { id: string }) => {
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
   const [owner, setOwner] = useState<boolean | null>(null);
+  const [isFollowing, setIsFollowing] = useState<boolean | undefined>(
+    data?.isFollowing || undefined,
+  );
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const profileBtnRef = useRef<HTMLButtonElement | null>(null);
   const [profileTabCount, setProfileTabCount] = useState(1);
+  const { mutate: followMutation } = useFollowPost();
+  const { mutate: deleteFollowMutation } = useFollowDelete();
+  const targetUser = useParams({ from: "/profile/$profileID" });
   const backgroundImage =
     "https://cdn.pixabay.com/photo/2022/01/01/16/29/antelope-6908215_1280.jpg";
   useEffect(() => {
     if (data && data.bio) {
       setBio(data.bio);
+    }
+    if (data && data.isFollowing !== undefined) {
+      console.log("isFollowing", data.isFollowing);
+      setIsFollowing(data.isFollowing);
     }
     if (Number(userId) === Number(props.id)) {
       setOwner(true);
@@ -44,7 +57,7 @@ const MainProfile = (props: { id: string }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [userId, props.id]);
+  }, [data, userId, props.id]);
   const handleProfileCount = (index: number) => {
     setProfileTabCount(index);
   };
@@ -61,6 +74,16 @@ const MainProfile = (props: { id: string }) => {
           setEditMode(false);
         },
       });
+    }
+  };
+  const handleFollow = () => {
+    if (isFollowing) {
+      deleteFollowMutation({ targetUser: Number(targetUser.profileID) });
+    } else {
+      const follow: Follow = {
+        targetUser: Number(targetUser.profileID),
+      };
+      followMutation(follow);
     }
   };
   const handleImageChange = async (
@@ -89,7 +112,7 @@ const MainProfile = (props: { id: string }) => {
   if (isPending)
     return (
       <div className="text-gray-800 dark:text-white flex justify-center">
-        Loading UserMutation
+        Loading User Data
       </div>
     );
   return (
@@ -144,8 +167,11 @@ const MainProfile = (props: { id: string }) => {
               : "Edit Profile"}
           </button>
         ) : (
-          <button className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-9 hover:bg-blue-300 bg-blue-400 dark:hover:bg-gray-300 dark:bg-white dark:text-gray-800 text-white font-bold">
-            Follow
+          <button
+            onClick={() => handleFollow()}
+            className="cursor-pointer text-sm -mt-9 rounded-full w-28 h-9 hover:bg-blue-300 bg-blue-400 dark:hover:bg-gray-300 dark:bg-white dark:text-gray-800 text-white font-bold"
+          >
+            {isFollowing ? "Following" : "Follow"}
           </button>
         )}
       </div>
@@ -170,11 +196,11 @@ const MainProfile = (props: { id: string }) => {
       </h2>
       <div className="px-5">
         <h2 className="text-gray-800 inline-flex gap-1 font-medium dark:text-white">
-          <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
+          <span className="font-bold">{data?.followingsCount}</span>
           Following
         </h2>
         <h2 className="text-gray-800 inline-flex ml-3 gap-1 font-medium dark:text-white">
-          <span className="font-bold">{Math.floor(Math.random() * 100)}</span>
+          <span className="font-bold">{data?.followersCount}</span>
           Followers
         </h2>
       </div>

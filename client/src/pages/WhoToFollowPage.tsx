@@ -1,11 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInfiniteUsersQuery } from "../lib/customUserData";
 import FollowAccount from "../components/FollowAccount";
 import { useNavigate } from "@tanstack/react-router";
 import { useInView } from "react-intersection-observer";
+import { useFollowDelete, useFollowPost } from "../modules/follow/follow.query";
+import { Follow } from "../../../server/src/modules/follow/follow.dto";
 
 const WhoToFollowPage = () => {
   const { data: users, hasNextPage, fetchNextPage } = useInfiniteUsersQuery();
+  const { mutate: followMutation } = useFollowPost();
+  const { mutate: deleteFollowMutation } = useFollowDelete();
+  const [isFollowing, setIsFollowing] = useState<boolean | undefined>(
+    undefined,
+  );
   const navigate = useNavigate();
   const { ref, inView } = useInView();
   useEffect(() => {
@@ -13,8 +20,22 @@ const WhoToFollowPage = () => {
       fetchNextPage();
     }
   });
-  const handleClick = (accountId: number) => {
-    navigate({ to: `/profile/${accountId}` });
+  const handleClick = (targetUser: number) => {
+    navigate({ to: `/profile/${targetUser}` });
+  };
+  const followAccountByID = (props: {
+    targetUser: number;
+    isFollowing: boolean;
+  }) => {
+    setIsFollowing(props.isFollowing);
+    if (isFollowing) {
+      deleteFollowMutation({ targetUser: props.targetUser });
+    } else {
+      const follow: Follow = {
+        targetUser: props.targetUser,
+      };
+      followMutation(follow);
+    }
   };
   return (
     <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl">
@@ -33,6 +54,13 @@ const WhoToFollowPage = () => {
                 username={
                   "@" + account.name.replace(" ", "").toLowerCase() + account.id
                 }
+                followAccount={() =>
+                  followAccountByID({
+                    targetUser: account.id,
+                    isFollowing: account.isFollowing,
+                  })
+                }
+                isFollowing={account.isFollowing}
               />
             );
           });

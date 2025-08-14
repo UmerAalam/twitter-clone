@@ -11,6 +11,9 @@ interface UserData {
   bio: string;
   created_at: string;
   updated_at: string;
+  followersCount: number;
+  followingsCount: number;
+  isFollowing: boolean;
 }
 export const userDataQueryOptions = (id: string) => {
   return queryOptions({

@@ -1,28 +1,79 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import db from "../../db.js";
-import type { Follow } from "./follow.dto.js";
 import { followTable } from "../../db/schema.js";
-export const findFollowers = async (props: {
-  followerId: number;
-  followingId: number;
-}) => {
-  const res = await db
-    .select()
+//Check current user is following the target user or not
+const checkFollowing = async (currentUserId: number, targetUserId: number) => {
+  const [row] = await db
+    .select({ exists: sql<boolean>`1` })
     .from(followTable)
     .where(
       and(
-        eq(followTable.followerId, props.followerId),
-        eq(followTable.followingId, props.followingId),
+        eq(followTable.currentUser, currentUserId),
+        eq(followTable.targetUser, targetUserId),
       ),
-    );
-  return res;
+    )
+    .limit(1);
+
+  return !!row; // true if exists, false otherwise
 };
-export const postFollow = async ({ followerId, followingId }: Follow) => {
+// Get all followers of a user
+const findFollowersCount = async (userId: number) => {
+  const [count] = await db
+    .select({
+      followersCount: sql<number>`count(*)`,
+    })
+    .from(followTable)
+    .where(eq(followTable.targetUser, userId));
+  return count.followersCount;
+};
+// Get all people a user follows
+const findFollowingsCount = async (loggedInUserId: number) => {
+  const [count] = await db
+    .select({
+      followingCount: sql<number>`count(*)`,
+    })
+    .from(followTable)
+    .where(eq(followTable.currentUser, loggedInUserId));
+  return count.followingCount;
+};
+// Get all followers and followings
+export const findFollows = async (
+  loggedInUser: number,
+  targetUserId: number,
+) => {
+  const getFollowersCount = await findFollowersCount(targetUserId);
+  const getFollowingsCount = await findFollowingsCount(targetUserId);
+  const isFollowing = await checkFollowing(loggedInUser, targetUserId);
+  return {
+    getFollowersCount,
+    getFollowingsCount,
+    isFollowing,
+  };
+};
+export const postFollow = async (props: {
+  loggedInUserId: number;
+  targetUserId: number;
+}) => {
   return await db
     .insert(followTable)
     .values({
-      followerId,
-      followingId,
+      currentUser: props.loggedInUserId,
+      targetUser: props.targetUserId,
     })
+    .returning();
+};
+export const deleteFollow = async (props: {
+  currentUserId: number;
+  targetUserId: number;
+}) => {
+  console.log(props.currentUserId, props.targetUserId);
+  return await db
+    .delete(followTable)
+    .where(
+      and(
+        eq(followTable.currentUser, props.currentUserId),
+        eq(followTable.targetUser, props.targetUserId),
+      ),
+    )
     .returning();
 };
