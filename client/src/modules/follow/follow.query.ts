@@ -30,16 +30,16 @@ export const useFollowPost = () => {
 
       const previousFollows = queryClient.getQueryData(["follows", "list"]);
 
-      queryClient.setQueryData(
-        ["follows", "list", newFollow.targetUser],
-        newFollow,
-      );
+      queryClient.setQueryData(["follows", "list"], newFollow);
 
       return { previousFollows };
     },
-    onSettled: () => {
+    onSuccess: (_, vars) => {
       queryClient.invalidateQueries({
-        queryKey: ["follows", "list", "user", "detail"],
+        queryKey: ["follows", "list"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["user", "detail", String(vars.targetUser)],
       });
     },
   });
@@ -71,16 +71,16 @@ export const useFollowDelete = () => {
 
       const previousFollows = queryClient.getQueryData(["follows", "list"]);
 
-      queryClient.setQueryData(
-        ["follows", "list", newFollow.targetUser, newFollow.targetUser],
-        newFollow,
-      );
+      queryClient.setQueryData(["follows", "list"], newFollow);
 
       return { previousFollows };
     },
-    onSettled: () => {
+    onSuccess: (_, vars) => {
       queryClient.invalidateQueries({
         queryKey: ["follows", "list"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["user", "detail", String(vars.targetUser)],
       });
     },
   });
