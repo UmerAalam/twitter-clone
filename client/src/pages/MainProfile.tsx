@@ -6,13 +6,14 @@ import { useUpdateUserData } from "../modules/auth/auth.query";
 import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { uploadImageToS3 } from "../modules/upload/upload.query";
-import { useParams } from "@tanstack/react-router";
+import { useNavigate, useParams } from "@tanstack/react-router";
 import { useFollowDelete, useFollowPost } from "../modules/follow/follow.query";
 import { Follow } from "../../../server/src/modules/follow/follow.dto";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();
   const { data, isLoading } = useCustomUserData(props.id);
+  const navigate = useNavigate();
   const [bio, setBio] = useState<string>("");
   const [editMode, setEditMode] = useState(false);
   const [owner, setOwner] = useState<boolean | null>(null);
@@ -195,11 +196,17 @@ const MainProfile = (props: { id: string }) => {
         {data?.created_at.slice(0, 10)}
       </h2>
       <div className="px-5">
-        <h2 className="text-gray-800 inline-flex gap-1 font-medium dark:text-white">
+        <h2
+          onClick={() => navigate({ to: `/following/${props.id}` })}
+          className="text-gray-800 inline-flex gap-1 font-medium dark:text-white cursor-pointer"
+        >
           <span className="font-bold">{data?.followingsCount}</span>
           Following
         </h2>
-        <h2 className="text-gray-800 inline-flex ml-3 gap-1 font-medium dark:text-white">
+        <h2
+          onClick={() => navigate({ to: `/followers/${props.id}` })}
+          className="text-gray-800 inline-flex ml-3 gap-1 font-medium dark:text-white cursor-pointer"
+        >
           <span className="font-bold">{data?.followersCount}</span>
           Followers
         </h2>
