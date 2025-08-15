@@ -1,6 +1,6 @@
-import { and, eq, sql } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import db from "../../db.js";
-import { followTable } from "../../db/schema.js";
+import { followTable, usersTable } from "../../db/schema.js";
 //Check current user is following the target user or not
 const checkFollowing = async (currentUserId: number, targetUserId: number) => {
   const [row] = await db
@@ -61,6 +61,41 @@ export const postFollow = async (props: {
       targetUser: props.targetUserId,
     })
     .returning();
+};
+export const findFollowersByUserID = async (props: {
+  followId: number;
+  userCount?: number;
+  loggedInUser: number;
+  page?: number;
+}) => {
+  const usersCount = props.userCount ?? 10;
+  const page = props.page ?? 1;
+  const offset = (page - 1) * usersCount;
+  const isFollowing = sql<boolean>`
+    EXISTS (
+      SELECT 1
+      FROM ${followTable} f
+      WHERE follower_id = ${props.loggedInUser}
+        AND following_id = ${usersTable.id}
+    )
+  `.as("isFollowing");
+  const res = await db
+    .select({
+      id: usersTable.id,
+      name: usersTable.name,
+      avatar: usersTable.avatar,
+      created_at: usersTable.created_at,
+      updated_at: usersTable.updated_at,
+      bio: usersTable.bio,
+      isFollowing,
+    })
+    .from(followTable)
+    .innerJoin(usersTable, eq(usersTable.id, followTable.currentUser))
+    .where(eq(followTable.targetUser, props.followId))
+    .orderBy(desc(followTable.createdAt))
+    .limit(usersCount)
+    .offset(offset);
+  return res;
 };
 export const deleteFollow = async (props: {
   currentUserId: number;
