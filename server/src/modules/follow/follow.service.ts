@@ -66,7 +66,7 @@ export const findFollowersByUserID = async (props: {
   targetUser: number;
   userCount?: number;
   loggedInUser: number;
-  page?: number;
+  page: number;
 }) => {
   const usersCount = props.userCount ?? 10;
   const page = props.page ?? 1;
@@ -74,7 +74,7 @@ export const findFollowersByUserID = async (props: {
   const isFollowing = sql<boolean>`
     EXISTS (
       SELECT 1
-      FROM ${followTable} f
+      FROM ${followTable}
       WHERE follower_id = ${props.loggedInUser}
         AND following_id = ${usersTable.id}
     )

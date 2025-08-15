@@ -4,7 +4,6 @@ import { zValidator } from "@hono/zod-validator";
 import {
   deleteFollowSchema,
   findfollowersSchema,
-  findfollowingsSchema,
   followersFollowingCountScheme,
   followSchema,
   type Follow,
@@ -29,10 +28,12 @@ export const followRouter = new Hono<{
   .use(authMiddleware)
   .get("/", zValidator("query", findfollowersSchema), async (c) => {
     const targetUserId = c.req.query("targetUserId");
+    const page = Number(c.req.query("page"));
     const loggedInUser = c.get("user").id;
-    const users = findFollowersByUserID({
+    const users = await findFollowersByUserID({
       targetUser: Number(targetUserId),
       loggedInUser,
+      page: page ? page : 1,
     });
     return c.json(users, 200);
   })
