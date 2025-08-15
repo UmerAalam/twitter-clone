@@ -4,6 +4,7 @@ import { zValidator } from "@hono/zod-validator";
 import {
   deleteFollowSchema,
   findfollowersSchema,
+  findfollowingSchema,
   followersFollowingCountScheme,
   followSchema,
   type Follow,
@@ -11,6 +12,7 @@ import {
 import {
   deleteFollow,
   findFollowersByUserID,
+  findFollowingByUserID,
   findFollows,
   postFollow,
 } from "./follow.service.js";
@@ -26,18 +28,26 @@ export const followRouter = new Hono<{
 }>()
   .basePath("follows")
   .use(authMiddleware)
-  .get("/", zValidator("query", findfollowersSchema), async (c) => {
-    const targetUserId = c.req.query("targetUserId");
-    const page = Number(c.req.query("page"));
+  .get("/followers", zValidator("query", findfollowersSchema), async (c) => {
+    const { targetUser, page } = c.req.valid("query");
     const loggedInUser = c.get("user").id;
     const users = await findFollowersByUserID({
-      targetUser: Number(targetUserId),
+      targetUser: Number(targetUser),
       loggedInUser,
       page: page ? page : 1,
     });
     return c.json(users, 200);
   })
-  .get("/:id", zValidator("query", findfollowersSchema), async (c) => {})
+  .get("/following", zValidator("query", findfollowingSchema), async (c) => {
+    const { targetUserId, page } = c.req.valid("query");
+    const loggedInUser = c.get("user").id;
+    const users = await findFollowingByUserID({
+      targetUserId: Number(targetUserId),
+      loggedInUser,
+      page: page ? page : 1,
+    });
+    return c.json(users, 200);
+  })
   .post("/", zValidator("json", followSchema), async (c) => {
     const loggedInUser = c.get("user");
     const { targetUser }: Follow = await c.req.json();

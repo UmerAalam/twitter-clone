@@ -8,15 +8,16 @@ export const followSchema = z.object({
 export const deleteFollowSchema = z.object({
   targetUser: z.coerce.number(),
 });
+export const findfollowingSchema = z.object({
+  targetUserId: z.coerce.number().optional(),
+  page: z.coerce.number(),
+});
 export const findfollowersSchema = z.object({
-  targetUser: z.coerce.number(),
+  targetUser: z.coerce.number().optional(),
   page: z.coerce.number(),
 });
 
 export const followersFollowingCountScheme = z.object({
-  targetUser: z.coerce.number(),
-});
-export const findfollowingsSchema = z.object({
   targetUser: z.coerce.number(),
 });
 

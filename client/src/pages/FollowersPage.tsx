@@ -10,8 +10,9 @@ import { Follow } from "../../../server/src/modules/follow/follow.dto";
 import FollowAccount from "../components/FollowAccount";
 
 const FollowersPage = (props: { id: number }) => {
-  const { data, isLoading, hasNextPage, fetchNextPage } =
-    useInfiniteFollowersQuery(props.id);
+  const { data, hasNextPage, fetchNextPage } = useInfiniteFollowersQuery(
+    props.id,
+  );
   const { mutate: followMutation } = useFollowPost();
   const { mutate: deleteFollowMutation } = useFollowDelete();
   const { ref, inView } = useInView();
@@ -72,9 +73,7 @@ const FollowersPage = (props: { id: number }) => {
           });
         })}
       </div>
-      <div ref={ref}>
-        {isLoading ? "Loading followers..." : "Followers Loaded"}
-      </div>
+      <div ref={ref}></div>
     </div>
   );
 };

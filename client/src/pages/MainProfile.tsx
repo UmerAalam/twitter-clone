@@ -34,7 +34,6 @@ const MainProfile = (props: { id: string }) => {
       setBio(data.bio);
     }
     if (data && data.isFollowing !== undefined) {
-      console.log("isFollowing", data.isFollowing);
       setIsFollowing(data.isFollowing);
     }
     if (Number(userId) === Number(props.id)) {
