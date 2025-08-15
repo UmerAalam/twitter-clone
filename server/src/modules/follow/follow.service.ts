@@ -63,7 +63,7 @@ export const postFollow = async (props: {
     .returning();
 };
 export const findFollowersByUserID = async (props: {
-  followId: number;
+  targetUser: number;
   userCount?: number;
   loggedInUser: number;
   page?: number;
@@ -91,7 +91,7 @@ export const findFollowersByUserID = async (props: {
     })
     .from(followTable)
     .innerJoin(usersTable, eq(usersTable.id, followTable.currentUser))
-    .where(eq(followTable.targetUser, props.followId))
+    .where(eq(followTable.targetUser, props.targetUser))
     .orderBy(desc(followTable.createdAt))
     .limit(usersCount)
     .offset(offset);

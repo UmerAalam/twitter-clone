@@ -9,7 +9,12 @@ import {
   followSchema,
   type Follow,
 } from "./follow.dto.js";
-import { deleteFollow, findFollows, postFollow } from "./follow.service.js";
+import {
+  deleteFollow,
+  findFollowersByUserID,
+  findFollows,
+  postFollow,
+} from "./follow.service.js";
 
 interface MyVariables {
   user: {
@@ -22,8 +27,14 @@ export const followRouter = new Hono<{
 }>()
   .basePath("follows")
   .use(authMiddleware)
-  .get("/:id", zValidator("query", findfollowingsSchema), async (c) => {
-    const id = parseInt(c.req.param("id"));
+  .get("/", zValidator("query", findfollowersSchema), async (c) => {
+    const targetUserId = c.req.query("targetUserId");
+    const loggedInUser = c.get("user").id;
+    const users = findFollowersByUserID({
+      targetUser: Number(targetUserId),
+      loggedInUser,
+    });
+    return c.json(users, 200);
   })
   .get("/:id", zValidator("query", findfollowersSchema), async (c) => {})
   .post("/", zValidator("json", followSchema), async (c) => {
