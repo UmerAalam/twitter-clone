@@ -32,9 +32,9 @@ Designed for performance, scalability, and great DX.
 
 ### Feeds
 
-Home Feed: from accounts you follow + your reposts
+- Home Feed: from accounts you follow + your reposts
 
-Explore Feed: trending posts & people (ranked with recency + engagement)
+- Explore Feed: trending posts & people (ranked with recency + engagement)
 
 
 ### 📂 Project Structure
