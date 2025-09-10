@@ -22,13 +22,13 @@ Designed for performance, scalability, and great DX.
 
 ### ✨ Features
 
-Auth & Profiles: signup/login, editable bio, avatar, cover, username handle
+- Auth & Profiles: signup/login, editable bio, avatar, cover, username handle
 
-Posting: create text posts, images,share link, repost, edit/delete window
+- Posting: create text posts, images,share link, repost, edit/delete window
 
-Engagement: comments, likes, bookmarks, reposts, like counts
+- Engagement: comments, likes, bookmarks, reposts, like counts
 
-Social Graph: follow / unfollow, followers & following lists, mutuals
+- Social Graph: follow / unfollow, followers & following lists, mutuals
 
 ### Feeds
 
@@ -66,12 +66,12 @@ bun run dev            # frontend
 bun run server         # backend
 ```
 ### 🔐 Environment Variables (Front-end)
-./server/.env
+ ./server/.env
 #### Postgres
 ```DATABASE_URL="postgresql://USER:PASS@localhost:5432/twitter_clone"```
 
 ### 🔐 Environment Variables (Front-end)
-./client/.env
+ ./client/.env
 ```VITE_API_URL="http://localhost:8000"```
 
 
