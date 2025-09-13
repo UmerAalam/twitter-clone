@@ -1,4 +1,4 @@
-# Twitter Clone (React + TanStack Router + Hono + Postgres)
+w# Twitter Clone (React + TanStack Router + Hono + Postgres)
 
 ![Bun](https://img.shields.io/badge/Bun-000000?logo=bun&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
@@ -49,7 +49,7 @@ twitter-clone/
 └─ docs/                   # ADRs, ERD, etc.
 ```
 ### ⚙️ Scripts
-```Frontend (Vite)
+```bash
 cd apps/web
 npm install
 npm run dev              # start frontend on http://localhost:5173
