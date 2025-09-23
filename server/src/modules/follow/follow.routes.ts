@@ -3,11 +3,19 @@ import { authMiddleware } from "../auth/AuthMiddleWare.js";
 import { zValidator } from "@hono/zod-validator";
 import {
   deleteFollowSchema,
+  findfollowersSchema,
+  findfollowingSchema,
   followersFollowingCountScheme,
   followSchema,
   type Follow,
 } from "./follow.dto.js";
-import { deleteFollow, findFollows, postFollow } from "./follow.service.js";
+import {
+  deleteFollow,
+  findFollowersByUserID,
+  findFollowingByUserID,
+  findFollows,
+  postFollow,
+} from "./follow.service.js";
 
 interface MyVariables {
   user: {
@@ -20,9 +28,32 @@ export const followRouter = new Hono<{
 }>()
   .basePath("follows")
   .use(authMiddleware)
+  .get("/followers", zValidator("query", findfollowersSchema), async (c) => {
+    const { targetUser, page } = c.req.valid("query");
+    const loggedInUser = c.get("user").id;
+    const users = await findFollowersByUserID({
+      targetUser: Number(targetUser),
+      loggedInUser,
+      page: page ? page : 1,
+    });
+    return c.json(users, 200);
+  })
+  .get("/following", zValidator("query", findfollowingSchema), async (c) => {
+    const { targetUserId, page } = c.req.valid("query");
+    const loggedInUser = c.get("user").id;
+    const users = await findFollowingByUserID({
+      targetUserId: Number(targetUserId),
+      loggedInUser,
+      page: page ? page : 1,
+    });
+    return c.json(users, 200);
+  })
   .post("/", zValidator("json", followSchema), async (c) => {
     const loggedInUser = c.get("user");
     const { targetUser }: Follow = await c.req.json();
+    if (loggedInUser.id === Number(targetUser)) {
+      return c.json("You can't follow yourself", 400);
+    }
     const post = await postFollow({
       targetUserId: Number(targetUser),
       loggedInUserId: loggedInUser.id,

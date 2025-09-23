@@ -1,12 +1,78 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { Follow } from "../../../../server/src/modules/follow/follow.dto";
 import { client } from "../../lib/client";
 
+export const useInfiniteFollowingQuery = (id: number) => {
+  return useInfiniteQuery({
+    queryKey: ["followers", "list"],
+    queryFn: async ({ pageParam = 1 }) => {
+      const token = localStorage.getItem("token");
+      const res = await client.api.follows.following.$get(
+        {
+          query: {
+            targetUserId: id.toString(),
+            page: pageParam.toString(),
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const data = await res.json();
+      return data;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (!lastPage || lastPage.length < 10) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
+    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+      return firstPageParam > 1 ? firstPageParam - 1 : undefined;
+    },
+  });
+};
+export const useInfiniteFollowersQuery = (id: number) => {
+  return useInfiniteQuery({
+    queryKey: ["followers", "list"],
+    queryFn: async ({ pageParam = 1 }) => {
+      const token = localStorage.getItem("token");
+      const res = await client.api.follows.followers.$get(
+        {
+          query: { targetUser: id.toString(), page: pageParam.toString() },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const data = await res.json();
+      return data;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (!lastPage || lastPage.length < 10) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
+    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+      return firstPageParam > 1 ? firstPageParam - 1 : undefined;
+    },
+  });
+};
 export const useFollowPost = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (follow: Follow) => {
-      console.log(follow);
       const token = localStorage.getItem("token");
       const res = await client.api.follows.$post(
         {
