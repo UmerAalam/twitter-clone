@@ -5,10 +5,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { client } from "../../lib/client";
-import type {
-  DeleteLike,
-  TweetLike,
-} from "../../../../server/src/modules/likes/likes.dto";
+import { DeleteLike, TweetLike } from "../../types/like";
 
 export const useTweetLike = () => {
   const queryClient = useQueryClient();

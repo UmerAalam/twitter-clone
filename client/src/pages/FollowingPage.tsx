@@ -6,8 +6,8 @@ import {
 } from "../modules/follow/follow.query";
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { Follow } from "../../../server/src/modules/follow/follow.dto";
 import FollowAccount from "../components/FollowAccount";
+import { Follow } from "../types/follow";
 
 const FollowingPage = (props: { id: number }) => {
   const { data, hasNextPage, fetchNextPage } = useInfiniteFollowingQuery(

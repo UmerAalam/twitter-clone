@@ -6,10 +6,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { client } from "../../lib/client";
-import {
-  CreateTweet,
-  FindManyTweet,
-} from "../../../../server/src/modules/tweet/tweet.dto";
+import { CreateTweet, FindManyTweet } from "../../types/tweet";
 export const useInfiniteTweetsQuery = ({
   userId,
   count = 10,
