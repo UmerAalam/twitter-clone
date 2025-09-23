@@ -136,7 +136,6 @@ export const deleteFollow = async (props: {
   currentUserId: number;
   targetUserId: number;
 }) => {
-  console.log(props.currentUserId, props.targetUserId);
   return await db
     .delete(followTable)
     .where(

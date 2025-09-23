@@ -25,7 +25,6 @@ export const useInfiniteFollowingQuery = (id: number) => {
         },
       );
       const data = await res.json();
-      console.log(data);
       return data;
     },
     initialPageParam: 1,
@@ -56,7 +55,6 @@ export const useInfiniteFollowersQuery = (id: number) => {
         },
       );
       const data = await res.json();
-      console.log(data);
       return data;
     },
     initialPageParam: 1,
@@ -75,7 +73,6 @@ export const useFollowPost = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (follow: Follow) => {
-      console.log(follow);
       const token = localStorage.getItem("token");
       const res = await client.api.follows.$post(
         {
