@@ -1,6 +1,6 @@
 import ComposedComment from "./ComposedComment";
-import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { useCommentListByTweetId } from "../modules/comment/comments.query";
+import { Tweet } from "../types/tweet";
 interface Props {
   tweet: Tweet;
 }
