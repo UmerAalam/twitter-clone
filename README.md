@@ -1,4 +1,4 @@
-w# Twitter Clone (React + TanStack Router + Hono + Postgres)
+# Twitter Clone (React + TanStack Router + Hono + Postgres)
 
 ![Bun](https://img.shields.io/badge/Bun-000000?logo=bun&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
