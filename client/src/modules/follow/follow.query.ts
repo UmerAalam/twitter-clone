@@ -3,8 +3,8 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import { Follow } from "../../../../server/src/modules/follow/follow.dto";
 import { client } from "../../lib/client";
+import { Follow } from "../../types/follow";
 
 export const useInfiniteFollowingQuery = (id: number) => {
   return useInfiniteQuery({

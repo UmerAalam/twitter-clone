@@ -6,11 +6,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { client } from "../../lib/client";
-import type {
-  TweetBookmark,
-  DeleteBookmark,
-} from "../../../../server/src/modules/bookmarks/bookmarks.dto.js";
-import { Tweet } from "../../../../server/src/modules/tweet/tweet.dto.js";
+import { DeleteBookmark, TweetBookmark } from "../../types/bookmark";
+import { Tweet } from "../../types/tweet";
 
 export const useInfiniteBookmarksQuery = () => {
   return useInfiniteQuery({
@@ -39,13 +36,13 @@ export const useInfiniteBookmarksQuery = () => {
       return data;
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+    getNextPageParam: (lastPage, _, lastPageParam) => {
       if (!lastPage || lastPage.length < 10) {
         return undefined;
       }
       return lastPageParam + 1;
     },
-    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+    getPreviousPageParam: (_, allPages, firstPageParam) => {
       return firstPageParam > 1 ? firstPageParam - 1 : undefined;
     },
   });

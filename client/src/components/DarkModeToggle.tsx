@@ -4,9 +4,7 @@ import { useTheme } from "../context/theme-context";
 
 const DarkModeToggle = () => {
   const { mode, setMode } = useTheme();
-
   const isDarkMode = mode === "dark";
-
   return (
     <>
       <label className="flex cursor-pointer select-none items-center">

@@ -1,9 +1,9 @@
-import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import useCustomUserData from "../lib/customUserData";
 import { Comment } from "../pages/CommentPage";
 import { useCreateCommentReply } from "../modules/comment/comments.query";
+import { Tweet } from "../types/tweet";
 
 interface ReplyTweetProps {
   tweet: Tweet;

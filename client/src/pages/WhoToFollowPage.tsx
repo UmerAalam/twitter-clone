@@ -4,7 +4,7 @@ import FollowAccount from "../components/FollowAccount";
 import { useNavigate } from "@tanstack/react-router";
 import { useInView } from "react-intersection-observer";
 import { useFollowDelete, useFollowPost } from "../modules/follow/follow.query";
-import { Follow } from "../../../server/src/modules/follow/follow.dto";
+import { Follow } from "../types/follow";
 
 const WhoToFollowPage = () => {
   const { data: users, hasNextPage, fetchNextPage } = useInfiniteUsersQuery();

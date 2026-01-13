@@ -6,9 +6,9 @@ import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
-import type { Comment } from "../pages/CommentPage";
 import { useState } from "react";
 import { IoMdHeart } from "react-icons/io";
+import type { Comment } from "../types/comment";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   comment: Comment;
   userId: number;

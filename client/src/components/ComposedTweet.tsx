@@ -7,18 +7,18 @@ import { BiRepost } from "react-icons/bi";
 import { IoMdHeart } from "react-icons/io";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoShareOutline } from "react-icons/io5";
-import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { Link, useNavigate } from "@tanstack/react-router";
 import classNames from "classnames";
 import useCustomUserData from "../lib/customUserData";
 import { useEffect, useState } from "react";
 import { useTweetLike, useDeleteTweetLike } from "../modules/likes/likes.query";
-import type { TweetLike } from "../../../server/src/modules/likes/likes.dto";
 import {
   useDeleteBookmark,
   useTweetBookmark,
 } from "../modules/bookmarks/bookmark.query";
-import { TweetBookmark } from "../../../server/src/modules/bookmarks/bookmarks.dto";
+import { TweetLike } from "../types/like";
+import { TweetBookmark } from "../types/bookmark";
+import { Tweet } from "../types/tweet";
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
   tweet: Tweet;
 }

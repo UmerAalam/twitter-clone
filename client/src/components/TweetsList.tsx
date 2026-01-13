@@ -2,7 +2,7 @@ import ComposedTweet from "./ComposedTweet";
 import { useInfiniteTweetsQuery } from "../modules/tweets/tweets.query";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { Tweet } from "../../../server/src/modules/tweet/tweet.dto";
+import { Tweet } from "../types/tweet";
 const TweetList = (props: { userId?: number }) => {
   const { ref, inView } = useInView();
   let count = 10;

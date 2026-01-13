@@ -3,12 +3,12 @@ import useCustomUserData from "../lib/customUserData";
 import TweetList from "../components/TweetsList";
 import { useEffect, useRef, useState } from "react";
 import { useUpdateUserData } from "../modules/auth/auth.query";
-import { UpdatedUser } from "../../../server/src/modules/auth/auth.dto";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { uploadImageToS3 } from "../modules/upload/upload.query";
 import { useNavigate, useParams } from "@tanstack/react-router";
 import { useFollowDelete, useFollowPost } from "../modules/follow/follow.query";
-import { Follow } from "../../../server/src/modules/follow/follow.dto";
+import { UpdatedUser } from "../types/auth";
+import { Follow } from "../types/follow";
 const MainProfile = (props: { id: string }) => {
   const userId = localStorage.getItem("userId") || "0";
   const { mutate: updateUserDataMutation, isPending } = useUpdateUserData();

@@ -5,7 +5,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { client } from "../../lib/client";
-import { TweetComment } from "../../../../server/src/modules/comments/comment.dto";
+import { TweetComment } from "../../types/comment";
 
 const listCommentByTweetId = (id: number) => {
   return queryOptions({

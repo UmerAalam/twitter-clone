@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { client } from "../../lib/client";
-import type { UpdatedUser } from "../../../../server/src/modules/auth/auth.dto";
+import { UpdatedUser } from "../../types/auth";
 
 export const useUpdateUserData = () =>
   useMutation({

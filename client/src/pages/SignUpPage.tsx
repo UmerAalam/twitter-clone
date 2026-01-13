@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "@tanstack/react-router";
-import { SignUp } from "../../../server/src/modules/auth/auth.dto.ts";
 import { useMutation } from "@tanstack/react-query";
 import { client } from "../lib/client.ts";
 import { useNavigate } from "@tanstack/react-router";
+import { SignUp } from "../types/auth.ts";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");

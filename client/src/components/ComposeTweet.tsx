@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { CreateTweet } from "../../../server/src/modules/tweet/tweet.dto";
 import { useNavigate } from "@tanstack/react-router";
 import useCustomUserData from "../lib/customUserData";
 import { useCreateTweet } from "../modules/tweets/tweets.query";
+import { CreateTweet } from "../types/tweet";
 
 const ComposeTweet = () => {
   const [text, setText] = useState("");
